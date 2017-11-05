@@ -23,12 +23,12 @@ Your app must:
 - Use only jQuery for DOM manipulation
 - Deploy your game online to GitHub pages
 - Include at least one CSS transition fired by a DOM event
-- Choose an existing landing page on the web that includes a form; screen shot the landing page, and replicate its markup to create a separate game landing page that links to your game
+- Create a landing page that includes a form
 - Use your form to collect information about the user and display that information on the game page; be sure to add things to your form, if needed, like buttons, sliders, checkboxes, radio buttons, etc.
-- Style your form, landing page, and game page with class-based CSS
+- Style your form, landing page, and game page with class-based CSS (no inline styles)
 - Include a media query for a tablet to make your pages responsive
-- Use flexbox to build your grid system
-- Create and get approval for a wireframe for your game page
+- Use flexbox to lay out your game
+- **Create and get approval for a wireframe for your game page**
 - Comment your code appropriately
 - Adhere to the [AirBnB style guide](https://github.com/airbnb/javascript) for writing your JavaScript
 - Adhere to the [Google style guide](https://google.github.io/styleguide/htmlcssguide.xml) for writing your HTML/CSS
@@ -40,20 +40,22 @@ Your presentation must:
 - Include at least one wireframe that shows your game page
 - Include a screenshot of the existing landing page you've replicated
 - Answer the following questions:
-	- What features did include?
+	- What features did you include?
 	- Were there any constraints you had to work with? (e.g. technological, timing, content, etc.)
 	- Is there any other information you think might help us (your stakeholders) understand what you've built?
 
 ***Note***
-If you're creating a two(or more)-player game, you MUST:
+If you're creating a two (or more)-player game, you MUST:
+
 - allow players to take turns
-- design logic for winning & visually display which player won
+- design logic for winning & visually display which player has won
 
 
 **Bonus**
-- If this is a one-player game, design logic for winning & visually display which player won (why: not all games have one winner)
-- Include at least one animation using HTML Canvas or SVG (why: challenge advanced students who will feel limited using jQuery)
-- Include a "Tutorial Section" of this landing page (why: instructions are good for students to think through the "UX" of their project)
+
+- If this is a one-player game, design logic for winning & visually display which player won (why? not all games have one winner)
+- Include at least one animation using HTML Canvas or SVG 
+- Include a "Tutorial Section" of this landing page (why: instructions help think through the "UX" of your project)
 
 
 ---
@@ -62,8 +64,7 @@ If you're creating a two(or more)-player game, you MUST:
 
 For the app:
 
-* A working game, built by you, hosted on GitHub Pages
-* A link to the landing page you've chosen to recreate your landing from with a screen shot of that page in your readme.md
+* A working game, built by you, hosted on [GitHub Pages](https://pages.github.com/)
 * A link to your hosted working game in the URL section of your GitHub repo
 * A git repository hosted on GitHub, with a link to your hosted game, and frequent commits dating back to the very beginning of the project
 * A readme.md file with explanations of the technologies used, wireframes the approach taken, installation instructions, unsolved problems, etc.
@@ -112,3 +113,29 @@ Your project will be evaluated using [this rubric](rubric.md), assessing the fol
 - **Quality and Consistency**
 - **Workflow and Deployment**
 - **Creativity**
+
+## A Note on Plagiarism
+
+General Assembly has a **zero tolerance policy** towards plagiarism and cheating. It is destructive to classroom culture, and exhibits a clear lack of respect for classmates, instructors, the company, and the greater community. Any work considered to have been plagiarised will not be accepted and will not count towards graduation requirements. If a project exhibits evidence of plagiarism or cheating, the student will not be able to display the project at a GA-sponsored class “science fair” or “meet & greet.” Any student found plagiarising or attempting to plagiarise will be disciplined accordingly (including but not limited to removal from class).
+
+Open source code is inherently open and usually available for free use to modify and implement into any non-commercial project. However, please review their license and usage guidelines, give credit to the project and/or author, and do not try to hide or disguise the usage of such code.
+
+You are encouraged to ask others, including students, instructors, and stackoverflow, for help. However, it is NOT ACCEPTABLE TO COPY another person's code and submit it as your own. More importantly, it is detrimental to your learning and growth.
+
+All of the following are considered plagiarism or cheating:
+- Turning in work that is not your own.
+- Turning in someone else's work as your own.
+- Hiring, or paying someone to do your work for you.
+- Copying words or code without giving credit.
+- Building or copying someone else’s idea without their knowledge or giving credit.
+- Giving incorrect information about a source.
+- Changing words, variable names, etc. but copying the code or files of a source without giving credit.
+- Copying so many ideas or code blocks from a source that it makes up the majority of your work, whether you give credit or not.
+- Failing to put a quotation in quotation marks.
+
+In an effort to not plagiarize, credit for this content goes to:
+- [Plagiarism.org](http://plagiarism.org/), specifically the “plagiarism 101” section.  Content was adapted for code.  For more information, please see:
+  - [What is Plagiarism](http://www.plagiarism.org/plagiarism-101/what-is-plagiarism)
+  - [Types of Plagiarism](http://www.plagiarism.org/plagiarism-101/types-of-plagiarism)
+  - [How do I safely write code in my own 'words' and not plagiarize?](http://programmers.stackexchange.com/questions/80167/how-do-i-safely-write-code-in-my-own-words-and-not-plagiarize)
+- [Avoiding Plagiarism:  Writing Computer Code](http://www.upenn.edu/academicintegrity/ai_computercode.html)
