@@ -19,7 +19,7 @@ Show us what you've got!
 
 Your app must:
 
-- Your game should have two pages: a landing page and a game page
+- Your game should have two views: a landing view and a game view
 - Use only jQuery for DOM manipulation
 - Deploy your game online to GitHub pages
 - Include at least one CSS transition fired by a DOM event
@@ -27,7 +27,7 @@ Your app must:
 - Use your form to collect information about the user and display that information on the game page; be sure to add things to your form, if needed, like buttons, sliders, checkboxes, radio buttons, etc.
 - Style your form, landing page, and game page with class-based CSS (no inline styles)
 - Include a media query for a tablet to make your pages responsive
-- Use flexbox to lay out your game
+
 - **Create and get approval for a wireframe for your game page**
 - Comment your code appropriately
 - Adhere to the [AirBnB style guide](https://github.com/airbnb/javascript) for writing your JavaScript
@@ -35,7 +35,7 @@ Your app must:
 
 Your presentation must:
 
-- Be at least 5 slides
+- Be at least 3 slides
 - Use easy-to-understand language and avoid too much "insider" terminology
 - Include at least one wireframe that shows your game page
 - Include a screenshot of the existing landing page you've replicated
@@ -63,15 +63,14 @@ If you're creating a two (or more)-player game, you MUST:
 #### Necessary Deliverables
 
 For the app:
-
-* A working game, built by you, hosted on [GitHub Pages](https://pages.github.com/)
+* A working game, built by you, hosted on [GitHub Pages](https://pages.github.com/) or [Bitballon](https://www.bitballoon.com)
 * A link to your hosted working game in the URL section of your GitHub repo
-* A git repository hosted on GitHub, with a link to your hosted game, and frequent commits dating back to the very beginning of the project
+* A git repository hosted on GitHub, with a link to your hosted game, and frequent commits dating back to the very beginning of the project (YOUR APP SHOULD BE LOCATED IN A SEPARATE STANDING REPO. DO NOT build your app in this repository. YOU MUST initiate a new repo on your GitHub account.)
 * A readme.md file with explanations of the technologies used, wireframes the approach taken, installation instructions, unsolved problems, etc.
 
 For the presentation:
 
-* Create a presentation deck - Google Slides, Keynote, PowerPoint - of at least 5 slides that answers the questions above and images of your wireframes and a screenshot of your landing page.
+* Create a presentation deck - Google Slides, Keynote, PowerPoint - of at least 3 slides that answer the questions above and images of your wireframes and a screenshot of your landing page.
 
 ---
 
@@ -94,12 +93,19 @@ Make a one player game where people down on their luck can lose all their money 
 ##### Self-scoring Trivia
 Test your wits & knowledge with whatever-the-heck you know about (so you can actually win). Guess answers, have the computer tell you how right you are!
 
+##### Connect 4
+Implement your own famous kids game!
+
+##### Battleship
+
+Fight, sink all the enemy ships!
+
 ---
 
 ### Useful Resources
 
 * **[MDN Javascript Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript)** _(a great reference for all things Vanilla Javascript)_
-* **[jQuery Docs](http://api.jquery.com)** _(if you're using jQuery)_
+* **[jQuery Docs](http://api.jquery.com)**
 * **[GitHub Pages](https://pages.github.com)** _(for hosting your game)_
 
 ---
