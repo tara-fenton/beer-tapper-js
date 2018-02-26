@@ -9,16 +9,24 @@ You are **responsible** for scheduling time with your squad to seek approval for
 |  Day | Deliverable | Approval From Squad Lead
 |---|---| ---|
 |Day 1: Tuesday | Game Idea|
-|Day 2: Wednesday | Wireframes and Priority Matrix|
-|Day 3: Thursday| Pseudocode\actual code|
-|Day 4: Friday| Basic Clickable Model |
-|Day 5: Saturday| Working Prototype |
-|Day 6: Sunday| Game Completed / Slides |
-|Day 7: Monday| Project Presentations |
+|Day 2: Wednesday | Completed wireframes and prioritized features|
+|Day 3: Thursday| Pseudocode|
+|Day 4: Friday| Basic Clickable Model|
+|Day 5: Saturday| Working Prototype|
+|Day 6: Sunday| Game Completed / Slides|
+|Day 7: Monday| Project Presentations|
 
 ## Project Description
 
 Use this section to describe your final project and perhaps any links to relevant sites that help convey the concept and\or functionality
+
+## Priority Matrix
+
+Include a full list of features that have been prioritized based on the `Time and Importance` Matix.
+
+## MVP
+
+Include the full list of features that will be part of your MVP
 
 ## Wireframes
 
