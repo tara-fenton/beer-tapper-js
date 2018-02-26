@@ -14,7 +14,6 @@ As part of this project, you'll be required to create a project presentation tha
 
 Show us what you've got!
 
-
 ---
 
 #### Programming Requirements
@@ -38,6 +37,8 @@ Your app must:
   >If you are set on doing a collision game, you may petition to do one. This petition involves either a working collision example that you have previously made OR an **in depth**, **technical** written statement explaining the collision logic you plan on implementing.
 
 - HTML Canvas based games are NOT allowed
+
+---
 
 #### Presentation Requirements 
 
@@ -67,7 +68,6 @@ If you're creating a two (or more)-player game, you MUST:
 - If this is a one-player game, design logic for winning & visually display which player won (why? not all games have one winner)
 - Include at least one animation using HTML Canvas or SVG 
 - Include a "Tutorial Section" of this landing page (why: instructions help think through the "UX" of your project)
-
 
 ---
 
