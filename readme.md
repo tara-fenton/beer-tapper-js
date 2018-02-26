@@ -17,7 +17,7 @@ Show us what you've got!
 
 ---
 
-#### Requirements
+#### Programming Requirements
 
 Your app must:
 
@@ -30,7 +30,7 @@ Your app must:
 - Include a media query for a tablet to make your pages responsive
 - Use either vanilla JavaScript or jQuery for DOM manipulation
 
-#### Constraints :no_entry_sign::
+##### Programming Constraints :no_entry_sign::
 
 - Collision detection games are NOT allowed
 
@@ -38,6 +38,8 @@ Your app must:
   >If you are set on doing a collision game, you may petition to do one. This petition involves either a working collision example that you have previously made OR an **in depth**, **technical** written statement explaining the collision logic you plan on implementing.
 
 - HTML Canvas based games are NOT allowed
+
+#### Presentation Requirements 
 
 - **Create and get approval for a wireframe for your game page**
 - Comment your code appropriately
