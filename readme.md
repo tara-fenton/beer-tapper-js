@@ -94,20 +94,26 @@ For the presentation:
 
 ---
 
-#### Potential Project Ideas
+## Strongly Suggested Project Ideas :bulb:
 
-##### Blackjack
-Make a one player game where people down on their luck can lose all their money by guessing which card the computer will deal next!
+#### Beginner
+- Simon
+- War - Two Player
+- Self-scoring Trivia
+- Memory
 
-##### Self-scoring Trivia
-Test your wits & knowledge with whatever-the-heck you know about (so you can actually win). Guess answers, have the computer tell you how right you are!
+#### Medium
+- Text Adventure
+- War - Two Player
+- Sorry! - Multiple Players
+- Yahtzee - Two Players
+- Black Jack - with Computer AI
 
-##### Connect 4
-Implement your own famous kids game!
-
-##### Battleship
-
-Fight, sink all the enemy ships!
+#### Advanced
+- Battleship - Two Player
+- Checkers - Two Players
+- Connect 4 - Two Player
+- Missile Command - Level Progression
 
 ---
 
