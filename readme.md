@@ -1,5 +1,7 @@
 # ![](https://ga-dash.s3.amazonaws.com/production/assets/logo-9f88ae6c9c3871690e33280fcf557f33.png) Project #1: The Game
 
+https://media.giphy.com/media/TLKKExVa9v8bu/giphy.gif
+
 #### Overview
 
 Let's start out with something fun - a game!
@@ -20,18 +22,25 @@ Show us what you've got!
 Your app must:
 
 - Your game should have two views: a landing view and a game view
-- Use only jQuery for DOM manipulation
 - Deploy your game online to GitHub pages
 - Include at least one CSS transition fired by a DOM event
 - Create a landing page that includes a form
 - Use your form to collect information about the user and display that information on the game page; be sure to add things to your form, if needed, like buttons, sliders, checkboxes, radio buttons, etc.
-- Style your form, landing page, and game page with class-based CSS (no inline styles)
+- Style your form, landing page, and game page with class-based CSS. No inline styles.
 - Include a media query for a tablet to make your pages responsive
+- Use either vanilla JavaScript or jQuery for DOM manipulation
+
+#### Constraints :no_entry_sign::
+
+- Collision detection games are NOT allowed
+
+  ***Note:***
+  >If you are set on doing a collision game, you may petition to do one. This petition involves either a working collision example that you have previously made OR an **in depth**, **technical** written statement explaining the collision logic you plan on implementing.
+
+- HTML Canvas based games are NOT allowed
 
 - **Create and get approval for a wireframe for your game page**
 - Comment your code appropriately
-- Adhere to the [AirBnB style guide](https://github.com/airbnb/javascript) for writing your JavaScript
-- Adhere to the [Google style guide](https://google.github.io/styleguide/htmlcssguide.xml) for writing your HTML/CSS
 
 Your presentation must:
 
