@@ -6,7 +6,7 @@ This schedule will be used to keep track of your progress throughout the week an
 
 You are **responsible** for scheduling time with your squad to seek approval for each deliverable by the end of the corresponding day, excluding `Saturday` and `Sunday`.
 
-|  Day | Deliverable | Approval From Squad Lead
+|  Day | Deliverable |
 |---|---| ---|
 |Day 1: Tuesday | Game Idea|
 |Day 2: Wednesday | Completed wireframes and prioritized features|
