@@ -45,7 +45,7 @@ What will a player see when they start your game?
 What will a player see when the game is started? 
 
 ### Playing The Game
-What will be the flow of the game, what will the user be expeted to do and what will the user expect from the gam
+What will be the flow of the game, what will the user be expected to do and what will the user expect from the gam
 
 ### Winning The Game
 What does it look like when the game ends, what determines winning or losing?
