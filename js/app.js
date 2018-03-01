@@ -2,29 +2,32 @@ var bars = 4;
 
 var $containerDiv = $("body").append("<div id='container'></div>");
 
-// A purple square for bartender
-var $bartenderDiv = $("#container").append("<div id='bartender'></div>");
-// The customer will be a red square MOVING to the right
-var $customerDiv = $("#container").append("<div class='customer'></div>");
-$customer = $(".customer");
 // The beer will be white for 2 seconds and change to yellow before it will be sent down the row
 var $beerDiv = $("#container").append("<div class='beer'></div>");
 $beer = $(".beer");
 $beer.append("<div class='liquid'></div>");
 
 //$barDiv;
+// Create four rows and four taps
 function createBarElements() {
   // A brown rectangle for the row
-  for (var i = 0; i <= bars; i++) {
-    var $barDiv = $("#container").append("<div class='bar'></div>");
-
+  for (var i = 0; i < bars; i++) {
+    //var $barDiv = $("#container").append("<div class='bar'></div>");
+    var $barDiv = $("<div class='bar'></div>");
+    $("#container").append($barDiv);
     //data-box-index="1
     //var $barDiv =
-    //$barDiv.attr("id", "data-bar-index" + i);
-    //$("#data-bar-index" + i).css("top", (i + 1) * 120);
+    $barDiv.attr("id", "data-bar-index" + i);
+    $barDiv.css("top", 120 * i + 120 + "px");
+    //$barDiv.css("top", (i + 1) * 150);
   }
 }
 createBarElements();
+
+// The customer will be a red square MOVING to the right
+var $customerDiv = $("#container").append("<div class='customer'></div>");
+$customer = $(".customer");
+
 //move the customer across the bar towards the bartender
 $("body").ready(customerMoving);
 function customerMoving() {
@@ -51,6 +54,7 @@ $("body").on("keydown", fillTheBeer);
 $("body").on("keyup", stopFillTheBeer);
 
 function fillTheBeer(evt) {
+  console.log("hello");
   if (event.which === 32) {
     $(".liquid").animate(
       { height: "-=30" },
@@ -112,4 +116,17 @@ function counter() {
 
 /////////////////////////////////////////// KEYUP EVENTS ///////////////////////
 
-// Create four rows and four taps
+// The bartender will be able to:
+// A purple square for bartender
+var $bartenderDiv = $("#container").append("<div id='bartender'></div>");
+
+function bartenderEvents(e) {}
+
+// ?? keydown for whole game
+
+//on("keydown", fillTheBeer);
+// move through the rows
+// loop around from the bottom to the top and from the top to the bottom
+// move to the left to catch a beer glass
+// jump back to tap by pouring (space bar)
+// stop pouring by moving to another row
