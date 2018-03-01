@@ -34,7 +34,7 @@ Include the full list of features that will be part of your MVP
 
 <!-- Two views: a landing view (1 player button) and a game view -->
 
-PHASE ONE
+### PHASE ONE
 
 Game view: One row, one bartender, one customer, one beer
 
@@ -52,7 +52,7 @@ Starting with very basic graphics I will first create the basic functionality an
 
 Include the full list of features that you are considering for POST MVP
 
-PHASE TWO
+### PHASE TWO
 
 Expand the game view: Four rows, one bartender, several customers, several beers
 * Create four rows and four taps
@@ -63,10 +63,11 @@ The bartender will be able to:
 * move to the left to catch a beer glass
 * jump back to tap by pouring (space bar)
 * stop pouring by moving to another row
-  Several customers & beers:
+
+Several customers & beers:
 * one per row will appear for level 1, two per row for level 2
 
-PHASE THREE 
+### PHASE THREE 
 
 Ways to lose a guy:
 * Customer makes it to the end of the row without getting a beer
@@ -77,7 +78,7 @@ Points:
 * Add points to events
 * Add points display
 
-PHASE FOUR
+### PHASE FOUR
 
 Landing Page: 
 * 1 player button, instructions button
@@ -88,17 +89,17 @@ Form:
 CSS:
 * CSS transition: Beer fills glass - fired by a DOM event
 * Media query for tablet
-* Style form, landing page, and game page with class-based CSS.
+* Style form, landing page, and game page with class-based CSS
 
-PHASE FIVE ### optional
+### PHASE FIVE ### optional
 
 Landing Page:
 * add 2 player button
   
 Game view:
-* 2 player logic, 
+* 2 player logic
 
-Bonus round
+Bonus round:
 * see rules below
   
 Ways to lose a guy:
@@ -134,11 +135,17 @@ What will a player see when the game is started?
 * Four rows of bars
 * On the left of each row will be an opening that customers will come out of
 * On the right of each row will a be a tap graphic
-* The bartender will be able to move (see rules)
+* Score at the top left (player 1) and right (player 2)
+* Beer mugs at the top in the middle for lives
+
 
 ### Playing The Game
 
 What will be the flow of the game, what will the user be expected to do and what will the user expect from the gam
+
+The bartender will be able to move through the rows. You can loop through the rows top to bottom or bottom to top. As customers come out it is your job to serve them beer, by pressing the spacebar. If you move to another row before the beer is full, it will not send it. You might want this to happen if you don't have a customer to serve. 
+
+One beer per customer! If you over pour you will lose a life. You must collect the glass when the customer finishes the beer. If you miss the glass before it reaches the end of the bar you will lose a life. You can run towards the glass to collect it. You can jump back to the tap by pouring a beer (spacebar).  You can collect your tips for extra points.
 
 # Rules:
 
@@ -146,7 +153,7 @@ Bartender moves up and down between the four rows of bars.
 
 * Can also loop around from the bottom to the top and from the top to the bottom
 * Can move to the left to catch a beer
-* Can jump back to tap by pouring key (research)
+* Can jump back to tap by pouring key
 * Can stop pouring by moving to another row
 
 Ways to lose a guy:
@@ -210,7 +217,7 @@ Time frames are also key in the development cycle. You have limited time to code
 | PHASE 1   |    H     |      7hrs      |      hrs       |     hrs     |
 | PHASE 2   |    H     |      7hrs      |      hrs       |     hrs     |
 | PHASE 3   |    H     |      5hrs      |      hrs       |     hrs     |
-| PHASE 4   |    M     |     12hrs      |      hrs       |     hrs     |
+| PHASE 4   |    H     |     12hrs      |      hrs       |     hrs     |
 | PHASE 5   |    L     |      9hrs      |      hrs       |     hrs     |
 
 ## Helper Functions
