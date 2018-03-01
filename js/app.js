@@ -1,5 +1,3 @@
-var bars = 4;
-
 var $containerDiv = $("body").append("<div id='container'></div>");
 
 // The beer will be white for 2 seconds and change to yellow before it will be sent down the row
@@ -7,19 +5,15 @@ var $beerDiv = $("#container").append("<div class='beer'></div>");
 $beer = $(".beer");
 $beer.append("<div class='liquid'></div>");
 
-//$barDiv;
 // Create four rows and four taps
 function createBarElements() {
+  var bars = 4;
   // A brown rectangle for the row
   for (var i = 0; i < bars; i++) {
-    //var $barDiv = $("#container").append("<div class='bar'></div>");
     var $barDiv = $("<div class='bar'></div>");
     $("#container").append($barDiv);
-    //data-box-index="1
-    //var $barDiv =
     $barDiv.attr("id", "data-bar-index" + i);
     $barDiv.css("top", 120 * i + 120 + "px");
-    //$barDiv.css("top", (i + 1) * 150);
   }
 }
 createBarElements();
@@ -122,6 +116,43 @@ var $bartenderDiv = $("#container").append("<div id='bartender'></div>");
 
 function bartenderEvents(e) {}
 
+$("body").on("keydown", function(evt) {
+  var keyPressed = event.which;
+  switch (keyPressed) {
+    case 32: //spacebar
+      console.log("spacebar");
+      break;
+
+    case 65: //a key LEFT
+      console.log("left");
+      break;
+    case 83: // s key RIGHT
+      console.log("right");
+      break;
+    case 13: //return key UP
+    case 20: //caps key UP
+      console.log("up");
+      break;
+    case 16: // shift DOWN
+      console.log("down");
+      break;
+    default:
+      console.log(keyPressed);
+      break;
+  }
+});
+
+$("body").on("keyup", function(evt) {
+  var keyPressed = event.which;
+  switch (keyPressed) {
+    case 32: //spacebar
+      console.log("spacebar");
+      break;
+    default:
+      console.log(keyPressed);
+      break;
+  }
+});
 // ?? keydown for whole game
 
 //on("keydown", fillTheBeer);
