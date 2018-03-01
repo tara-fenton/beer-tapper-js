@@ -54,13 +54,14 @@ Expand the game view: Four rows, one bartender, several customers, several beers
 
 Create four rows and four taps
 The bartender will be able to:
--move through the rows
--loop around from the bottom to the top and from the top to the bottom
--move to the left to catch a beer glass
--jump back to tap by pouring (space bar)
--stop pouring by moving to another row
-Several customers & beers:
--one per row will appear for level 1, two per row for level 2
+
+* move through the rows
+* loop around from the bottom to the top and from the top to the bottom
+* move to the left to catch a beer glass
+* jump back to tap by pouring (space bar)
+* stop pouring by moving to another row
+  Several customers & beers:
+* one per row will appear for level 1, two per row for level 2
 
 PHASE THREE
 Ways to lose a guy:
@@ -116,10 +117,11 @@ What will be the flow of the game, what will the user be expected to do and what
 
 Rules:
 Bartender moves up and down between the four rows of bars.
--Can also loop around from the bottom to the top and from the top to the bottom
--Can move to the left to catch a beer
--Can jump back to tap by pouring key (research)
--Can stop pouring by moving to another row
+
+* Can also loop around from the bottom to the top and from the top to the bottom
+* Can move to the left to catch a beer
+* Can jump back to tap by pouring key (research)
+* Can stop pouring by moving to another row
 
 Ways to lose a guy:
 Customer makes it to the end of the row without getting a beer
