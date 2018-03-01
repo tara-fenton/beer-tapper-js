@@ -5,6 +5,12 @@ var $barDiv = $("#container").append("<div class='bar'></div>");
 var $bartenderDiv = $("#container").append("<div id='bartender'></div>");
 // The customer will be a red square MOVING to the right
 var $customerDiv = $("#container").append("<div class='customer'></div>");
+$customer = $(".customer");
+// The beer will be white for 2 seconds and change to yellow before it will be sent down the row
+var $beerDiv = $("#container").append("<div class='beer'></div>");
+$beer = $(".beer");
+$beer.append("<div class='liquid'></div>");
+
 //move the customer across the bar towards the bartender
 $("body").ready(function() {
   $(".customer").animate(
@@ -22,10 +28,9 @@ $("body").ready(function() {
 // send the beer and animating it with the space bar is messing me up
 // so just take it back to no keydown or keyup events and focus on the collison
 // with the customer animation and the sendthebeer animation
+
 /////////////////////////////////////////// KEYDOWN EVENTS ///////////////////////
-var $bartenderDiv = $("#container").append("<div class='beer'></div>");
-$beer = $(".beer");
-$beer.append("<div class='liquid'></div>");
+
 $("body").ready(sendTheBeer);
 //move the beer across the bar
 function sendTheBeer() {
@@ -44,6 +49,24 @@ function sendTheBeer() {
   );
 }
 
+/// set an interval to constantly test for collison
+var count = 0;
+var intId = setInterval(counter, 100);
+var $beerPosition;
+var $customerPosition;
+function counter() {
+  //if customer and beer collide
+  $beerPosition = $beer.position();
+  $customerPosition = $customer.position();
+  // 40 is the width of the customer // how can i grab that value?
+  if ($beerPosition.left < $customerPosition.left + 40) {
+    //console.log("WE HAVE COLLIDED!");
+    clearInterval(intId);
+    // this is where the customer will drink the beer
+    // for now just remove the beer
+    // and change the direction of the customer to go back to the left/..door
+  }
+}
 //}
 //$("body").on("keydown", fillTheBeer);
 //$("body").on("keyup", stopFillTheBeer);
