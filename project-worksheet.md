@@ -214,7 +214,7 @@ Time frames are also key in the development cycle. You have limited time to code
 
 | Component | Priority | Estimated Time | Time Invetsted | Actual Time |
 | --------- | :------: | :------------: | :------------: | :---------: |
-| PHASE 1   |    H     |      7hrs      |      hrs       |     hrs     |
+| PHASE 1   |    H     |      7hrs      |      5hrs       |     hrs     |
 | PHASE 2   |    H     |      7hrs      |      hrs       |     hrs     |
 | PHASE 3   |    H     |      5hrs      |      hrs       |     hrs     |
 | PHASE 4   |    H     |     12hrs      |      hrs       |     hrs     |
