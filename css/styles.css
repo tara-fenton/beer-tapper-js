@@ -39,5 +39,10 @@
   position: relative;
   top: 120px;
   left: 534px;
-  /*display: none;*/
+  display: none;
+}
+.liquid {
+  background-color: purple;
+  width: 15px;
+  height: 30px;
 }

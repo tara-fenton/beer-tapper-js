@@ -5,40 +5,82 @@ var $barDiv = $("#container").append("<div class='bar'></div>");
 var $bartenderDiv = $("#container").append("<div id='bartender'></div>");
 // The customer will be a red square MOVING to the right
 var $customerDiv = $("#container").append("<div class='customer'></div>");
-
-// Spacebar will TRIGGER the beer to appear, a small white square
-var $bartenderDiv = $("#container").append("<div class='beer'></div>");
-$("body").on("keyup", function(evt) {
-  // the numeric representation of the key the user pressed.
-  var keyPressed = event.which;
-  // access the beer DOM element
-  $beer = $(".beer");
-  // get the current left pixel value
-  var currentXValue = $beer.css("left");
-  currentXValue = parseInt(currentXValue);
-
-  // var currentYValue = $mario.css('top');
-  // currentYValue = parseInt(currentYValue);
-
-  switch (keyPressed) {
-    case 32: //spacebar
-      // this moves the y-axis
-      // var newValue = currentYValue - 30;
-      // newValue += 'px';
-      // $mario.css('top', newValue);
-
-      // this moves the x
-      // var newValue = currentXValue + 30;
-      // newValue += 'px';
-      // $mario.css('left', newValue);
-      //$(".beer").css({ color: "yellow"; });
-      $beer.css("background-color", "yellow");
-      console.log("i pressed the spacebar");
-      break;
-    default:
-      console.log(keyPressed);
-  }
+//move the customer across the bar towards the bartender
+$("body").ready(function() {
+  $(".customer").animate(
+    {
+      left: "+=410"
+    },
+    10000,
+    function() {
+      // Animation complete.
+      // ** the customer reached the end of the bar // kill the bartender
+    }
+  );
 });
+// Spacebar will TRIGGER the beer to appear, a small white square
+// send the beer and animating it with the space bar is messing me up
+// so just take it back to no keydown or keyup events and focus on the collison
+// with the customer animation and the sendthebeer animation
+/////////////////////////////////////////// KEYDOWN EVENTS ///////////////////////
+var $bartenderDiv = $("#container").append("<div class='beer'></div>");
+$beer = $(".beer");
+$beer.append("<div class='liquid'></div>");
+$("body").ready(sendTheBeer);
+//move the beer across the bar
+function sendTheBeer() {
+  //$beer.off("keyup", stopFillTheBeer);
+  //$beer.off("keydown", fillTheBeer);
+  $beer.css("display", "block");
+  $(".liquid").css("background-color", "yellow");
+  $beer.animate(
+    {
+      left: "-=460"
+    },
+    10000,
+    function() {
+      // Animation complete.
+    }
+  );
+}
+
+//}
+//$("body").on("keydown", fillTheBeer);
+//$("body").on("keyup", stopFillTheBeer);
+
+// function fillTheBeer(evt) {
+//   var keyPressed = event.which;
+//   switch (keyPressed) {
+//     case 32: //spacebar
+//       $(".liquid").animate(
+//         {
+//           height: "-=30"
+//         },
+//         1000,
+//         // Animation complete.
+//         sendTheBeer()
+//       );
+
+//       $beer.css("display", "block");
+//       //$beer.css("background-color", "yellow");
+//       break;
+//     default:
+//       console.log(keyPressed);
+//   }
+// }
+
+/////////////////////////////////////////// KEYUP EVENTS ///////////////////////
+// function stopFillTheBeer(evt) {
+//   var keyPressed = event.which;
+//   switch (keyPressed) {
+//     case 32: //spacebar
+//       $beer.css("display", "none");
+//       //$beer.css("background-color", "white");
+//       break;
+//     default:
+//       console.log(keyPressed);
+//   }
+// }
 // The beer will be white for 2 seconds and change to yellow before it will be sent down the row
 // The beer will collide with customer
 // The customer will change to green and start moving to the left
