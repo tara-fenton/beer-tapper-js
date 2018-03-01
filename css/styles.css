@@ -1,0 +1,43 @@
+/*div to hold all elements*/
+#container {
+  background-color: black;
+  width: 600px;
+  height: 600px;
+}
+/*BAR A brown rectangle for the row*/
+.bar {
+  background-color: brown;
+  width: 400px;
+  height: 40px;
+  position: absolute;
+  top: 120px;
+  left: 80px;
+}
+/*BARTENDER A purple square for bartender*/
+#bartender {
+  background-color: purple;
+  width: 40px;
+  height: 80px;
+  position: absolute;
+  top: 100px;
+  left: 500px;
+}
+/*CUSTOMER The customer will be a red square moving to the right*/
+.customer {
+  background-color: red;
+  width: 40px;
+  height: 80px;
+  position: absolute;
+  top: 100px;
+  left: 30px;
+}
+/*BEER The beer will be white for 2 seconds and change to yellow before it will be sent down the row*/
+.beer {
+  background-color: white;
+  width: 15px;
+  height: 30px;
+  position: relative;
+  top: 120px;
+  left: 534px;
+  /*display: none;*/
+}
