@@ -1,22 +1,24 @@
 var $containerDiv = $("body").append("<div id='container'></div>");
-
-// The beer will be white for 2 seconds and change to yellow before it will be sent down the row
-var $beerDiv = $("#container").append("<div class='beer'></div>");
-$beer = $(".beer");
-$beer.append("<div class='liquid'></div>");
-
+/////////////////////////////////////////// BAR ///////////////////////
+var bars = 4;
+var spaceBetweenBars = 80;
 // Create four rows and four taps
 function createBarElements() {
-  var bars = 4;
   // A brown rectangle for the row
   for (var i = 0; i < bars; i++) {
     var $barDiv = $("<div class='bar'></div>");
     $("#container").append($barDiv);
     $barDiv.attr("id", "data-bar-index" + i);
-    $barDiv.css("top", 120 * i + 120 + "px");
+    $barDiv.css("top", 100 * i + spaceBetweenBars + "px");
   }
 }
 createBarElements();
+/////////////////////////////////////////// CUSTOMER ///////////////////////
+
+// The beer will be white for 2 seconds and change to yellow before it will be sent down the row
+var $beerDiv = $("#container").append("<div class='beer'></div>");
+$beer = $(".beer");
+$beer.append("<div class='liquid'></div>");
 
 // The customer will be a red square MOVING to the right
 var $customerDiv = $("#container").append("<div class='customer'></div>");
@@ -38,47 +40,7 @@ function customerStopMoving() {
     // ** the customer reached the end of the bar // kill the bartender
   });
 }
-// Spacebar will TRIGGER the beer to appear, a small white square
-// send the beer and animating it with the space bar is messing me up
-// so just take it back to no keydown or keyup events and focus on the collison
-// with the customer animation and the sendthebeer animation
 
-$("body").on("keydown", fillTheBeer);
-
-$("body").on("keyup", stopFillTheBeer);
-
-function fillTheBeer(evt) {
-  console.log("hello");
-  if (event.which === 32) {
-    $(".liquid").animate(
-      { height: "-=30" },
-      1000,
-      // Animation complete.
-      function() {
-        // Animation complete.
-        $("body").off("keyup", stopFillTheBeer);
-        $("body").off("keydown", fillTheBeer);
-
-        beerIsBeingSent = true;
-        sendTheBeer();
-      }
-    );
-    $beer.css("display", "block");
-  }
-}
-/////////////////////////////////////////// KEYDOWN EVENTS ///////////////////////
-
-//move the beer across the bar
-function sendTheBeer() {
-  $beer.css("display", "block");
-  $beer.animate({ left: "-=460" }, 10000);
-}
-
-function stopFillTheBeer() {
-  $(".liquid").css("height", "30px");
-  $(".liquid").stop();
-  $beer.css("display", "none");
-}
 /////////////////////////////////////////// SET INTERVAL - COLLISONS ///////////
 /// set an interval to constantly test for collison
 var count = 0;
@@ -108,56 +70,123 @@ function counter() {
 }
 //}
 
-/////////////////////////////////////////// KEYUP EVENTS ///////////////////////
-
-// The bartender will be able to:
+/////////////////////////////////////////// BARTENDER /////////////////
 // A purple square for bartender
-var $bartenderDiv = $("#container").append("<div id='bartender'></div>");
+var $bartenderDiv = $("<div id='bartender'></div>");
+$("#container").append($bartenderDiv);
 
-function bartenderEvents(e) {}
+var bartenderHeight = 80;
+var bartenderYstart = 100;
+var bartenderXstart = 500;
+//$bartenderDiv.css("top", bartenderYstart+"px");
+//$bartenderDiv.css("left", bartenderXstart + "px");
+//$bartenderDiv.css("height", bartenderHeight + "px");
 
+/////////////////////////////////////////// KEY DOWN /////////////////
 $("body").on("keydown", function(evt) {
   var keyPressed = event.which;
+  var currentYbartender = $bartenderDiv.css("top");
+  currentYbartender = parseInt(currentYbartender);
+  var newYbartender = 0;
+  var currentXbartender = $bartenderDiv.css("left");
+  currentXbartender = parseInt(currentXbartender);
+  var newXbartender = 0;
   switch (keyPressed) {
-    case 32: //spacebar
-      console.log("spacebar");
-      break;
+    case 32: /////////// SPACEBAR
+      console.log("spacebar - pouring beer");
+      $(".liquid").animate(
+        { height: "-=30" },
+        1000,
+        // Animation complete.
+        function() {
+          // Animation complete.
+          $("body").off("keyup", stopFillTheBeer);
+          $("body").off("keydown", fillTheBeer);
+          //on("keydown", fillTheBeer);
 
-    case 65: //a key LEFT
-      console.log("left");
+          beerIsBeingSent = true;
+          sendTheBeer();
+        }
+      );
+      $beer.css("display", "block");
+      // jump back to tap by pouring (space bar)
+      $bartenderDiv.css("left", bartenderXstart + "px");
       break;
-    case 83: // s key RIGHT
-      console.log("right");
+    case 37: //left key LEFT
+    case 65: //   a key LEFT
+      newXbartender = currentXbartender - 5;
+      newXbartender += "px";
+      $bartenderDiv.css("left", newXbartender);
+      // TO DO : catch a beer glass
+      break;
+    case 39: // right key RIGHT
+    case 83: //     s key RIGHT
+      newXbartender = currentXbartender + 5;
+      newXbartender += "px";
+      $bartenderDiv.css("left", newXbartender);
       break;
     case 13: //return key UP
-    case 20: //caps key UP
-      console.log("up");
+    case 20: //  caps key UP
+    case 38: //     arrow UP
+      newYbartender =
+        currentYbartender - spaceBetweenBars - bartenderHeight / 2;
+      newYbartender += "px";
+      $bartenderDiv.css("top", newYbartender);
+      // TO DO : loop around from the top to the bottom
+      // TO DO : stop pouring by moving to another row
       break;
     case 16: // shift DOWN
-      console.log("down");
+    case 40: // arrow DOWN
+      newYbartender =
+        currentYbartender + spaceBetweenBars + bartenderHeight / 2;
+      newYbartender += "px";
+      $bartenderDiv.css("top", newYbartender);
+      // TO DO : loop around from the bottom to the top and from the top to the bottom
+      // TO DO : stop pouring by moving to another row
       break;
     default:
       console.log(keyPressed);
       break;
   }
 });
+/////////////////////////////////////////// KEY UP /////////////////
 
-$("body").on("keyup", function(evt) {
-  var keyPressed = event.which;
-  switch (keyPressed) {
-    case 32: //spacebar
-      console.log("spacebar");
-      break;
-    default:
-      console.log(keyPressed);
-      break;
+// $("body").on("keyup", function(evt) {
+//   var keyPressed = event.which;
+//   switch (keyPressed) {
+//     case 32: //spacebar
+//       // NEED HELP!!!
+//       // $(".liquid").css("height", "30px");
+//       // $(".liquid").stop();
+//       // $beer.css("display", "none");
+//       console.log("spacebar");
+//       break;
+//     default:
+//       console.log(keyPressed);
+//       break;
+//   }
+// });
+
+// Spacebar will TRIGGER the beer to appear, a small white square
+// send the beer and animating it with the space bar is messing me up
+// so just take it back to no keydown or keyup events and focus on the collison
+// with the customer animation and the sendthebeer animation
+
+//$("body").on("keydown", fillTheBeer);
+
+//$("body").on("keyup", stopFillTheBeer);
+
+function fillTheBeer(evt) {
+  console.log("hello");
+  if (event.which === 32) {
   }
-});
-// ?? keydown for whole game
+}
+/////////////////////////////////////////// KEYDOWN EVENTS ///////////////////////
 
-//on("keydown", fillTheBeer);
-// move through the rows
-// loop around from the bottom to the top and from the top to the bottom
-// move to the left to catch a beer glass
-// jump back to tap by pouring (space bar)
-// stop pouring by moving to another row
+//move the beer across the bar
+function sendTheBeer() {
+  $beer.css("display", "block");
+  $beer.animate({ left: "-=460" }, 10000);
+}
+
+function stopFillTheBeer() {}

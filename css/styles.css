@@ -19,8 +19,8 @@
 #bartender {
   background-color: purple;
   width: 40px;
-  height: 80px;
-  position: absolute;
+  height: 80px; /*must be set here, tried to put it in the js*/
+  position: absolute; /*must be absolute!*/
   top: 100px;
   left: 500px;
 }
