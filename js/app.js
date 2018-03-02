@@ -21,40 +21,23 @@ var customerHeight = 80;
 var $customersDiv = $("<div class='customers'></div>");
 $("#container").append($customersDiv);
 
-//var customers = {[
-//],
-
-//}
-//   id: 0,
-//   barRow: 0,
-//   startTime or xPosition, ??
-// drinking: false;
-// maybe movingForward : true
-// or just the one is fine
-// and movingBackward: false;
-
-//end of bar: false (filter and chek for that value contantly)
-// };
-
-// The customer will be a red square MOVING to the right
 // Create a customer per bar row
 function createCustomers() {
   for (var i = 0; i < customersAmount; i++) {
-    console.log(i);
     var $customerDiv = $("<div class='customer'></div>");
     $customersDiv.append($customerDiv);
     $customerDiv.attr("id", "data-customer-index" + i);
     $customerDiv.css("top", customerHeight / 2 * i + "px");
     $customerDiv.css("left", "30px");
-    //console.log($customerDiv.css("top"));
+    // customer object
     var customerObj = {};
     customerObj.id = "data-customer-index" + i;
-    customerObj.drinking = false;
     customerObj.element = $customerDiv;
     customerObj.movingForward = true;
+    customerObj.drinking = false;
+    customerObj.endOfBar = false; // testing in an interval
     customerObj.barRow = i;
     customerObj.startTime = i; // something random
-    customerObj.endOfBar = false; // testing in an interval
     customersObj[i] = customerObj;
   }
   console.log(customersObj);
@@ -85,27 +68,9 @@ function customerStopMoving() {
   });
 }
 /////////////////////////////////////////// BEER ///////////////////////
-// The beer will be white for 2 seconds and change to yellow before it will be sent down the row
-
+var beersObj = {};
 var beerCount = 0;
 var pouring = false;
-//beers object
-var beerObj = {};
-//var customers = {[
-//],
-
-//}
-//   id: 0,
-//   barRow: 0,
-//   startTime or xPosition, ??
-// pouring: false;
-// maybe movingForward : true
-// or just the one is fine
-// and movingBackward: false;
-
-//end of bar: false (filter and chek for that value contantly)
-// };
-
 var $beersDiv = $("<div class='beers'></div>");
 $("#container").append($beersDiv);
 // TO DO: need to make more than one beer be sent
@@ -125,6 +90,20 @@ function createBeer() {
     $beersDiv.append($beerDiv);
     $beerDiv.append($glass);
 
+    //beer object
+    var beerObj = {};
+    beerObj.id = "data-beer-index" + beerCount;
+    //beerObj.
+    beerObj.endOfBar = false;
+    beerObj.element = $beerDiv;
+    beerObj.glass = $glass;
+
+    beerObj.movingToCustomer = false; //will be false upon creation
+    beerObj.movingToBartender = false; //need to check for both directions
+    beerObj.barRow = 0; //this will change
+    beersObj[beerCount] = beerObj;
+    //console.log(beersObj[beerCount]);
+    console.log(beerObj.element);
     beerCount++;
   }
 
@@ -134,21 +113,13 @@ function createBeer() {
 /// get the beers per row
 function getBeers(row) {
   // filter through the beers object to find the
-  //customers on a given row
+  //beers  on a given row
 }
 
-//$("body").on("keydown", fillTheBeer);
-
-//$("body").on("keyup", stopFillTheBeer);
-
-// function fillTheBeer(evt) {
-//   console.log("hello");
-//   1;
-//   if (event.which === 32) {
-//   }
-// }
 //move the beer across the bar
 function sendTheBeer() {
+  beersObj[beerCount - 1].element.css("display", "block");
+  beersObj[beerCount - 1].element.animate({ left: "-=460" }, 10000);
   //$beerDiv.css("display", "block");
   //$beerDiv.animate({ left: "-=460" }, 10000);
 }
@@ -216,7 +187,6 @@ $("body").on("keydown", function(evt) {
   var keyPressed = event.which;
   switch (keyPressed) {
     case 32: /////////// SPACEBAR //////////////////////////////
-      console.log("spacebar - pouring beer");
       // $(".glass").animate({ height: "-=30" }, 1000, function() {
       //   // Animation complete.
       //   $("body").off("keyup", stopFillTheBeer);
@@ -229,16 +199,27 @@ $("body").on("keydown", function(evt) {
       if (!pouring) {
         $beer = createBeer();
         $beer.css("display", "block");
+        pouring = true;
       } else {
-        //console.log("should be pouring");
-        //animate the pour
+        //pouring the beer into the glass
+        beersObj[beerCount - 1].glass.animate(
+          { height: "-=30" },
+          1000,
+          function() {
+            beerIsBeingSent = true;
+            pouring = false;
+            sendTheBeer();
+          }
+        );
         // TO DO: this has to know which beer is animating
         // so not glass but rather the beer[i] object
-        $(".glass").animate({ height: "-=30" }, 1000, function() {
-          beerIsBeingSent = true;
-          pouring = false;
-          sendTheBeer();
-        });
+        //animate the pour
+        // beersObj[beerCount].element
+        // $(".glass").animate({ height: "-=30" }, 1000, function() {
+        //   beerIsBeingSent = true;
+        //   pouring = false;
+        //   sendTheBeer();
+        // });
       }
 
       // jump back to tap by pouring (space bar)
@@ -311,11 +292,11 @@ $("body").on("keyup", function(evt) {
   switch (keyPressed) {
     case 32: //spacebar
       if (pouring) {
+        pouring = false;
         $beer.css("display", "none");
-        $(".glass").css("height", "30px");
-        $(".glass").stop();
+        //$(".glass").css("height", "30px");
+        //$(".glass").stop();
       }
-      console.log("spacebar");
       break;
     default:
       console.log(keyPressed);
