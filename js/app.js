@@ -1,20 +1,22 @@
 var $containerDiv = $("body").append("<div id='container'></div>");
 /////////////////////////////////////////// BAR ///////////////////////
 var bars = 4;
-var spaceBetweenBars = 80;
+var barPadding = 80;
+
 // Create four rows and four taps
 function createBarElements() {
-  // A brown rectangle for the row
   for (var i = 0; i < bars; i++) {
     var $barDiv = $("<div class='bar'></div>");
     $("#container").append($barDiv);
     $barDiv.attr("id", "data-bar-index" + i);
-    $barDiv.css("top", spaceBetweenBars * i + spaceBetweenBars + "px");
+    $barDiv.css("left", barPadding + "px");
+    $barDiv.css("top", barPadding * i + barPadding + "px");
   }
 }
 createBarElements();
 /////////////////////////////////////////// CUSTOMERS ///////////////////////
 var customers = 4;
+var bartenderYstart = 60;
 var customerHeight = 80;
 var $customersDiv = $("<div class='customers'></div>");
 $("#container").append($customersDiv);
@@ -27,7 +29,7 @@ function createCustomers() {
     $customerDiv.attr("id", "data-customer-index" + i);
     $customerDiv.css("top", customerHeight / 2 * i + "px");
     $customerDiv.css("left", "30px");
-    console.log($customerDiv.css("top"));
+    //console.log($customerDiv.css("top"));
   }
 }
 createCustomers();
@@ -64,17 +66,26 @@ function createBeer() {
     $("#container").append($beerDiv);
     $beerDiv.append($glass);
 
-    //beerCount++;
+    beerCount++;
   }
+
   return $beerDiv;
 }
 
+//$("body").on("keydown", fillTheBeer);
+
 //$("body").on("keyup", stopFillTheBeer);
 
+// function fillTheBeer(evt) {
+//   console.log("hello");
+//   1;
+//   if (event.which === 32) {
+//   }
+// }
 //move the beer across the bar
 function sendTheBeer() {
-  $beer.css("display", "block");
-  $beer.animate({ left: "-=460" }, 10000);
+  $beerDiv.css("display", "block");
+  $beerDiv.animate({ left: "-=460" }, 10000);
 }
 
 function stopFillTheBeer() {}
@@ -87,7 +98,7 @@ var $beerPosition = 700;
 var $customerPosition;
 var beerIsBeingSent = false;
 function counter() {
-  $beerPosition = $beer.position();
+  $beerPosition = $beerDiv.position();
   //$customerPosition = $customer.position(); // HELP!!!
   //if customer and beer collide
   // 40 is the width of the customer // how can i grab that value?
@@ -97,7 +108,7 @@ function counter() {
       clearInterval(intId);
       // this is where the customer will drink the beer
       // for now just remove the beer
-      $beer.remove();
+      //$beer.remove();
       // and change the direction of the customer to go back to the left/..door
       //stop the customer animation
       // stop , finish , clearque
@@ -133,74 +144,86 @@ $("body").on("keydown", function(evt) {
 
   var keyPressed = event.which;
   switch (keyPressed) {
-    case 32: /////////// SPACEBAR
+    case 32: /////////// SPACEBAR //////////////////////////////
       console.log("spacebar - pouring beer");
-      $(".glass").animate(
-        { height: "-=16" },
-        1000,
-        // Animation complete.
-        function() {
-          // Animation complete.
-          $("body").off("keyup", stopFillTheBeer);
-          $("body").off("keydown", fillTheBeer);
-          //on("keydown", fillTheBeer);
+      // $(".glass").animate({ height: "-=30" }, 1000, function() {
+      //   // Animation complete.
+      //   $("body").off("keyup", stopFillTheBeer);
+      //   //$("body").off("keydown", fillTheBeer);
+      //   //on("keydown", fillTheBeer);
 
-          beerIsBeingSent = true;
-          sendTheBeer();
-        }
-      );
+      //   beerIsBeingSent = true;
+      //   sendTheBeer();
+      // });
       if (!pouring) {
         $beer = createBeer();
-        //$("glass").animate({ height: "-=30" }, 1000);
         $beer.css("display", "block");
+      } else {
+        //console.log("should be pouring");
+        //animate the pour
+        $(".glass").animate({ height: "-=30" }, 1000, function() {
+          beerIsBeingSent = true;
+          pouring = false;
+          sendTheBeer();
+        });
       }
 
       // jump back to tap by pouring (space bar)
       $bartenderDiv.css("left", bartenderXstart + "px");
       break;
-    case 37: //left key LEFT
-    case 65: //   a key LEFT
+    case 37: //left key LEFT //////////////////////////////
+    case 65: //   a key LEFT //////////////////////////////
       newXbartender = currentXbartender - 5;
+      // restrict from moving past the left of bar
+      if (newXbartender < barPadding) {
+        newXbartender = barPadding;
+      }
       newXbartender += "px";
       $bartenderDiv.css("left", newXbartender);
       // TO DO : catch a beer glass
       break;
-    case 39: // right key RIGHT
-    case 83: //     s key RIGHT
+    case 39: // right key RIGHT //////////////////////////////
+    case 83: //     s key RIGHT //////////////////////////////
       newXbartender = currentXbartender + 5;
+      // restrict from moving past the tap
+      if (newXbartender > bartenderXstart) {
+        newXbartender = bartenderXstart;
+      }
       newXbartender += "px";
       $bartenderDiv.css("left", newXbartender);
       break;
-    case 13: //return key UP
-    case 20: //  caps key UP
-    case 38: //     arrow UP
-      newYbartender =
-        currentYbartender - spaceBetweenBars - bartenderHeight / 2;
+    case 13: //return key UP //////////////////////////////
+    case 20: //  caps key UP //////////////////////////////
+    case 38: //     arrow UP //////////////////////////////
+      newYbartender = currentYbartender - barPadding - bartenderHeight / 2;
 
       // loop around from the top to the bottom
       if (newYbartender < bartenderYstart) {
         newYbartender =
-          bartenderYstart + spaceBetweenBars * bars + bartenderHeight / 2;
+          bartenderYstart + barPadding * bars + bartenderHeight / 2;
       }
       // set the y position of bartender
       newYbartender += "px";
       $bartenderDiv.css("top", newYbartender);
+      // set the x position of the bartender
+      $bartenderDiv.css("left", bartenderXstart);
       // TO DO : stop pouring by moving to another row
       break;
-    case 16: // shift DOWN
-    case 40: // arrow DOWN
-      newYbartender =
-        currentYbartender + spaceBetweenBars + bartenderHeight / 2;
+    case 16: // shift DOWN //////////////////////////////
+    case 40: // arrow DOWN //////////////////////////////
+      newYbartender = currentYbartender + barPadding + bartenderHeight / 2;
 
       // loop around from the bottom to the top and from the top to the bottom
       var downLimit =
-        bartenderYstart + spaceBetweenBars * (bars + 1) + bartenderHeight / 2;
+        bartenderYstart + barPadding * (bars + 1) + bartenderHeight / 2;
       if (newYbartender >= downLimit) {
         newYbartender = bartenderYstart;
       }
       // set the y position of bartender
       newYbartender += "px";
       $bartenderDiv.css("top", newYbartender);
+      // set the x position of the bartender
+      $bartenderDiv.css("left", bartenderXstart);
       // TO DO : stop pouring by moving to another row
       break;
     default:
@@ -210,21 +233,22 @@ $("body").on("keydown", function(evt) {
 });
 /////////////////////////////////////////// KEY UP /////////////////
 
-// $("body").on("keyup", function(evt) {
-//   var keyPressed = event.which;
-//   switch (keyPressed) {
-//     case 32: //spacebar
-//       // NEED HELP!!!
-//       // $(".glass").css("height", "30px");
-//       // $(".glass").stop();
-//       // $beer.css("display", "none");
-//       console.log("spacebar");
-//       break;
-//     default:
-//       console.log(keyPressed);
-//       break;
-//   }
-// });
+$("body").on("keyup", function(evt) {
+  var keyPressed = event.which;
+  switch (keyPressed) {
+    case 32: //spacebar
+      if (pouring) {
+        $beer.css("display", "none");
+        $(".glass").css("height", "30px");
+        $(".glass").stop();
+      }
+      console.log("spacebar");
+      break;
+    default:
+      console.log(keyPressed);
+      break;
+  }
+});
 
 // Spacebar will TRIGGER the beer to appear, a small white square
 // send the beer and animating it with the space bar is messing me up
