@@ -6,7 +6,7 @@ stop pouring by moving to another row(key up needs to be worked out)
 
 still to do/think about
 
-make a customer on each row
+*make a customer on each row
 need to make more than one beer be sent
 The beers will collide with several customers
 the beer cannot dissappear it needs to move right

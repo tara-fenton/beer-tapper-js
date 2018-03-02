@@ -15,7 +15,6 @@ function createBarElements() {
 createBarElements();
 /////////////////////////////////////////// CUSTOMERS ///////////////////////
 var customers = 4;
-var bartenderYstart = 60;
 var customerHeight = 80;
 var $customersDiv = $("<div class='customers'></div>");
 $("#container").append($customersDiv);
@@ -53,28 +52,25 @@ function customerStopMoving() {
 // The beer will be white for 2 seconds and change to yellow before it will be sent down the row
 
 var beerCount = 0;
+var pouring = false;
+
 function createBeer() {
-  //add the liquid for the beer
-  //var $liquid = $("<div class='liquid'></div>");
-  //$("#container").append($liquid);
+  if (!pouring) {
+    pouring = true;
+    //add the glass for the beer
+    var $glass = $("<div class='glass'></div>");
+    var $beerDiv = $("<div class='beer'></div>");
+    $beerDiv.attr("id", "data-beer-index" + beerCount);
+    $("#container").append($beerDiv);
+    $beerDiv.append($glass);
 
-  var $beerDiv = $("<div class='beer'></div>");
-  $beerDiv.attr("id", "data-beer-index" + beerCount);
-  $("#container").append($beerDiv);
-
-  //beerCount++;
+    //beerCount++;
+  }
   return $beerDiv;
 }
 
-//$("body").on("keydown", fillTheBeer);
-
 //$("body").on("keyup", stopFillTheBeer);
 
-function fillTheBeer(evt) {
-  console.log("hello");
-  if (event.which === 32) {
-  }
-}
 //move the beer across the bar
 function sendTheBeer() {
   $beer.css("display", "block");
@@ -139,23 +135,26 @@ $("body").on("keydown", function(evt) {
   switch (keyPressed) {
     case 32: /////////// SPACEBAR
       console.log("spacebar - pouring beer");
-      // $(".liquid").animate(
-      //   { height: "-=30" },
-      //   1000,
-      //   // Animation complete.
-      //   function() {
-      //     // Animation complete.
-      //     $("body").off("keyup", stopFillTheBeer);
-      //     $("body").off("keydown", fillTheBeer);
-      //     //on("keydown", fillTheBeer);
+      $(".glass").animate(
+        { height: "-=16" },
+        1000,
+        // Animation complete.
+        function() {
+          // Animation complete.
+          $("body").off("keyup", stopFillTheBeer);
+          $("body").off("keydown", fillTheBeer);
+          //on("keydown", fillTheBeer);
 
-      //     beerIsBeingSent = true;
-      //     sendTheBeer();
-      //   }
-      // );
-      $beer = createBeer();
-      //$("liquid").animate({ height: "-=30" }, 1000);
-      $beer.css("display", "block");
+          beerIsBeingSent = true;
+          sendTheBeer();
+        }
+      );
+      if (!pouring) {
+        $beer = createBeer();
+        //$("glass").animate({ height: "-=30" }, 1000);
+        $beer.css("display", "block");
+      }
+
       // jump back to tap by pouring (space bar)
       $bartenderDiv.css("left", bartenderXstart + "px");
       break;
@@ -216,8 +215,8 @@ $("body").on("keydown", function(evt) {
 //   switch (keyPressed) {
 //     case 32: //spacebar
 //       // NEED HELP!!!
-//       // $(".liquid").css("height", "30px");
-//       // $(".liquid").stop();
+//       // $(".glass").css("height", "30px");
+//       // $(".glass").stop();
 //       // $beer.css("display", "none");
 //       console.log("spacebar");
 //       break;

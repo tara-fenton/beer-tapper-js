@@ -39,7 +39,7 @@
 }
 /*BEER The beer will be white for 2 seconds and change to yellow before it will be sent down the row*/
 .beer {
-  background-color: white;
+  background-color: yellow;
   width: 15px;
   height: 30px;
   position: relative;
@@ -47,9 +47,9 @@
   left: 534px;
   display: none;
 }
-.liquid {
-  background-color: yellow;
+.glass {
+  background-color: white;
   width: 15px;
-  height: 30px;
+  height: 40px;
   position: relative;
 }
