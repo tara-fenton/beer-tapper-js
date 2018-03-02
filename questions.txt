@@ -1,2 +1,23 @@
 questions
 
+
+
+stop pouring by moving to another row(key up needs to be worked out)
+
+still to do/think about
+
+make a customer on each row
+need to make more than one beer be sent
+The beers will collide with several customers
+the beer cannot dissappear it needs to move right
+bartender needs to catch the beer glass when moving left
+-(thats when the glass dissappears)
+
+why can't i set the height of the bartender in the js?
+
+beer is not the right colors, can wait til phase 5
+one per row will appear for level 1,
+two per row for level 2, levels can wait til phase 5
+
+
+

@@ -21,17 +21,21 @@
   width: 40px;
   height: 80px; /*must be set here, tried to put it in the js*/
   position: absolute; /*must be absolute!*/
-  top: 100px;
-  left: 500px;
+  /*top: 100px;
+  left: 500px;*/
 }
 /*CUSTOMER The customer will be a red square moving to the right*/
+.customers {
+  position: absolute;
+  top: 60px;
+}
 .customer {
   background-color: red;
   width: 40px;
   height: 80px;
-  position: absolute;
-  top: 100px;
-  left: 30px;
+  position: relative;
+  /*top: 100px;
+  left: 30px;*/
 }
 /*BEER The beer will be white for 2 seconds and change to yellow before it will be sent down the row*/
 .beer {
@@ -44,7 +48,8 @@
   display: none;
 }
 .liquid {
-  background-color: purple;
+  background-color: yellow;
   width: 15px;
   height: 30px;
+  position: relative;
 }
