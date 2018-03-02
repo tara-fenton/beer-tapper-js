@@ -7,6 +7,10 @@ stop pouring by moving to another row(key up needs to be worked out)
 still to do/think about
 
 *make a customer on each row
+*fix barteder movement between bars if he has moved left,
+*and restrict from moving to the right and left
+*detect if customer reached end of bar
+*//already in customerMoving and customerStopMoving functions
 need to make more than one beer be sent
 The beers will collide with several customers
 the beer cannot dissappear it needs to move right
@@ -20,4 +24,15 @@ one per row will appear for level 1,
 two per row for level 2, levels can wait til phase 5
 
 
+DO RIGHT NOW
+fix the location of the beer creation
+//it should be next to the bartender, whatever bar
+//he is at
 
+
+need to make more than one beer be sent
+
+look at sendTheBeer function,
+commented out error lines
+****** shift command D DUPLICATE
+****** control command up MOVE

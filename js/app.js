@@ -15,25 +15,56 @@ function createBarElements() {
 }
 createBarElements();
 /////////////////////////////////////////// CUSTOMERS ///////////////////////
-var customers = 4;
-var bartenderYstart = 60;
+var customersObj = {};
+var customersAmount = 4;
 var customerHeight = 80;
 var $customersDiv = $("<div class='customers'></div>");
 $("#container").append($customersDiv);
+
+//var customers = {[
+//],
+
+//}
+//   id: 0,
+//   barRow: 0,
+//   startTime or xPosition, ??
+// drinking: false;
+// maybe movingForward : true
+// or just the one is fine
+// and movingBackward: false;
+
+//end of bar: false (filter and chek for that value contantly)
+// };
+
 // The customer will be a red square MOVING to the right
 // Create a customer per bar row
 function createCustomers() {
-  for (var i = 0; i < customers; i++) {
+  for (var i = 0; i < customersAmount; i++) {
+    console.log(i);
     var $customerDiv = $("<div class='customer'></div>");
     $customersDiv.append($customerDiv);
     $customerDiv.attr("id", "data-customer-index" + i);
     $customerDiv.css("top", customerHeight / 2 * i + "px");
     $customerDiv.css("left", "30px");
     //console.log($customerDiv.css("top"));
+    var customerObj = {};
+    customerObj.id = "data-customer-index" + i;
+    customerObj.drinking = false;
+    customerObj.element = $customerDiv;
+    customerObj.movingForward = true;
+    customerObj.barRow = i;
+    customerObj.startTime = i; // something random
+    customerObj.endOfBar = false; // testing in an interval
+    customersObj[i] = customerObj;
   }
+  console.log(customersObj);
 }
 createCustomers();
-
+/// get the customers per row
+function getCustomers(row) {
+  // filter through the customers object to find the
+  //customers on a given row
+}
 //move the customer across the bar towards the bartender
 $("body").ready(customerMoving);
 function customerMoving() {
@@ -41,6 +72,9 @@ function customerMoving() {
     // Animation complete.
     // ** the customer reached the end of the bar // kill the bartender
   });
+  for (var customer in customersObj) {
+    console.log("OBJ. " + customersObj[customer].barRow);
+  }
 }
 
 function customerStopMoving() {
@@ -55,7 +89,26 @@ function customerStopMoving() {
 
 var beerCount = 0;
 var pouring = false;
+//beers object
+var beerObj = {};
+//var customers = {[
+//],
 
+//}
+//   id: 0,
+//   barRow: 0,
+//   startTime or xPosition, ??
+// pouring: false;
+// maybe movingForward : true
+// or just the one is fine
+// and movingBackward: false;
+
+//end of bar: false (filter and chek for that value contantly)
+// };
+
+var $beersDiv = $("<div class='beers'></div>");
+$("#container").append($beersDiv);
+// TO DO: need to make more than one beer be sent
 function createBeer() {
   if (!pouring) {
     pouring = true;
@@ -63,13 +116,25 @@ function createBeer() {
     var $glass = $("<div class='glass'></div>");
     var $beerDiv = $("<div class='beer'></div>");
     $beerDiv.attr("id", "data-beer-index" + beerCount);
-    $("#container").append($beerDiv);
+    $beerDiv.css("left", "550px");
+    currentYbartender = $bartenderDiv.css("top");
+    currentYbartender = parseInt(currentYbartender);
+    console.log(" currentYbartender " + currentYbartender);
+    $beerDiv.css("top", currentYbartender + "px");
+
+    $beersDiv.append($beerDiv);
     $beerDiv.append($glass);
 
     beerCount++;
   }
 
   return $beerDiv;
+}
+
+/// get the beers per row
+function getBeers(row) {
+  // filter through the beers object to find the
+  //customers on a given row
 }
 
 //$("body").on("keydown", fillTheBeer);
@@ -84,12 +149,16 @@ function createBeer() {
 // }
 //move the beer across the bar
 function sendTheBeer() {
-  $beerDiv.css("display", "block");
-  $beerDiv.animate({ left: "-=460" }, 10000);
+  //$beerDiv.css("display", "block");
+  //$beerDiv.animate({ left: "-=460" }, 10000);
 }
 
 function stopFillTheBeer() {}
 
+// TO DO : The beers will collide with several customers
+function beersServed() {
+  // maybe this will be counter function
+}
 /////////////////////////////////////////// SET INTERVAL - COLLISONS ///////////
 /// set an interval to constantly test for collison
 var count = 0;
@@ -108,7 +177,9 @@ function counter() {
       clearInterval(intId);
       // this is where the customer will drink the beer
       // for now just remove the beer
+
       //$beer.remove();
+      // TO DO: the beer cannot dissappear it needs to move right
       // and change the direction of the customer to go back to the left/..door
       //stop the customer animation
       // stop , finish , clearque
@@ -161,6 +232,8 @@ $("body").on("keydown", function(evt) {
       } else {
         //console.log("should be pouring");
         //animate the pour
+        // TO DO: this has to know which beer is animating
+        // so not glass but rather the beer[i] object
         $(".glass").animate({ height: "-=30" }, 1000, function() {
           beerIsBeingSent = true;
           pouring = false;
