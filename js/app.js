@@ -9,7 +9,7 @@ function createBarElements() {
     var $barDiv = $("<div class='bar'></div>");
     $("#container").append($barDiv);
     $barDiv.attr("id", "data-bar-index" + i);
-    $barDiv.css("top", 100 * i + spaceBetweenBars + "px");
+    $barDiv.css("top", spaceBetweenBars * i + spaceBetweenBars + "px");
   }
 }
 createBarElements();
@@ -76,21 +76,24 @@ var $bartenderDiv = $("<div id='bartender'></div>");
 $("#container").append($bartenderDiv);
 
 var bartenderHeight = 80;
-var bartenderYstart = 100;
+var bartenderYstart = 60;
 var bartenderXstart = 500;
-//$bartenderDiv.css("top", bartenderYstart+"px");
-//$bartenderDiv.css("left", bartenderXstart + "px");
+$bartenderDiv.css("top", bartenderYstart + "px");
+$bartenderDiv.css("left", bartenderXstart + "px");
 //$bartenderDiv.css("height", bartenderHeight + "px");
-
+var currentYbartender = 0;
+var newYbartender = 0;
+var currentXbartender = 0;
+var newXbartender = 0;
 /////////////////////////////////////////// KEY DOWN /////////////////
 $("body").on("keydown", function(evt) {
-  var keyPressed = event.which;
-  var currentYbartender = $bartenderDiv.css("top");
+  // get the current x and y of bartender
+  currentYbartender = $bartenderDiv.css("top");
   currentYbartender = parseInt(currentYbartender);
-  var newYbartender = 0;
-  var currentXbartender = $bartenderDiv.css("left");
+  currentXbartender = $bartenderDiv.css("left");
   currentXbartender = parseInt(currentXbartender);
-  var newXbartender = 0;
+
+  var keyPressed = event.which;
   switch (keyPressed) {
     case 32: /////////// SPACEBAR
       console.log("spacebar - pouring beer");
@@ -130,18 +133,32 @@ $("body").on("keydown", function(evt) {
     case 38: //     arrow UP
       newYbartender =
         currentYbartender - spaceBetweenBars - bartenderHeight / 2;
+
+      // TO DO : loop around from the top to the bottom
+      if (newYbartender < bartenderYstart) {
+        newYbartender =
+          bartenderYstart + spaceBetweenBars * bars + bartenderHeight / 2;
+      }
+      console.log("newYbartender " + newYbartender);
+
       newYbartender += "px";
       $bartenderDiv.css("top", newYbartender);
-      // TO DO : loop around from the top to the bottom
       // TO DO : stop pouring by moving to another row
       break;
     case 16: // shift DOWN
     case 40: // arrow DOWN
       newYbartender =
         currentYbartender + spaceBetweenBars + bartenderHeight / 2;
+
+      // TO DO : loop around from the bottom to the top and from the top to the bottom
+      var downLimit =
+        bartenderYstart + spaceBetweenBars * (bars + 1) + bartenderHeight / 2;
+      console.log("newYbartender " + newYbartender, downLimit);
+      if (newYbartender >= downLimit) {
+        newYbartender = bartenderYstart;
+      }
       newYbartender += "px";
       $bartenderDiv.css("top", newYbartender);
-      // TO DO : loop around from the bottom to the top and from the top to the bottom
       // TO DO : stop pouring by moving to another row
       break;
     default:
