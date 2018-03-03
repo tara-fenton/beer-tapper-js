@@ -47,7 +47,7 @@
   background-color: yellow;
   width: 15px;
   height: 30px;
-  position: relative;
+  position: absolute;
   /*  top: 100px;
   left: 534px;*/
   display: none;

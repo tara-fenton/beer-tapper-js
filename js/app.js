@@ -76,18 +76,18 @@ $("#container").append($beersDiv);
 // TO DO: need to make more than one beer be sent
 function createBeer() {
   if (!pouring) {
-    pouring = true;
+    //pouring = true;pouring = true;
     //add the glass for the beer
     var $glass = $("<div class='glass'></div>");
     var $beerDiv = $("<div class='beer'></div>");
     $beerDiv.attr("id", "data-beer-index" + beerCount);
-    $beerDiv.css("left", "550px");
+    $beerDiv.css("left", "500px");
     currentYbartender = $bartenderDiv.css("top");
     currentYbartender = parseInt(currentYbartender);
     console.log(" currentYbartender " + currentYbartender);
     $beerDiv.css("top", currentYbartender + "px");
-
-    $beersDiv.append($beerDiv);
+    console.log();
+    $("#container").append($beerDiv);
     $beerDiv.append($glass);
 
     //beer object
@@ -104,10 +104,9 @@ function createBeer() {
     beersObj[beerCount] = beerObj;
     //console.log(beersObj[beerCount]);
     console.log(beerObj.element);
-    beerCount++;
   }
 
-  return $beerDiv;
+  //return $beerDiv;
 }
 
 /// get the beers per row
@@ -117,12 +116,9 @@ function getBeers(row) {
 }
 
 //move the beer across the bar
-function sendTheBeer() {
-  beersObj[beerCount - 1].element.css("display", "block");
-  beersObj[beerCount - 1].element.animate({ left: "-=460" }, 10000);
-  //$beerDiv.css("display", "block");
-  //$beerDiv.animate({ left: "-=460" }, 10000);
-}
+//function sendTheBeer() {
+
+//}
 
 function stopFillTheBeer() {}
 
@@ -136,19 +132,20 @@ var count = 0;
 //var intId = setInterval(counter, 100);
 var $beerPosition = 700;
 var $customerPosition;
-var beerIsBeingSent = false;
+//var beerIsBeingSent = false;
 function counter() {
   $beerPosition = $beerDiv.position();
   //$customerPosition = $customer.position(); // HELP!!!
   //if customer and beer collide
   // 40 is the width of the customer // how can i grab that value?
   if (beerIsBeingSent) {
+    // change this to check per beer???
     if ($beerPosition.left < $customerPosition.left + 40) {
       //console.log("WE HAVE COLLIDED!");
       clearInterval(intId);
       // this is where the customer will drink the beer
       // for now just remove the beer
-
+      //beersObj[beerCount].movingToCustomer = true;
       //$beer.remove();
       // TO DO: the beer cannot dissappear it needs to move right
       // and change the direction of the customer to go back to the left/..door
@@ -187,41 +184,22 @@ $("body").on("keydown", function(evt) {
   var keyPressed = event.which;
   switch (keyPressed) {
     case 32: /////////// SPACEBAR //////////////////////////////
-      // $(".glass").animate({ height: "-=30" }, 1000, function() {
-      //   // Animation complete.
-      //   $("body").off("keyup", stopFillTheBeer);
-      //   //$("body").off("keydown", fillTheBeer);
-      //   //on("keydown", fillTheBeer);
-
-      //   beerIsBeingSent = true;
-      //   sendTheBeer();
-      // });
       if (!pouring) {
-        $beer = createBeer();
-        $beer.css("display", "block");
+        createBeer();
         pouring = true;
-      } else {
-        //pouring the beer into the glass
-        beersObj[beerCount - 1].glass.animate(
-          { height: "-=30" },
-          1000,
-          function() {
-            beerIsBeingSent = true;
-            pouring = false;
-            sendTheBeer();
-          }
-        );
-        // TO DO: this has to know which beer is animating
-        // so not glass but rather the beer[i] object
-        //animate the pour
-        // beersObj[beerCount].element
-        // $(".glass").animate({ height: "-=30" }, 1000, function() {
-        //   beerIsBeingSent = true;
-        //   pouring = false;
-        //   sendTheBeer();
-        // });
-      }
+        //$beer.css("display", "block");
 
+        //pouring the beer into the glass
+        beersObj[beerCount].glass.animate({ height: "-=30" }, 1000, function() {
+          //once the beer is full
+          beersObj[beerCount].element.css("display", "block");
+          beersObj[beerCount].element.animate({ left: "-=460" }, 10000);
+          beersObj[beerCount].movingToCustomer = true;
+          pouring = false;
+          beerCount++; //now its ok to pour another beer
+          //sendTheBeer();
+        });
+      }
       // jump back to tap by pouring (space bar)
       $bartenderDiv.css("left", bartenderXstart + "px");
       break;
@@ -281,30 +259,28 @@ $("body").on("keydown", function(evt) {
       // TO DO : stop pouring by moving to another row
       break;
     default:
-      console.log(keyPressed);
+      //console.log(keyPressed);
       break;
   }
 });
 /////////////////////////////////////////// KEY UP /////////////////
-
 $("body").on("keyup", function(evt) {
   var keyPressed = event.which;
   switch (keyPressed) {
     case 32: //spacebar
       if (pouring) {
         pouring = false;
-        $beer.css("display", "none");
+        //$beer.css("display", "none");
+        //pouring the beer into the glass
+        beersObj[beerCount].element.css("display", "none");
+        beersObj[beerCount].glass.stop();
+        beersObj[beerCount].element.css("height", "30px");
         //$(".glass").css("height", "30px");
         //$(".glass").stop();
       }
       break;
     default:
-      console.log(keyPressed);
+      //console.log(keyPressed);
       break;
   }
 });
-
-// Spacebar will TRIGGER the beer to appear, a small white square
-// send the beer and animating it with the space bar is messing me up
-// so just take it back to no keydown or keyup events and focus on the collison
-// with the customer animation and the sendthebeer animation
