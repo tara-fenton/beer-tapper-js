@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Mina");
 /*div to hold all elements*/
 #container {
   background-color: black;
@@ -48,4 +49,30 @@
   width: 15px;
   height: 30px;
   position: relative;
+}
+/*POINTS The beer will be white for 2 seconds and change to yellow before it will be sent down the row*/
+#points {
+  font-family: "Mina";
+  font-size: 26px;
+  padding: 0 0 0 15px;
+  height: 30px;
+  color: white;
+  position: absolute;
+  top: 15px;
+}
+/*LIVES The beer will be white for 2 seconds and change to yellow before it will be sent down the row*/
+#lives {
+  position: absolute;
+  top: 10px;
+  left: 250px;
+  margin: 10px auto;
+  /* background-color: green; */
+  width: 100px;
+  height: 30px;
+}
+#lives .beer {
+  display: block;
+  /* position: absolute;
+  background-color: green;
+  top: 60px;*/
 }

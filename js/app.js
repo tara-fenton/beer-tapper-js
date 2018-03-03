@@ -44,10 +44,29 @@ function createCustomers() {
 }
 createCustomers();
 
-/// get the customers per row
-function getCustomers(row) {
-  // filter through the customers object to find the
-  //customers on a given row
+var beerPosition = 0;
+var cutomerPosition = 0;
+
+// TO DO : The beers will collide with several customers
+
+var getCustomerHits = setInterval(customerHitsBeer, 100);
+function customerHitsBeer() {
+  // loop through the customer
+  for (var customer in customersObj) {
+    // get the position of the customer
+    // loop through the customers
+    for (var beer in beersObj) {
+      // get the position of the beer and customer
+      beerPosition = parseInt(beersObj[beer].beer.css("left"));
+      customerPosition = parseInt(customersObj[customer].element.css("left"));
+      console.log(beerPosition, customerPosition);
+      //test for collision
+      if (beerPosition < cutomerPosition + 40) {
+        clearInterval(customerHitsBeer);
+        console.log(" WE HAVE COLLISION " + beerPosition);
+      }
+    }
+  }
 }
 //move the customer across the bar towards the bartender
 $("body").ready(customerMoving);
@@ -83,7 +102,7 @@ function createBeer() {
     //do i really need this id if I have an object?
     $beerDiv.attr("id", "data-beer-index" + beerCount);
     // position the beer next to the bartender
-    $beerDiv.css("left", "500px");
+    $beerDiv.css("left", "472px");
     currentYbartender = $bartenderDiv.css("top");
     currentYbartender = parseInt(currentYbartender);
     $beerDiv.css("top", currentYbartender + "px");
@@ -108,48 +127,66 @@ function getBeers(row) {
   // filter through the beers object to find the
   //beers  on a given row
 }
+//check if the customer gets a beer
+//check if the beer reaches the left of the bar
+//check if the beer glass reaches the right of the bar
 
 // TO DO : The beers will collide with several customers
-function beersServed() {
-  // maybe this will be counter function
-}
+//var intId = setInterval(beersServed, 100);//this will go in get beers
+var beerPosition = 0;
+var cutomerPosition = 0;
+//on enterframe
+// function beersServed() {
+//   // loop through the beers
+//   for (var beer in beersObj) {
+//     // set the position
+//     beerPosition = beersObj[beer].beer.css("left");
+//     // loop through the customers
+//     for (var customer in customersObj) {
+//       cutomerPosition = customersObj[customer].element.css("left");
+//       //test for collision
+//       if (beerPosition < cutomerPosition + 40) {
+//         //console.log(" WE HAVE COLLISION " + beerPosition, cutomerPosition);
+//       }
+//     }
+//   }
+// }
 /////////////////////////////////////////// SET INTERVAL - COLLISONS ///////////
 /// set an interval to constantly test for collison
-var count = 0;
 //var intId = setInterval(counter, 100);
-var $beerPosition = 700;
-var $customerPosition;
-//var beerIsBeingSent = false;
-function counter() {
-  $beerPosition = $beerDiv.position();
-  //$customerPosition = $customer.position(); // HELP!!!
-  //if customer and beer collide
-  // 40 is the width of the customer // how can i grab that value?
-  if (beerIsBeingSent) {
-    // change this to check per beer???
-    if ($beerPosition.left < $customerPosition.left + 40) {
-      //console.log("WE HAVE COLLIDED!");
-      clearInterval(intId);
-      // this is where the customer will drink the beer
-      // for now just remove the beer
-      //beersObj[beerCount].movingToCustomer = true;
-      //$beer.remove();
-      // TO DO: the beer cannot dissappear it needs to move right
-      // and change the direction of the customer to go back to the left/..door
-      //stop the customer animation
-      // stop , finish , clearque
-      $customer.stop();
-      customerStopMoving();
-    }
-  }
-}
+// var $beerPosition = 700;
+// var $customerPosition;
+// //var beerIsBeingSent = false;
+// function counter() {
+//   $beerPosition = $beerDiv.position();
+//   //$customerPosition = $customer.position(); // HELP!!!
+//   //if customer and beer collide
+//   // 40 is the width of the customer // how can i grab that value?
+//   if (beerIsBeingSent) {
+//     // change this to check per beer???
+//     if ($beerPosition.left < $customerPosition.left + 40) {
+//       //console.log("WE HAVE COLLIDED!");
+//       clearInterval(intId);
+//       // this is where the customer will drink the beer
+//       // for now just remove the beer
+//       //beersObj[beerCount].movingToCustomer = true;
+//       //$beer.remove();
+//       // TO DO: the beer cannot dissappear it needs to move right
+//       // and change the direction of the customer to go back to the left/..door
+//       //stop the customer animation
+//       // stop , finish , clearque
+//       $customer.stop();
+//       customerStopMoving();
+//     }
+//   }
+// }
 //}
 
 /////////////////////////////////////////// BARTENDER /////////////////
 // A purple square for bartender
 var $bartenderDiv = $("<div id='bartender'></div>");
 $("#container").append($bartenderDiv);
-
+// positions for controlling bartender
 var BARTENDER_HEIGHT = 80;
 var BARTENDER_START_Y = 60;
 var BARTENDER_START_X = 500;
@@ -159,6 +196,32 @@ var currentYbartender = 0;
 var newYbartender = 0;
 var currentXbartender = 0;
 var newXbartender = 0;
+/////////////////////////////////////////// POINTS AND LIVES /////////
+// Add points display
+var points = 0;
+var lives = 3;
+var $pointsDiv = $("<div id='points'></div>");
+$pointsDiv.append(points);
+$("#container").append($pointsDiv);
+function createLives() {
+  // create a div to hold the lives
+  var $lives = $("<div id='lives'></div>");
+  $("#container").append($lives);
+  for (var i = 0; i < lives; i++) {
+    //create a beer per life
+    var $beerDiv = $("<div class='beer'></div>");
+    $beerDiv.attr("id", "data-lives-index" + i);
+    // position the beer next to the bartender
+    //next position
+    var nextPosition = 30 * i;
+    $beerDiv.css("left", nextPosition + "px");
+    //currentYbartender = $bartenderDiv.css("top");
+    //currentYbartender = parseInt(currentYbartender);
+    //$beerDiv.css("top", 80 + "px");
+    $lives.append($beerDiv); //this
+  }
+}
+createLives();
 /////////////////////////////////////////// KEY DOWN /////////////////
 $("body").on("keydown", function(evt) {
   // get the current x and y of bartender
