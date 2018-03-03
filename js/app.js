@@ -199,10 +199,11 @@ var newXbartender = 0;
 /////////////////////////////////////////// POINTS AND LIVES /////////
 // Add points display
 var points = 0;
-var lives = 3;
 var $pointsDiv = $("<div id='points'></div>");
 $pointsDiv.append(points);
 $("#container").append($pointsDiv);
+
+var lives = 3;
 function createLives() {
   // create a div to hold the lives
   var $lives = $("<div id='lives'></div>");
@@ -211,14 +212,10 @@ function createLives() {
     //create a beer per life
     var $beerDiv = $("<div class='beer'></div>");
     $beerDiv.attr("id", "data-lives-index" + i);
-    // position the beer next to the bartender
-    //next position
+    // position the lives beers with next position
     var nextPosition = 30 * i;
     $beerDiv.css("left", nextPosition + "px");
-    //currentYbartender = $bartenderDiv.css("top");
-    //currentYbartender = parseInt(currentYbartender);
-    //$beerDiv.css("top", 80 + "px");
-    $lives.append($beerDiv); //this
+    $lives.append($beerDiv);
   }
 }
 createLives();
