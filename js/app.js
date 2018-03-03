@@ -1,33 +1,34 @@
-var $containerDiv = $("body").append("<div id='container'></div>");
 /////////////////////////////////////////// BAR ///////////////////////
-var bars = 4;
-var barPadding = 80;
+var $containerDiv = $("body").append("<div id='container'></div>");
+var BARS_AMOUNT = 4;
+var BAR_PADDING = 80;
 
-// Create four rows and four taps
+// Create four rows
+// TO DO : and four taps
 function createBarElements() {
-  for (var i = 0; i < bars; i++) {
+  for (var i = 0; i < BARS_AMOUNT; i++) {
     var $barDiv = $("<div class='bar'></div>");
     $("#container").append($barDiv);
     $barDiv.attr("id", "data-bar-index" + i);
-    $barDiv.css("left", barPadding + "px");
-    $barDiv.css("top", barPadding * i + barPadding + "px");
+    $barDiv.css("left", BAR_PADDING + "px");
+    $barDiv.css("top", BAR_PADDING * i + BAR_PADDING + "px");
   }
 }
 createBarElements();
 /////////////////////////////////////////// CUSTOMERS ///////////////////////
-var customersObj = {};
-var customersAmount = 4;
-var customerHeight = 80;
 var $customersDiv = $("<div class='customers'></div>");
 $("#container").append($customersDiv);
+var CUSTOMER_AMOUNT = 4;
+var CUSTOMER_HEIGHT = 80;
+var customersObj = {};
 
 // Create a customer per bar row
 function createCustomers() {
-  for (var i = 0; i < customersAmount; i++) {
+  for (var i = 0; i < CUSTOMER_AMOUNT; i++) {
     var $customerDiv = $("<div class='customer'></div>");
     $customersDiv.append($customerDiv);
     $customerDiv.attr("id", "data-customer-index" + i);
-    $customerDiv.css("top", customerHeight / 2 * i + "px");
+    $customerDiv.css("top", CUSTOMER_HEIGHT / 2 * i + "px");
     $customerDiv.css("left", "30px");
     // customer object
     var customerObj = {};
@@ -40,9 +41,9 @@ function createCustomers() {
     customerObj.startTime = i; // something random
     customersObj[i] = customerObj;
   }
-  console.log(customersObj);
 }
 createCustomers();
+
 /// get the customers per row
 function getCustomers(row) {
   // filter through the customers object to find the
@@ -56,7 +57,7 @@ function customerMoving() {
     // ** the customer reached the end of the bar // kill the bartender
   });
   for (var customer in customersObj) {
-    console.log("OBJ. " + customersObj[customer].barRow);
+    //console.log("OBJ. " + customersObj[customer].barRow);
   }
 }
 
@@ -68,45 +69,38 @@ function customerStopMoving() {
   });
 }
 /////////////////////////////////////////// BEER ///////////////////////
+var $beersDiv = $("<div class='beers'></div>");
+$("#container").append($beersDiv);
 var beersObj = {};
 var beerCount = 0;
 var pouring = false;
-var $beersDiv = $("<div class='beers'></div>");
-$("#container").append($beersDiv);
-// TO DO: need to make more than one beer be sent
+// create beer when space bar is down
 function createBeer() {
   if (!pouring) {
-    //pouring = true;pouring = true;
     //add the glass for the beer
     var $glass = $("<div class='glass'></div>");
     var $beerDiv = $("<div class='beer'></div>");
+    //do i really need this id if I have an object?
     $beerDiv.attr("id", "data-beer-index" + beerCount);
+    // position the beer next to the bartender
     $beerDiv.css("left", "500px");
     currentYbartender = $bartenderDiv.css("top");
     currentYbartender = parseInt(currentYbartender);
-    console.log(" currentYbartender " + currentYbartender);
     $beerDiv.css("top", currentYbartender + "px");
-    console.log();
-    $("#container").append($beerDiv);
+    $("#container").append($beerDiv); //this
     $beerDiv.append($glass);
 
     //beer object
     var beerObj = {};
     beerObj.id = "data-beer-index" + beerCount;
-    //beerObj.
-    beerObj.endOfBar = false;
-    beerObj.element = $beerDiv;
+    beerObj.beer = $beerDiv;
     beerObj.glass = $glass;
-
+    beerObj.endOfBar = false;
     beerObj.movingToCustomer = false; //will be false upon creation
     beerObj.movingToBartender = false; //need to check for both directions
     beerObj.barRow = 0; //this will change
     beersObj[beerCount] = beerObj;
-    //console.log(beersObj[beerCount]);
-    console.log(beerObj.element);
   }
-
-  //return $beerDiv;
 }
 
 /// get the beers per row
@@ -114,13 +108,6 @@ function getBeers(row) {
   // filter through the beers object to find the
   //beers  on a given row
 }
-
-//move the beer across the bar
-//function sendTheBeer() {
-
-//}
-
-function stopFillTheBeer() {}
 
 // TO DO : The beers will collide with several customers
 function beersServed() {
@@ -163,12 +150,11 @@ function counter() {
 var $bartenderDiv = $("<div id='bartender'></div>");
 $("#container").append($bartenderDiv);
 
-var bartenderHeight = 80;
-var bartenderYstart = 60;
-var bartenderXstart = 500;
-$bartenderDiv.css("top", bartenderYstart + "px");
-$bartenderDiv.css("left", bartenderXstart + "px");
-//$bartenderDiv.css("height", bartenderHeight + "px");
+var BARTENDER_HEIGHT = 80;
+var BARTENDER_START_Y = 60;
+var BARTENDER_START_X = 500;
+$bartenderDiv.css("top", BARTENDER_START_Y + "px");
+$bartenderDiv.css("left", BARTENDER_START_X + "px");
 var currentYbartender = 0;
 var newYbartender = 0;
 var currentXbartender = 0;
@@ -185,30 +171,30 @@ $("body").on("keydown", function(evt) {
   switch (keyPressed) {
     case 32: /////////// SPACEBAR //////////////////////////////
       if (!pouring) {
+        // create beer object and DOM element
         createBeer();
         pouring = true;
-        //$beer.css("display", "block");
-
-        //pouring the beer into the glass
+        // pouring the beer into the glass
         beersObj[beerCount].glass.animate({ height: "-=30" }, 1000, function() {
-          //once the beer is full
-          beersObj[beerCount].element.css("display", "block");
-          beersObj[beerCount].element.animate({ left: "-=460" }, 10000);
+          // animation complete - beer is full
+          beersObj[beerCount].beer.css("display", "block");
+          // move the beer across the bar
+          beersObj[beerCount].beer.animate({ left: "-=460" }, 10000);
           beersObj[beerCount].movingToCustomer = true;
+          // now its ok to pour another beer
           pouring = false;
-          beerCount++; //now its ok to pour another beer
-          //sendTheBeer();
+          beerCount++;
         });
       }
       // jump back to tap by pouring (space bar)
-      $bartenderDiv.css("left", bartenderXstart + "px");
+      $bartenderDiv.css("left", BARTENDER_START_X + "px");
       break;
     case 37: //left key LEFT //////////////////////////////
     case 65: //   a key LEFT //////////////////////////////
       newXbartender = currentXbartender - 5;
       // restrict from moving past the left of bar
-      if (newXbartender < barPadding) {
-        newXbartender = barPadding;
+      if (newXbartender < BAR_PADDING) {
+        newXbartender = BAR_PADDING;
       }
       newXbartender += "px";
       $bartenderDiv.css("left", newXbartender);
@@ -217,9 +203,9 @@ $("body").on("keydown", function(evt) {
     case 39: // right key RIGHT //////////////////////////////
     case 83: //     s key RIGHT //////////////////////////////
       newXbartender = currentXbartender + 5;
-      // restrict from moving past the tap
-      if (newXbartender > bartenderXstart) {
-        newXbartender = bartenderXstart;
+      // restrict from moving past the right
+      if (newXbartender > BARTENDER_START_X) {
+        newXbartender = BARTENDER_START_X;
       }
       newXbartender += "px";
       $bartenderDiv.css("left", newXbartender);
@@ -227,39 +213,40 @@ $("body").on("keydown", function(evt) {
     case 13: //return key UP //////////////////////////////
     case 20: //  caps key UP //////////////////////////////
     case 38: //     arrow UP //////////////////////////////
-      newYbartender = currentYbartender - barPadding - bartenderHeight / 2;
+      newYbartender = currentYbartender - BAR_PADDING - BARTENDER_HEIGHT / 2;
 
       // loop around from the top to the bottom
-      if (newYbartender < bartenderYstart) {
+      if (newYbartender < BARTENDER_START_Y) {
         newYbartender =
-          bartenderYstart + barPadding * bars + bartenderHeight / 2;
+          BARTENDER_START_Y + BAR_PADDING * BARS_AMOUNT + BARTENDER_HEIGHT / 2;
       }
       // set the y position of bartender
       newYbartender += "px";
       $bartenderDiv.css("top", newYbartender);
       // set the x position of the bartender
-      $bartenderDiv.css("left", bartenderXstart);
+      $bartenderDiv.css("left", BARTENDER_START_X);
       // TO DO : stop pouring by moving to another row
       break;
     case 16: // shift DOWN //////////////////////////////
     case 40: // arrow DOWN //////////////////////////////
-      newYbartender = currentYbartender + barPadding + bartenderHeight / 2;
+      newYbartender = currentYbartender + BAR_PADDING + BARTENDER_HEIGHT / 2;
 
       // loop around from the bottom to the top and from the top to the bottom
       var downLimit =
-        bartenderYstart + barPadding * (bars + 1) + bartenderHeight / 2;
+        BARTENDER_START_Y +
+        BAR_PADDING * (BARS_AMOUNT + 1) +
+        BARTENDER_HEIGHT / 2;
       if (newYbartender >= downLimit) {
-        newYbartender = bartenderYstart;
+        newYbartender = BARTENDER_START_Y;
       }
       // set the y position of bartender
       newYbartender += "px";
       $bartenderDiv.css("top", newYbartender);
       // set the x position of the bartender
-      $bartenderDiv.css("left", bartenderXstart);
+      $bartenderDiv.css("left", BARTENDER_START_X);
       // TO DO : stop pouring by moving to another row
       break;
     default:
-      //console.log(keyPressed);
       break;
   }
 });
@@ -270,17 +257,13 @@ $("body").on("keyup", function(evt) {
     case 32: //spacebar
       if (pouring) {
         pouring = false;
-        //$beer.css("display", "none");
-        //pouring the beer into the glass
-        beersObj[beerCount].element.css("display", "none");
+        // stop pouring the beer into the glass
+        beersObj[beerCount].beer.css("display", "none");
+        beersObj[beerCount].beer.css("height", "30px");
         beersObj[beerCount].glass.stop();
-        beersObj[beerCount].element.css("height", "30px");
-        //$(".glass").css("height", "30px");
-        //$(".glass").stop();
       }
       break;
     default:
-      //console.log(keyPressed);
       break;
   }
 });

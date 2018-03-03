@@ -1,38 +1,70 @@
 questions
+why can't i set the height of the bartender in the js?
+maybe not have a beers div that stores the beers...
+how can i set the top and left of the beer to match where
+the bartender is even though
+
+intId - counter???
 
 
 
-stop pouring by moving to another row(key up needs to be worked out)
 
 still to do/think about
-
+TO DO :
 *make a customer on each row
 *fix barteder movement between bars if he has moved left,
 *and restrict from moving to the right and left
 *detect if customer reached end of bar
 *//already in customerMoving and customerStopMoving functions
-need to make more than one beer be sent
-The beers will collide with several customers
+*need to make more than one beer be sent
+*fix the location of the beer creation
+//it should be next to the bartender, whatever bar he is at
+beersServed - The beers will collide with several customers
 the beer cannot dissappear it needs to move right
 bartender needs to catch the beer glass when moving left
 -(thats when the glass dissappears)
 
 why can't i set the height of the bartender in the js?
 
-beer is not the right colors, can wait til phase 5
+*beer is not the right colors, can wait til phase 5
+stop pouring by moving to another row
 one per row will appear for level 1,
 two per row for level 2, levels can wait til phase 5
 
 
 DO RIGHT NOW
-fix the location of the beer creation
-//it should be next to the bartender, whatever bar
-//he is at
+beersServed - The beers will collide with several customers
 
 
-need to make more than one beer be sent
 
-look at sendTheBeer function,
 commented out error lines
 ****** shift command D DUPLICATE
 ****** control command up MOVE
+
+Form Input
+https://codepen.io/tarafenton/pen/MQRWOM
+
+
+struggles to mention
+// Spacebar will TRIGGER the beer to appear, a small white square
+// send the beer and animating it with the space bar is messing me up
+// so just take it back to no keydown or keyup events and focus on the collison
+// with the customer animation and the sendthebeer animation
+// pouring animation seperate mini project
+// location of the beers
+
+//day 1 complete
+- one beer that fills
+- bartender does not move
+- one bar row with one collision
+- four bars, bartender moves to bars
+
+//day 2 complete
+- four bars with four customers that all move together
+- beer are being sent, but they are yellow and blank when
+the spacebar is held down, have to hold down spacebar
+to send the beer
+
+// day 3 complete
+
+
