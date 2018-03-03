@@ -24,12 +24,14 @@ var customersObj = {};
 
 // Create a customer per bar row
 function createCustomers() {
+  console.log("createCustomers function called");
   for (var i = 0; i < CUSTOMER_AMOUNT; i++) {
     var $customerDiv = $("<div class='customer'></div>");
     $customersDiv.append($customerDiv);
     $customerDiv.attr("id", "data-customer-index" + i);
     $customerDiv.css("top", CUSTOMER_HEIGHT / 2 * i + "px");
     $customerDiv.css("left", "30px");
+    console.log($customerDiv);
     // customer object
     var customerObj = {};
     customerObj.id = "data-customer-index" + i;
@@ -43,6 +45,12 @@ function createCustomers() {
     setTimeout(customerMoving(i), 30000 * i); // something random
   }
 }
+// function removeCustomers {
+//   for (var customer in customersObj) {
+//     //console.log("OBJ. " + customersObj[customer].barRow);
+
+//   }
+// }
 createCustomers();
 
 var beerPosition = 0;
@@ -70,23 +78,60 @@ function customerHitsBeer() {
   }
 }
 //move the customer across the bar towards the bartender
-//$("body").ready(customerMoving);
 function customerMoving(test) {
-  //beersObj[beerCount].beer;
-  console.log(customersObj[test].element);
   customersObj[test].element.animate(
     { left: "+=410" },
-    10000 * (test + 1),
+    //10000 * (test + 1), //this is where time is set
+    1000 * (test + 1), //this is where time is set
     function() {
       // Animation complete.
       // ** the customer reached the end of the bar // kill the bartender
+      //stop the game
+      stopCustomers();
+      // loose a life
+      setTimeout(lifeLost, 1000);
     }
   );
   for (var customer in customersObj) {
     //console.log("OBJ. " + customersObj[customer].barRow);
   }
 }
+function lifeLost() {
+  lives--;
+  if (lives > 0) {
+    resetGame();
+  } else {
+    endGame();
+  }
+}
+function resetGame() {
+  // create life lost screen
+  var $lifeLost = $("<div id='lifeLost'></div>");
+  $lifeLost.append("<h1>get ready to serve</h1>");
+  $("#container").append($lifeLost);
+  //clear the object to start fresh
+  $customersDiv.remove();
+  customersObj = {};
 
+  // set a timeout to remove life lost screen
+  setTimeout(removeDiv, 2000);
+  function removeDiv() {
+    $lifeLost.remove();
+    var $customersDiv = $("<div class='customers'></div>");
+    $("#container").append($customersDiv);
+    createCustomers();
+  }
+}
+function endGame() {
+  var $end = $("<div id='end'></div>");
+  $end.append("<h1>GAME OVER</h1>");
+  $("#container").append($end);
+}
+function stopCustomers() {
+  for (var customer in customersObj) {
+    customersObj[customer].element.stop();
+  }
+}
 function customerStopMoving() {
   $(".customer").css("backgroundColor", "green");
   $(".customer").animate({ left: "-=410" }, 10000, function() {
