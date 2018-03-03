@@ -38,8 +38,9 @@ function createCustomers() {
     customerObj.drinking = false;
     customerObj.endOfBar = false; // testing in an interval
     customerObj.barRow = i;
-    customerObj.startTime = i; // something random
     customersObj[i] = customerObj;
+    //customerObj.startTime = setTimeout(customerMoving(i), 30000 * i); // something random
+    setTimeout(customerMoving(i), 30000 * i); // something random
   }
 }
 createCustomers();
@@ -69,12 +70,18 @@ function customerHitsBeer() {
   }
 }
 //move the customer across the bar towards the bartender
-$("body").ready(customerMoving);
-function customerMoving() {
-  $(".customer").animate({ left: "+=410" }, 10000, function() {
-    // Animation complete.
-    // ** the customer reached the end of the bar // kill the bartender
-  });
+//$("body").ready(customerMoving);
+function customerMoving(test) {
+  //beersObj[beerCount].beer;
+  console.log(customersObj[test].element);
+  customersObj[test].element.animate(
+    { left: "+=410" },
+    10000 * (test + 1),
+    function() {
+      // Animation complete.
+      // ** the customer reached the end of the bar // kill the bartender
+    }
+  );
   for (var customer in customersObj) {
     //console.log("OBJ. " + customersObj[customer].barRow);
   }
