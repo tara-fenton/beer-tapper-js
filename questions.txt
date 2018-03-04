@@ -19,7 +19,7 @@ TO DO :
 *need to make more than one beer be sent
 *fix the location of the beer creation
 //it should be next to the bartender, whatever bar he is at
-beersServed - The beers will collide with several customers
+*beersServed - The beers will collide with several customers
 the beer cannot dissappear it needs to move right
 bartender needs to catch the beer glass when moving left
 -(thats when the glass dissappears)
@@ -33,7 +33,6 @@ two per row for level 2, levels can wait til phase 5
 
 
 DO RIGHT NOW
-beersServed - The beers will collide with several customers
 
 
 
