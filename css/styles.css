@@ -20,10 +20,6 @@
   position: absolute; /*must be absolute!*/
 }
 /*CUSTOMER */
-.customers {
-  /*position: absolute;
-  top: 60px;*/
-}
 .customer {
   background-color: red;
   width: 40px;
@@ -31,11 +27,6 @@
   position: absolute;
 }
 /*BEER */
-.beers {
-  /*position: absolute;
-  background-color: green;
-  top: 60px;*/
-}
 .beer {
   background-color: yellow;
   width: 15px;

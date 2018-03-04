@@ -6,6 +6,7 @@ var BAR_WIDTH = 400;
 // set level and points
 var level = 1;
 var points = 0;
+var levelWon = false;
 // create customers
 var CUSTOMER_AMOUNT = 4 * level;
 var CUSTOMER_HEIGHT = 80;
@@ -31,6 +32,12 @@ var beerPositionY = 0;
 // customer positions for collisions
 var cutomerPositionX = 0;
 var cutomerPositionY = 0;
+// customer collisions
+var checkForBeers = false;
+var totalCustomers = 0;
+var countCustomersReturning = 0;
+var totalBeers = 0;
+var countBeersCollected = 0;
 ///////////////////////////////////////////  DISPLAYS ///////////////////
 // container div
 var $containerDiv = $("body").append("<div id='container'></div>");
@@ -58,9 +65,6 @@ var $customersDiv = $("<div class='customers'></div>");
 $("#container").append($customersDiv);
 
 
-
-///////////////////////////////////////////  LEVEL ///////////////////
-
 /////////////////////////////////////////// BAR ///////////////////////
 // Create four rows
 // TO DO : and four taps and four doors
@@ -73,7 +77,6 @@ function createBarElements() {
     $barDiv.css("top", BAR_PADDING * i + BAR_PADDING + "px");
   }
 }
-
 /////////////////////////////////////////// CUSTOMERS ///////////////////////
 //// CREATE CUSTOMER
 // Create a customer per bar row
@@ -100,9 +103,6 @@ function createCustomers(level) {
 
 createCustomers();
 
-//// CUSTOMER COLLISONS
-
-
 //// MOVE THE CUSTOMER TO BARTENDER - ANIMATION
 // triggered in createCustomers
 // move the customer across the bar towards the bartender
@@ -121,20 +121,22 @@ function customerMovingToBartender(current) {
 //// MOVE THE CUSTOMER BACK TO DOOR - ANIMATION
 // triggered in getBeers
 // move the customer across the bar towards the door
-function customerMovingBackToDoor(currentCustomer, currentBeer) {
+function customerMovingBackToDoor(currentCustomer) {
   currentCustomer.element.css("backgroundColor", "green");
   currentCustomer.element.animate({ left: "-=420" },10000);
 }
-var levelWon = false;
+
+//// GET CUSTOMER COLLISONS - SET INTERVAL
+// interval used to test for when all customers are served
 var customerInterval = setInterval(getCustomers, 500);
-/// get the beers per row
 function getCustomers() {
-  var checkForBeers = false;
+  // set the total customers to the number of customer objects
+  totalCustomers = Object.keys(customersObj).length;
+  // will reset each time getCustomer interval is triggered
+  countCustomersReturning = 0;
   // for each customer
-  var totalCustomers = Object.keys(customersObj).length;
-  var countCustomersReturning = 0;
   for (var c = 0; c < totalCustomers; c++) {
-    //check if they are moving back and if all glasses are collected
+    //check if they are moving back
     if(!customersObj[c].movingForward) {
       //cuz they have to be moving back to door
       countCustomersReturning++;
@@ -142,27 +144,34 @@ function getCustomers() {
   }
   if (countCustomersReturning === totalCustomers) {
     checkForBeers = true;
-  } else {
-    countCustomersReturning = 0;
   }
-  var totalBeers = Object.keys(beersObj).length;
-  var countBeersCollected = 0;
+  // now that all customers are returning
+  // check if all glasses are collected
+  totalBeers = Object.keys(beersObj).length;
+  countBeersCollected = 0;
 
   if (checkForBeers) {
+    // for each beer
     for (var b = 0; b < Object.keys(beersObj).length; b++) {
-      //check if they are moving back and if all glasses are collected
+      // check if all glasses are collected
       if(beersObj[b].collected) {
-        //cuz they have to be collected
         countBeersCollected++
       }
     }
+    // ALL BEERS WERE COLLECTED - LEVEL WON!
     if (countBeersCollected === totalBeers) {
       levelWon = true;
     } else {
       countBeersCollected = 0;
     }
   }
+  /// TO DO : make this a function?
   if (levelWon) {
+    // ADD POINTS
+    // 1000 Points for completing a level
+    points += 50;
+    $pointsDiv.text(points);
+    // ADD LEVEL
     level++;
     $levelDiv.text(level);
     //reset value for next level
@@ -170,10 +179,10 @@ function getCustomers() {
     // clear the beer and customer intervals
     clearInterval(beerInterval);
     clearInterval(customerInterval);
+    // NEXT LEVEL
     nextLevel();
   }
 }
-
 /////////////////////////////////////////// BEER ///////////////////////
 //// CREATE BEER
 // Create a beer when space bar is down
@@ -206,7 +215,7 @@ function createBeer() {
 }
 
 //// GET BEERS - SET INTERVAL
-
+// interval used to test for when the beer is moving
 var beerInterval = setInterval(getBeers, 500);
 /// get the beers per row
 function getBeers() {
@@ -234,14 +243,15 @@ function getBeers() {
             // stop the beer and customer animations
             beersObj[beer].beer.stop();
             customersObj[customer].element.stop();
-            // add points
+            // ADD POINTS
+            // 50 Points for each saloon patron you send off his aisle
             points += 50;
             $pointsDiv.text(points);
             beersObj[beer].movingToCustomer = false;
             beersObj[beer].drinking = true;
             customersObj[customer].movingForward = false;
             //customersObj[customer].drinking = true;
-            customerMovingBackToDoor(customersObj[customer], beersObj[beer])
+            customerMovingBackToDoor(customersObj[customer]);
           }
         } else {
           // check if the beer reaches the left of the bar
@@ -424,9 +434,7 @@ $("body").on("keyup", function(evt) {
 });
 /////////////////////////////////////////// POINTS ///////////////////
 
-// 50 Points for each saloon patron you send off his aisle
 // 1500 Points for each tip you pick up
-// 1000 Points for completing a level
 // Bonus Level 3000 Points for getting the bonus level right
 
 ///////////////////////////////////////////  LIVES ///////////////////
@@ -446,7 +454,7 @@ function createLives() {
   }
 }
 createLives();
-
+///////////////////////////////////////////  LIFE LOST ///////////////////
 function lifeLost() {
   lives--;
   if (lives > 0) {
@@ -455,8 +463,9 @@ function lifeLost() {
     endGame();
   }
 }
+///////////////////////////////////////////  NEXT LEVEL ///////////////////
 function nextLevel() {
-  // create life lost screen
+  // create ready to serve screen
   var $readyToServe = $("<div id='readyToServe'></div>");
   $readyToServe.append("<h1>get ready to serve</h1>");
   $("#container").append($readyToServe);

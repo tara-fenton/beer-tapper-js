@@ -24,6 +24,7 @@ TO DO :
 *the beer cannot dissappear it needs to move right
 *bartender needs to catch the beer glass when moving left
 -(thats when the glass dissappears)
+*glass animation faster - white return
 
 why can't i set the height of the bartender in the js?
 
@@ -35,8 +36,10 @@ two per row for level 2, levels can wait til phase 5
 
 DO RIGHT NOW
 
-glass animation
-bartender catch glass
+
+style game over screen
+fix lives to match the lives the player has
+
 
 
 commented out error lines
@@ -87,3 +90,8 @@ insert quarter to start game,
 it would be cool to be able to
 set the number of lives to more than 3
 
+//day 4
+customersObj.customerObj.length
+found Object.keys(beersObj).length
+//changed to 2 customers to work out the logic
+of winning a level
