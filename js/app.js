@@ -161,6 +161,7 @@ $("#container").append($beersDiv);
 var beersObj = {};
 var beerCount = 0;
 var pouring = false;
+var pouringSent = false;
 
 //// CREATE BEER
 // Create a beer when space bar is down
@@ -191,6 +192,7 @@ function createBeer() {
     beersObj[beerCount] = beerObj;
   }
 }
+
 //// GET BEERS - SET INTERVAL
 // Get the positions for testing collisons
 var beerPositionX = 0;
@@ -314,8 +316,9 @@ $("body").on("keydown", function(evt) {
           // move the beer across the bar
           beersObj[beerCount].beer.animate({ left: "-=460" }, 10000);
           beersObj[beerCount].movingToCustomer = true;
+          pouringSent = true;
           // now its ok to pour another beer
-          pouring = false;
+          // pouring = false;
           // beerCount++;
         });
       }
@@ -388,22 +391,25 @@ $("body").on("keyup", function(evt) {
   var keyPressed = event.which;
   switch (keyPressed) {
     case 32: //spacebar
-      if (pouring) {
+      if (pouring && !pouringSent) {
         pouring = false;
         // stop pouring the beer into the glass
         beersObj[beerCount].beer.css("display", "none");
         beersObj[beerCount].beer.css("height", "30px");
         beersObj[beerCount].glass.stop();
+        // check if the beer is being sent to customer
 
 
       }
-      if (beersObj[beerCount].movingToCustomer) {
+      if (pouring && pouringSent) {
+        // add it to the beers
          beerCount++;
-      } else {
-          beersObj = {};
+         pouring = false;
+         pouringSent = false;
+         console.log("in the if"+beerCount)
 
       }
-      break;
+
     default:
       break;
   }
