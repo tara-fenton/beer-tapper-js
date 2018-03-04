@@ -353,10 +353,14 @@ var $pointsDiv = $("<div id='points'></div>");
 $pointsDiv.append(points);
 $("#container").append($pointsDiv);
 // 50 Points for each saloon patron you send off his aisle
-// 100 Points for each empty mug you pick up
 // 1500 Points for each tip you pick up
 // 1000 Points for completing a level
 // Bonus Level 3000 Points for getting the bonus level right
+///////////////////////////////////////////  lEVEL ///////////////////
+var level = 1;
+var $levelDiv = $("<div id='level'></div>");
+$levelDiv.append(level);
+$("#container").append($levelDiv);
 ///////////////////////////////////////////  LIVES ///////////////////
 var lives = 3;
 function createLives() {

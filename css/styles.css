@@ -5,21 +5,21 @@
   width: 600px;
   height: 600px;
 }
-/*BAR A brown rectangle for the row*/
+/*BAR */
 .bar {
   background-color: brown;
   width: 400px;
   height: 40px;
   position: relative;
 }
-/*BARTENDER A purple square for bartender*/
+/*BARTENDER */
 #bartender {
   background-color: purple;
   width: 40px;
   height: 80px; /*must be set here, tried to put it in the js*/
   position: absolute; /*must be absolute!*/
 }
-/*CUSTOMER The customer will be a red square moving to the right*/
+/*CUSTOMER */
 .customers {
   /*position: absolute;
   top: 60px;*/
@@ -30,7 +30,7 @@
   height: 80px;
   position: absolute;
 }
-/*BEER The beer will be white for 2 seconds and change to yellow before it will be sent down the row*/
+/*BEER */
 .beers {
   /*position: absolute;
   background-color: green;
@@ -50,17 +50,23 @@
   height: 30px;
   position: relative;
 }
-/*POINTS The beer will be white for 2 seconds and change to yellow before it will be sent down the row*/
-#points {
+/*POINTS and LEVEL DISPLAYS */
+#points, #level {
   font-family: "Mina";
   font-size: 26px;
   padding: 0 0 0 15px;
   height: 30px;
   color: white;
   position: absolute;
+}
+#points {
   top: 15px;
 }
-/*LIVES The beer will be white for 2 seconds and change to yellow before it will be sent down the row*/
+#level {
+  top: 560px;
+  left: 560px;
+}
+/*LIVES and END DISPLAYS */
 #lives {
   position: absolute;
   top: 10px;
