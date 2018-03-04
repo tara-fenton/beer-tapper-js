@@ -24,14 +24,20 @@ var CUSTOMER_HEIGHT = 80;
 var customersObj = {};
 
 //// CREATE CUSTOMER
+var BARTENDER_START_Y = 60;
+var BARTENDER_START_X = 500;
+//$bartenderDiv.css("top", BARTENDER_START_Y + "px");
 // Create a customer per bar row
 function createCustomers() {
-  console.log("createCustomers function called");
   for (var i = 0; i < CUSTOMER_AMOUNT; i++) {
     var $customerDiv = $("<div class='customer'></div>");
     $customersDiv.append($customerDiv);
     $customerDiv.attr("id", "data-customer-index" + i);
-    $customerDiv.css("top", CUSTOMER_HEIGHT / 2 * i + "px");
+   // $customerDiv.css("top", CUSTOMER_HEIGHT / 2 * i + "px");
+    //$customerDiv.css("top", BAR_PADDING * i + BAR_PADDING + BARTENDER_START_Y +"px");
+    //newYbartender = BARTENDER_START_Y + BAR_PADDING + CUSTOMER_HEIGHT / 2;
+    $customerDiv.css("top", + (CUSTOMER_HEIGHT / 2 + BAR_PADDING) * i + BARTENDER_START_Y +"px");
+    console.log(BAR_PADDING * i + BARTENDER_START_Y)
     $customerDiv.css("left", "30px");
     console.log($customerDiv);
     // customer object
@@ -96,7 +102,7 @@ var beerCount = 0;
 var pouring = false;
 
 //// CREATE BEER
-// Create a beer when space bar is downw
+// Create a beer when space bar is down
 function createBeer() {
   if (!pouring) {
     //add the glass for the beer
@@ -124,11 +130,13 @@ function createBeer() {
     beersObj[beerCount] = beerObj;
   }
 }
+//// GET BEERS - SET INTERVAL
+// Get the positions for testing collisons
 var beerPositionX = 0;
 var beerPositionY = 0;
 var cutomerPositionX = 0;
 var cutomerPositionY = 0;
-var beerInterval = setInterval(getBeers);
+var beerInterval = setInterval(getBeers, 500);
 /// get the beers per row
 function getBeers() {
   for (var beer in beersObj) {

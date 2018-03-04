@@ -21,20 +21,20 @@
 }
 /*CUSTOMER The customer will be a red square moving to the right*/
 .customers {
-  position: absolute;
-  top: 60px;
+  /*position: absolute;
+  top: 60px;*/
 }
 .customer {
   background-color: red;
   width: 40px;
   height: 80px;
-  position: relative;
+  position: absolute;
 }
 /*BEER The beer will be white for 2 seconds and change to yellow before it will be sent down the row*/
 .beers {
-  position: absolute;
+  /*position: absolute;
   background-color: green;
-  top: 60px;
+  top: 60px;*/
 }
 .beer {
   background-color: yellow;
