@@ -97,7 +97,50 @@ function customerMovingBackToDoor(currentCustomer, currentBeer) {
   currentCustomer.element.css("backgroundColor", "green");
   currentCustomer.element.animate({ left: "-=420" },10000);
 }
-
+var levelWon = false;
+var customerInterval = setInterval(getCustomers, 500);
+/// get the beers per row
+function getCustomers() {
+  var checkForBeers = false;
+  // for each customer
+  //for (var customer in customersObj) {
+    //console.log(customersObj.customerObj.length);
+  for (var c = 0; c < Object.keys(customersObj).length; c++) {
+    //console.log(customersObj[c].movingForward)
+    //check if they are moving back and if all glasses are collected
+    if(customersObj[c].movingForward) {
+      //cuz they have to be moving back to door
+      break;
+    } else {
+      //set variable to check for beer now
+      checkForBeers = true;
+    }
+  }
+  //console.log(Object.keys(beersObj).length)
+  if (checkForBeers) {
+    for (var b = 0; b < Object.keys(beersObj).length; b++) {
+      //check if they are moving back and if all glasses are collected
+      if(!beersObj[b].collected) {
+        //cuz they have to be collected
+        break;
+      } else {
+        //set variable to check for beer now
+        levelWon = true;
+      }
+    }
+  }
+  if (levelWon) {
+    console.log("level won!")
+  }
+}
+  // for each beer
+  // for (var beer in beersObj) {
+  //   //check if the beer is moving to the customer
+  //   if (beersObj[beer].movingToCustomer) {
+  //     // get the current position of the beer
+  //     beerPositionX = parseInt(beersObj[beer].beer.css("left"));
+  //     beerPositionY = parseInt(beersObj[beer].beer.css("top"));
+  //
 /////////////////////////////////////////// BEER ///////////////////////
 //// BEER DISPLAY
 var $beersDiv = $("<div class='beers'></div>");
@@ -131,7 +174,8 @@ function createBeer() {
     beerObj.drinking = false;
     beerObj.movingToCustomer = false; //will be false upon creation
     beerObj.movingToBartender = false; //need to check for both directions
-    beerObj.barRow = 0; //this will change
+    beerObj.collected = false; //used to check for win level
+    //beerObj.barRow = 0; //this will change
     beersObj[beerCount] = beerObj;
   }
 }
@@ -186,7 +230,7 @@ function getBeers() {
     }
     // check if the beer is being drunk
     if (beersObj[beer].drinking) {
-      console.log("drinking")
+      // TO DO : drinking animation
       beersObj[beer].drinking = false;
       beersObj[beer].movingToBartender = true;
       //send the glass of beer back
@@ -210,6 +254,7 @@ function getBeers() {
         beersObj[beer].beer.remove();
         beersObj[beer].movingToBartender = false;
         // 100 Points for each empty mug you pick up
+        beersObj[beer].collected = true;
         points += 100;
         $pointsDiv.text(points);
 
