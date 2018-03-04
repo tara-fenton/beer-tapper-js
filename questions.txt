@@ -20,8 +20,9 @@ TO DO :
 *fix the location of the beer creation
 //it should be next to the bartender, whatever bar he is at
 *beersServed - The beers will collide with several customers
-the beer cannot dissappear it needs to move right
-bartender needs to catch the beer glass when moving left
+*fix the lives when too many beers are sent
+*the beer cannot dissappear it needs to move right
+*bartender needs to catch the beer glass when moving left
 -(thats when the glass dissappears)
 
 why can't i set the height of the bartender in the js?
@@ -34,6 +35,8 @@ two per row for level 2, levels can wait til phase 5
 
 DO RIGHT NOW
 
+glass animation
+bartender catch glass
 
 
 commented out error lines

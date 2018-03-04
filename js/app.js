@@ -2,7 +2,7 @@
 var $containerDiv = $("body").append("<div id='container'></div>");
 var BARS_AMOUNT = 4;
 var BAR_PADDING = 80;
-
+var BAR_WIDTH = 400;
 // Create four rows
 // TO DO : and four taps and four doors
 function createBarElements() {
@@ -38,7 +38,7 @@ function createCustomers() {
     customerObj.id = "data-customer-index" + i;
     customerObj.element = $customerDiv;
     customerObj.movingForward = true;
-    customerObj.drinking = false;
+    //customerObj.drinking = false;
     customerObj.barRow = i;
     customersObj[i] = customerObj;
     //customerObj.startTime = setTimeout(customerMoving(i), 30000 * i); // something random
@@ -128,7 +128,7 @@ function createBeer() {
     beerObj.id = "data-beer-index" + beerCount;
     beerObj.beer = $beerDiv;
     beerObj.glass = $glass;
-    //beerObj.endOfBar = false;
+    beerObj.drinking = false;
     beerObj.movingToCustomer = false; //will be false upon creation
     beerObj.movingToBartender = false; //need to check for both directions
     beerObj.barRow = 0; //this will change
@@ -159,6 +159,7 @@ function getBeers() {
           customerPositionY = parseInt(customersObj[customer].element.css("top"));
           // check if the y positions of the beer and customer match
           // and check if the beer and customer collided
+          // check if the customer gets a beer
           if (beerPositionY === customerPositionY &&
              customerPositionX + 40 > beerPositionX) {
             // stop the beer and customer animations
@@ -168,34 +169,60 @@ function getBeers() {
             points += 50;
             $pointsDiv.text(points);
             beersObj[beer].movingToCustomer = false;
+            beersObj[beer].drinking = true;
             customersObj[customer].movingForward = false;
+            //customersObj[customer].drinking = true;
             customerMovingBackToDoor(customersObj[customer], beersObj[beer])
           }
         } else {
-          // check if beer reached the door without customer
-          // to drink the beer
+          // check if the beer reaches the left of the bar
+          // without customer to drink the beer
           if (beerPositionX < 100) {
             //die
             killTheBartender();
           }
         }
       }
-    } else if (!beersObj[beer].movingToCustomer &&
-      !beersObj[beer].movingToBartender) {
+    }
+    // check if the beer is being drunk
+    if (beersObj[beer].drinking) {
+      console.log("drinking")
+      beersObj[beer].drinking = false;
+      beersObj[beer].movingToBartender = true;
+      //send the glass of beer back
+      beersObj[beer].beer.animate({ left: "+=460" }, 30000);
+    }
+    // check if the beer glass is being send back to bartender
+    if (beersObj[beer].movingToBartender) {
+      // get the current position of the beer
+      beerPositionX = parseInt(beersObj[beer].beer.css("left"));
+      beerPositionY = parseInt(beersObj[beer].beer.css("top"));
+      // get the current x and y of bartender
+      currentYbartender = $bartenderDiv.css("top");
+      currentYbartender = parseInt(currentYbartender);
+      currentXbartender = $bartenderDiv.css("left");
+      currentXbartender = parseInt(currentXbartender);
+      //check for collision with the bartender
+      if (beerPositionY === currentYbartender &&
+             beerPositionX > currentXbartender) {
+        //remove the glass of beer
+        beersObj[beer].beer.stop();
+        beersObj[beer].beer.remove();
+        beersObj[beer].movingToBartender = false;
+        // 100 Points for each empty mug you pick up
+        points += 100;
+        $pointsDiv.text(points);
 
-      // TO DO : drinking the beer
-      //beerObj[beer].movingToBartender = true;
-      // it is moving to the bartender
-    } else {
-
+      }
+      //check if the beer glass reaches the right of the bar
+      //if the glass reaches the end kill the bartender
+      if (beerPositionX > BAR_PADDING + BAR_WIDTH) {
+        //die
+        killTheBartender();
+      }
     }
   }
 }
-//check if the customer gets a beer
-//check if the beer reaches the left of the bar
-//check if the beer glass reaches the right of the bar
-
-
 /////////////////////////////////////////// BARTENDER /////////////////
 // A purple square for bartender
 var $bartenderDiv = $("<div id='bartender'></div>");
