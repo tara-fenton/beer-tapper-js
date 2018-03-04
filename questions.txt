@@ -66,5 +66,22 @@ the spacebar is held down, have to hold down spacebar
 to send the beer
 
 // day 3 complete
+TO DO :
+Ways to lose a guy:
 
+Customer makes it to the end of the row without getting a beer
+Bartender sent too many beers
+Bartender does not collect the empty glass
+Points:
+
+Add points to events
+Add points display
+
+Goal have lives lost when customer reaches the each
+get the customers to come in at different intervals
+
+easter egg
+insert quarter to start game,
+it would be cool to be able to
+set the number of lives to more than 3
 
