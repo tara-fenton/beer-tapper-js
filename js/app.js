@@ -24,22 +24,15 @@ var CUSTOMER_HEIGHT = 80;
 var customersObj = {};
 
 //// CREATE CUSTOMER
-var BARTENDER_START_Y = 60;
-var BARTENDER_START_X = 500;
-//$bartenderDiv.css("top", BARTENDER_START_Y + "px");
+var CUSTOMER_START_Y = 60;
 // Create a customer per bar row
 function createCustomers() {
   for (var i = 0; i < CUSTOMER_AMOUNT; i++) {
     var $customerDiv = $("<div class='customer'></div>");
     $customersDiv.append($customerDiv);
     $customerDiv.attr("id", "data-customer-index" + i);
-   // $customerDiv.css("top", CUSTOMER_HEIGHT / 2 * i + "px");
-    //$customerDiv.css("top", BAR_PADDING * i + BAR_PADDING + BARTENDER_START_Y +"px");
-    //newYbartender = BARTENDER_START_Y + BAR_PADDING + CUSTOMER_HEIGHT / 2;
-    $customerDiv.css("top", + (CUSTOMER_HEIGHT / 2 + BAR_PADDING) * i + BARTENDER_START_Y +"px");
-    console.log(BAR_PADDING * i + BARTENDER_START_Y)
+    $customerDiv.css("top", + (CUSTOMER_HEIGHT / 2 + BAR_PADDING) * i + CUSTOMER_START_Y +"px");
     $customerDiv.css("left", "30px");
-    console.log($customerDiv);
     // customer object
     var customerObj = {};
     customerObj.id = "data-customer-index" + i;
@@ -139,101 +132,36 @@ var cutomerPositionY = 0;
 var beerInterval = setInterval(getBeers, 500);
 /// get the beers per row
 function getBeers() {
+  // for each beer
   for (var beer in beersObj) {
-    beerPositionX = parseInt(beersObj[beer].beer.css("left"));
-    beerPositionY = parseInt(beersObj[beer].beer.css("top"));
-    console.log("beerPosition " + beerPositionY);
-    //beersObj[beer].beer.stop();
-    for (var customer in customersObj) {
-      customerPositionX = parseInt(customersObj[customer].element.css("left"));
-      customerPositionY = parseInt(customersObj[customer].element.css("top"));
-      console.log("customerPosition " + customerPositionY);
-      // if () {
-
-      // }
-      //this is where the test should be
+    //check if the beer is moving to the customer
+    if (beersObj[beer].movingToCustomer) {
+      // get the current position of the beer
+      beerPositionX = parseInt(beersObj[beer].beer.css("left"));
+      beerPositionY = parseInt(beersObj[beer].beer.css("top"));
+      // for each customer
+      for (var customer in customersObj) {
+        // get the current position of the customer
+        customerPositionX = parseInt(customersObj[customer].element.css("left"));
+        customerPositionY = parseInt(customersObj[customer].element.css("top"));
+        // check if the y positions of the beer and customer match
+        // and check if the beer and customer collided
+        if (beerPositionY === customerPositionY &&
+           customerPositionX + 40 > beerPositionX) {
+          // stop the beer and customer animations
+          beersObj[beer].beer.stop();
+          customersObj[customer].element.stop();
+        }
+      }
+    } else {
+      // it is moving to the bartender
     }
   }
-
-  // function getBeers(row) {
-  // filter through the beers object to find the
-  //beers  on a given row
 }
 //check if the customer gets a beer
 //check if the beer reaches the left of the bar
 //check if the beer glass reaches the right of the bar
 
-// TO DO : The beers will collide with several customers
-
-// var getCustomerHits = setInterval(customerHitsBeer, 100);
-// function customerHitsBeer() {
-//   // loop through the customer
-//   for (var customer in customersObj) {
-//     // get the position of the customer
-//     // loop through the customers
-//     for (var beer in beersObj) {
-//       // get the position of the beer and customer
-//       beerPosition = parseInt(beersObj[beer].beer.css("left"));
-//       customerPosition = parseInt(customersObj[customer].element.css("left"));
-//       console.log(beerPosition, customerPosition);
-//       //test for collision
-//       if (beerPosition < cutomerPosition + 40) {
-//         clearInterval(customerHitsBeer);
-//         console.log(" WE HAVE COLLISION " + beerPosition);
-//       }
-//     }
-//   }
-// }
-// TO DO : The beers will collide with several customers
-//var intId = setInterval(beersServed, 100);//this will go in get beers
-// var beerPosition = 0;
-// var cutomerPosition = 0;
-//on enterframe
-// function beersServed() {
-//   // loop through the beers
-//   for (var beer in beersObj) {
-//     // set the position
-//     beerPosition = beersObj[beer].beer.css("left");
-//     // loop through the customers
-//     for (var customer in customersObj) {
-//       cutomerPosition = customersObj[customer].element.css("left");
-//       //test for collision
-//       if (beerPosition < cutomerPosition + 40) {
-//         //console.log(" WE HAVE COLLISION " + beerPosition, cutomerPosition);
-//       }
-//     }
-//   }
-// }
-/////////////////////////////////////////// SET INTERVAL - COLLISONS ///////////
-/// set an interval to constantly test for collison
-//var intId = setInterval(counter, 100);
-// var $beerPosition = 700;
-// var $customerPosition;
-// //var beerIsBeingSent = false;
-// function counter() {
-//   $beerPosition = $beerDiv.position();
-//   //$customerPosition = $customer.position(); // HELP!!!
-//   //if customer and beer collide
-//   // 40 is the width of the customer // how can i grab that value?
-//   if (beerIsBeingSent) {
-//     // change this to check per beer???
-//     if ($beerPosition.left < $customerPosition.left + 40) {
-//       //console.log("WE HAVE COLLIDED!");
-//       clearInterval(intId);
-//       // this is where the customer will drink the beer
-//       // for now just remove the beer
-//       //beersObj[beerCount].movingToCustomer = true;
-//       //$beer.remove();
-//       // TO DO: the beer cannot dissappear it needs to move right
-//       // and change the direction of the customer to go back to the left/..door
-//       //stop the customer animation
-//       // stop , finish , clearque
-//       $customer.stop();
-//       customerStopMoving();
-//     }
-//   }
-// }
-//}
 //// STOP THE BEERS
 // triggered in customerMoving
 function stopBeers() {

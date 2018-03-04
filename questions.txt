@@ -1,4 +1,4 @@
-questions
+øquestions
 why can't i set the height of the bartender in the js?
 maybe not have a beers div that stores the beers...
 how can i set the top and left of the beer to match where
@@ -77,9 +77,9 @@ Points:
 Add points to events
 Add points display
 
-Goal have lives lost when customer reaches the each
-get the customers to come in at different intervals
-
+*Goal have lives lost when customer reaches the end
+*get the customers to come in at different intervals
+*beer collision dection
 easter egg
 insert quarter to start game,
 it would be cool to be able to
