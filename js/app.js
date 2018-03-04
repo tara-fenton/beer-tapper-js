@@ -81,7 +81,7 @@ function createBarElements() {
 /////////////////////////////////////////// CUSTOMERS ///////////////////////
 //// CREATE CUSTOMER
 // Create a customer per bar row
-function createCustomers(level) {
+function createCustomers() {
   for (var i = 0; i < CUSTOMER_AMOUNT; i++) {
     var $customerDiv = $("<div class='customer'></div>");
     $customersDiv.append($customerDiv);
@@ -98,6 +98,7 @@ function createCustomers(level) {
     customersObj[i] = customerObj;
     //customerObj.startTime = setTimeout(customerMoving(i), 30000 * i); // something random
     // TO DO : fix the speed of the customers coming out
+    //setTimeout(customerMovingToBartender(i), 30000 * i); // something random
     setTimeout(customerMovingToBartender(i), 30000 * i); // something random
   }
 }
@@ -110,8 +111,8 @@ createCustomers();
 function customerMovingToBartender(current) {
   customersObj[current].element.animate(
     { left: "+=420" },
-    10000 * (current + 1), //this is where time is set
-    //1000 * (test + 1), //fast cutomers for testing
+    //10000 * (current + 1), //this is where time is set
+    1000 * (current + 1), //fast cutomers for testing
     function() {
       //// KILL THE BARTENDER, CUSTOMER AT END OF BAR
       killTheBartender();
@@ -326,7 +327,7 @@ function killTheBartender(){
     beersObj[beer].beer.movingToBartender = false;
   }
   // loose a life
-  setTimeout(lifeLost, 3000);
+  setTimeout(lifeLost, 1500);
 }
 /////////////////////////////////////////// KEY DOWN /////////////////
 $("body").on("keydown", function(evt) {
@@ -446,11 +447,14 @@ $("body").on("keyup", function(evt) {
 // Bonus Level 3000 Points for getting the bonus level right
 
 ///////////////////////////////////////////  LIVES ///////////////////
-
+// create a div to hold the lives
+var $lives = $("<div id='lives'></div>");
+$("#container").append($lives);
 function createLives() {
-  // create a div to hold the lives
-  var $lives = $("<div id='lives'></div>");
-  $("#container").append($lives);
+var $lives = $("<div id='lives'></div>");
+
+$("#container").append($lives);
+  console.log("lives in create lives "+lives)
   for (var i = 0; i < lives; i++) {
     //create a beer per life
     var $beerDiv = $("<div class='beer'></div>");
@@ -462,11 +466,20 @@ function createLives() {
   }
 }
 createLives();
+function removeLives() {
+  for (var i = 0; i < lives; i++) {
+    $("data-lives-index" + i).remove();
+  }
+}
 ///////////////////////////////////////////  LIFE LOST ///////////////////
 function lifeLost() {
   // for presentation
   // console.log('lifeLost')
+  $lives.remove();
+  removeLives();
   lives--;
+  console.log("lives "+lives)
+  createLives();
   if (lives > 0) {
     nextLevel();
   } else {
@@ -482,6 +495,17 @@ function nextLevel() {
   var $readyToServe = $("<div id='readyToServe'></div>");
   $readyToServe.append("<h1>get ready to serve</h1>");
   $("#container").append($readyToServe);
+
+  removeObjects();
+
+  // set a timeout to remove ready to serve screen
+  setTimeout(removeDiv, 2000);
+  function removeDiv() {
+    $readyToServe.remove();
+    newLevel();
+  }
+}
+function removeObjects(){
   // remove the customer elements
   for (var customer in customersObj) {
     customersObj[customer].element.remove();
@@ -498,21 +522,30 @@ function nextLevel() {
   beerCount = 0;
   // bartender to start at the left
   $bartenderDiv.css("left", BARTENDER_START_X + "px");
-  // set a timeout to remove ready to serve screen
-  setTimeout(removeDiv, 3000);
-  function removeDiv() {
-    $readyToServe.remove();
-    // create customers for new round
-    createCustomers(level);
-    // reset the beer and customer intervals
-    beerInterval = setInterval(getBeers, 500);
-    customerInterval = setInterval(getCustomers, 500);
-  }
+}
+function newLevel() {
+  // create customers for new level/game
+  createCustomers();
+  // reset the beer and customer intervals
+  beerInterval = setInterval(getBeers, 500);
+  customerInterval = setInterval(getCustomers, 500);
 }
 /////////////////////////////////////////// END GAME /////////////////
+
 function endGame() {
   var $end = $("<div id='end'></div>");
   $end.append("<h1>GAME OVER</h1>");
-  $end.append("<button>insert quarter</button>");
+  $resetGame = $("<button id='resetGame'>insert quarter</button>");
+  $end.append($resetGame);
   $("#container").append($end);
+
+  $resetGame.on('click', function resetGame() {
+  console.log("rest game");
+  $end.remove();
+  lives = 3;
+  level = 1;
+  removeObjects();
+  newLevel();
+});
 }
+
