@@ -79,14 +79,14 @@
 #lives .beer {
   display: block;
 }
-#lifeLost {
+#readyToServe {
   background-color: red;
   width: 600px;
   height: 600px;
   position: absolute;
   top: 8px;
 }
-#lifeLost h1,
+#readyToServe h1,
 #end h1 {
   font-family: "Mina";
   text-align: center;
