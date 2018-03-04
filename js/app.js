@@ -37,13 +37,13 @@ function createCustomers() {
     var customerObj = {};
     customerObj.id = "data-customer-index" + i;
     customerObj.element = $customerDiv;
-    customerObj.movingForward = true;
+    //customerObj.movingForward = true;
     customerObj.drinking = false;
     customerObj.barRow = i;
     customersObj[i] = customerObj;
     //customerObj.startTime = setTimeout(customerMoving(i), 30000 * i); // something random
     // TO DO : fix the speed of the customers coming out
-    setTimeout(customerMoving(i), 30000 * i); // something random
+    setTimeout(customerMovingToBartender(i), 30000 * i); // something random
   }
 }
 
@@ -53,12 +53,12 @@ createCustomers();
 var beerPosition = 0;
 var cutomerPosition = 0;
 
-//// MOVE THE CUSTOMER - ANIMATION
+//// MOVE THE CUSTOMER TO BARTENDER - ANIMATION
 // triggered in createCustomers
 // move the customer across the bar towards the bartender
-function customerMoving(current) {
+function customerMovingToBartender(current) {
   customersObj[current].element.animate(
-    { left: "+=410" },
+    { left: "+=420" },
     10000 * (current + 1), //this is where time is set
     //1000 * (test + 1), //fast cutomers for testing
     function() {
@@ -71,7 +71,25 @@ function customerMoving(current) {
     }
   );
 }
-
+//// MOVE THE CUSTOMER BACK TO DOOR - ANIMATION
+// triggered in getBeers
+// move the customer across the bar towards the bartender
+function customerMovingBackToDoor(currentCustomer, currentBeer) {
+  currentCustomer.element.animate(
+    { left: "-=420",
+    backgroundColor: "green" },
+    10000, //this is where time is set
+    //1000 * (test + 1), //fast cutomers for testing
+    function() {
+      //// KILL THE BARTENDER, CUSTOMER AT END OF BAR
+      //stop the game
+      // stopCustomers();
+      // stopBeers();
+      // // loose a life
+      // setTimeout(lifeLost, 1000);
+    }
+  );
+}
 //// STOP THE CUSTOMERS
 // triggered in customerMoving
 function stopCustomers() {
@@ -151,10 +169,21 @@ function getBeers() {
           // stop the beer and customer animations
           beersObj[beer].beer.stop();
           customersObj[customer].element.stop();
+          // add points
+          points += 50;
+          $pointsDiv.text(points);
+          beersObj[beer].movingToCustomer = false;
+          customerMovingBackToDoor(customersObj[customer], beersObj[beer])
         }
       }
-    } else {
+    } else if (!beersObj[beer].movingToCustomer &&
+      !beersObj[beer].movingToBartender) {
+
+      // TO DO : drinking the beer
+      //beerObj[beer].movingToBartender = true;
       // it is moving to the bartender
+    } else {
+
     }
   }
 }
@@ -299,6 +328,11 @@ var points = 0;
 var $pointsDiv = $("<div id='points'></div>");
 $pointsDiv.append(points);
 $("#container").append($pointsDiv);
+// 50 Points for each saloon patron you send off his aisle
+// 100 Points for each empty mug you pick up
+// 1500 Points for each tip you pick up
+// 1000 Points for completing a level
+// Bonus Level 3000 Points for getting the bonus level right
 ///////////////////////////////////////////  LIVES ///////////////////
 var lives = 3;
 function createLives() {
