@@ -19,7 +19,7 @@ createBarElements();
 //// CUSTOMER DISPLAY
 var $customersDiv = $("<div class='customers'></div>");
 $("#container").append($customersDiv);
-var CUSTOMER_AMOUNT = 4;
+var CUSTOMER_AMOUNT = 2;
 var CUSTOMER_HEIGHT = 80;
 var customersObj = {};
 
@@ -105,28 +105,41 @@ function getCustomers() {
   // for each customer
   //for (var customer in customersObj) {
     //console.log(customersObj.customerObj.length);
-  for (var c = 0; c < Object.keys(customersObj).length; c++) {
+  var totalCustomers = Object.keys(customersObj).length;
+  var countCustomersReturning = 0;
+  for (var c = 0; c < totalCustomers; c++) {
     //console.log(customersObj[c].movingForward)
     //check if they are moving back and if all glasses are collected
-    if(customersObj[c].movingForward) {
+    if(!customersObj[c].movingForward) {
       //cuz they have to be moving back to door
-      break;
-    } else {
-      //set variable to check for beer now
-      checkForBeers = true;
+      countCustomersReturning++;
     }
   }
-  //console.log(Object.keys(beersObj).length)
+  if (countCustomersReturning === totalCustomers) {
+    checkForBeers = true;
+  } else {
+    countCustomersReturning = 0;
+  }
+  var totalBeers = Object.keys(beersObj).length;
+  var countBeersCollected = 0;
+
+  console.log(totalBeers)
   if (checkForBeers) {
     for (var b = 0; b < Object.keys(beersObj).length; b++) {
       //check if they are moving back and if all glasses are collected
-      if(!beersObj[b].collected) {
+      if(beersObj[b].collected) {
         //cuz they have to be collected
-        break;
-      } else {
-        //set variable to check for beer now
-        levelWon = true;
+        countBeersCollected++
       }
+      // else {
+      //   //set variable to check for beer now
+      //   levelWon = true;
+      // }
+    }
+    if (countBeersCollected === totalBeers) {
+      levelWon = true;
+    } else {
+      countBeersCollected = 0;
     }
   }
   if (levelWon) {
@@ -160,11 +173,10 @@ function createBeer() {
     $beerDiv.attr("id", "data-beer-index" + beerCount);
     // position the beer next to the bartender
     $beerDiv.css("left", "472px");
-    currentYbartender = $bartenderDiv.css("top");
-    currentYbartender = parseInt(currentYbartender);
+    currentYbartender = parseInt($bartenderDiv.css("top"));
     $beerDiv.css("top", currentYbartender + "px");
-    $("#container").append($beerDiv); //this
     $beerDiv.append($glass);
+    $("#container").append($beerDiv);
 
     //beer object
     var beerObj = {};
@@ -285,10 +297,8 @@ var newXbartender = 0;
 /////////////////////////////////////////// KEY DOWN /////////////////
 $("body").on("keydown", function(evt) {
   // get the current x and y of bartender
-  currentYbartender = $bartenderDiv.css("top");
-  currentYbartender = parseInt(currentYbartender);
-  currentXbartender = $bartenderDiv.css("left");
-  currentXbartender = parseInt(currentXbartender);
+  currentYbartender = parseInt($bartenderDiv.css("top"));
+  currentXbartender = parseInt($bartenderDiv.css("left"));
 
   var keyPressed = event.which;
   switch (keyPressed) {
@@ -298,16 +308,15 @@ $("body").on("keydown", function(evt) {
         createBeer();
         pouring = true;
         // pouring the beer into the glass
+        beersObj[beerCount].beer.css("display", "block");
         beersObj[beerCount].glass.animate({ height: "-=30" }, 1000, function() {
           //// BEER IS FULL, ANIMATION COMPLETE
-          beersObj[beerCount].beer.css("display", "block");
           // move the beer across the bar
-          // TO DO : INTERVAL TO CHECK IF BEER HITS COSTUMER
           beersObj[beerCount].beer.animate({ left: "-=460" }, 10000);
           beersObj[beerCount].movingToCustomer = true;
           // now its ok to pour another beer
           pouring = false;
-          beerCount++;
+          // beerCount++;
         });
       }
       // jump back to tap by pouring (space bar)
@@ -385,6 +394,14 @@ $("body").on("keyup", function(evt) {
         beersObj[beerCount].beer.css("display", "none");
         beersObj[beerCount].beer.css("height", "30px");
         beersObj[beerCount].glass.stop();
+
+
+      }
+      if (beersObj[beerCount].movingToCustomer) {
+         beerCount++;
+      } else {
+          beersObj = {};
+
       }
       break;
     default:
