@@ -4,6 +4,8 @@
   background-color: black;
   width: 600px;
   height: 600px;
+  position: relative;
+  margin: 0 auto;
 }
 /*BAR */
 .bar {
@@ -75,7 +77,7 @@
   width: 600px;
   height: 600px;
   position: absolute;
-  top: 8px;
+  top: 0;
 }
 #readyToServe h1,
 #end h1 {
@@ -90,5 +92,17 @@
   width: 600px;
   height: 600px;
   position: absolute;
-  top: 8px;
+  top: 0;
 }
+button {
+  font-family: "Mina";
+  border: none;
+  color: purple;
+  padding: 5px 15px;
+  font-size: 26px;
+  position: absolute;
+  top: 340px;
+  left: 210px;
+}
+/*to remove the blue highlight on button*/
+button:focus {outline:0;}

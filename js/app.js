@@ -3,8 +3,9 @@
 var BARS_AMOUNT = 4;
 var BAR_PADDING = 80;
 var BAR_WIDTH = 400;
-// set level and points
+// set level, lives and points
 var level = 1;
+var lives = 3;
 var points = 0;
 var levelWon = false;
 // create customers
@@ -145,6 +146,9 @@ function getCustomers() {
   if (countCustomersReturning === totalCustomers) {
     checkForBeers = true;
   }
+  // else {
+  //   countCustomersReturning = 0;
+  // }
   // now that all customers are returning
   // check if all glasses are collected
   totalBeers = Object.keys(beersObj).length;
@@ -158,7 +162,11 @@ function getCustomers() {
         countBeersCollected++
       }
     }
+    // for presentation
+     console.log(countBeersCollected, totalBeers);
     // ALL BEERS WERE COLLECTED - LEVEL WON!
+    // for class
+    // if (countBeersCollected === totalBeers && totalBeers > 0) {
     if (countBeersCollected === totalBeers) {
       levelWon = true;
     } else {
@@ -169,7 +177,7 @@ function getCustomers() {
   if (levelWon) {
     // ADD POINTS
     // 1000 Points for completing a level
-    points += 50;
+    points += 1000;
     $pointsDiv.text(points);
     // ADD LEVEL
     level++;
@@ -438,7 +446,7 @@ $("body").on("keyup", function(evt) {
 // Bonus Level 3000 Points for getting the bonus level right
 
 ///////////////////////////////////////////  LIVES ///////////////////
-var lives = 3;
+
 function createLives() {
   // create a div to hold the lives
   var $lives = $("<div id='lives'></div>");
@@ -456,6 +464,8 @@ function createLives() {
 createLives();
 ///////////////////////////////////////////  LIFE LOST ///////////////////
 function lifeLost() {
+  // for presentation
+  // console.log('lifeLost')
   lives--;
   if (lives > 0) {
     nextLevel();
@@ -465,6 +475,9 @@ function lifeLost() {
 }
 ///////////////////////////////////////////  NEXT LEVEL ///////////////////
 function nextLevel() {
+  //for presentation
+  //console.log('nextLevel')
+
   // create ready to serve screen
   var $readyToServe = $("<div id='readyToServe'></div>");
   $readyToServe.append("<h1>get ready to serve</h1>");
