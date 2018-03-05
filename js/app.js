@@ -11,6 +11,7 @@ var levelWon = false;
 // create customers
 var CUSTOMER_AMOUNT = 4 * level;
 var CUSTOMER_HEIGHT = 80;
+var CUSTOMER_WIDTH = 40;
 var CUSTOMER_START_Y = 60;
 var customersObj = {};
 // create beers
@@ -142,6 +143,10 @@ function getCustomers() {
     if(!customersObj[c].movingForward) {
       //cuz they have to be moving back to door
       countCustomersReturning++;
+      // check if they are at the door
+      if (parseInt(customersObj[c].element.css('left')) < CUSTOMER_START_Y - CUSTOMER_WIDTH) {
+        customersObj[c].element.css('display', 'none');
+      }
     }
   }
   if (countCustomersReturning === totalCustomers) {
