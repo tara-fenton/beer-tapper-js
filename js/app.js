@@ -45,29 +45,39 @@ var countBeersCollected = 0;
 // container div
 var $containerDiv = $("body").append("<div id='container'></div>");
 
-createBarElements();
+//var $landingDiv = $("<div id='landing' data-text='Beer Tapper'>Beer Tapper</div>");
+// create ready to serve screen
+var $readyToServe = $("<div id='readyToServe'></div>");
+$readyToServe.append("<h1>get ready to serve</h1>");
+$("#container").append($readyToServe);
+
+setTimeout(addDisplay, 3000);
 
 // bartender display
 var $bartenderDiv = $("<div id='bartender'></div>");
 $bartenderDiv.css("top", BARTENDER_START_Y + "px");
 $bartenderDiv.css("left", BARTENDER_START_X + "px");
-$("#container").append($bartenderDiv);
 
 // level display
 var $levelDiv = $("<div id='level'></div>");
 $levelDiv.append(level);
-$("#container").append($levelDiv);
 
 // points display
 var $pointsDiv = $("<div id='points'></div>");
 $pointsDiv.append(points);
-$("#container").append($pointsDiv);
 
 // customer display, so they can be "removed"
 var $customersDiv = $("<div class='customers'></div>");
-$("#container").append($customersDiv);
 
-
+function addDisplay() {
+  $readyToServe.remove();
+  createBarElements();
+  $("#container").append($bartenderDiv);
+  $("#container").append($levelDiv);
+  $("#container").append($pointsDiv);
+  $("#container").append($customersDiv);
+  createLives();
+}
 /////////////////////////////////////////// BAR ///////////////////////
 // Create four rows
 // TO DO : and four taps and four doors
@@ -475,7 +485,7 @@ function createLives() {
     $lives.append($beerDiv);
   }
 }
-createLives();
+
 
 ///////////////////////////////////////////  LIFE LOST ///////////////////
 function lifeLost() {
@@ -551,6 +561,7 @@ function endGameCheckForHighScore() {
   var $checkForHighScores = $("<div id='enterHighScore'></div>");
   $("#container").append($checkForHighScores);
   var scoreToReplace = 4;
+  $submitHighscore = $("<div id='submit'><button>Submit</button></div>");
   for (var i = 0; i < highScores.length; i++){
     // make sure they got a high score
     if (points > highScores[i].score) {
@@ -559,7 +570,7 @@ function endGameCheckForHighScore() {
       $checkForHighScores.append("<h1>YOU GOT A HIGH SCORE</h1>");
       $highscoreForm = $("<form><h2>ENTER YOUR NAME: </h2></form>");
       $highscoreName = $("<input type='text' id='highName'>");
-      $submitHighscore = $("<div id='submit'><button>Submit</button></div>");
+
       $highscoreForm.append($highscoreName);
       $highscoreForm.append($submitHighscore);
       $checkForHighScores.append($highscoreForm);
