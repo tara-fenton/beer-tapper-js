@@ -2,6 +2,7 @@
 //create bars
 var BARS_AMOUNT = 4;
 var BAR_PADDING = 80;
+var BAR_START_Y = 120;
 var BAR_WIDTH = 400;
 // set level, lives and points
 var level = 1;
@@ -9,10 +10,10 @@ var lives = 3;
 var points = 0;
 var levelWon = false;
 // create customers
-var CUSTOMER_AMOUNT = 4 * level;
+var CUSTOMER_AMOUNT = 4;
 var CUSTOMER_HEIGHT = 80;
 var CUSTOMER_WIDTH = 40;
-var CUSTOMER_START_Y = 60;
+var CUSTOMER_START_Y = 100;
 var customersObj = {};
 // create beers
 var beersObj = {};
@@ -22,7 +23,7 @@ var pouringSent = false;
 // positions for controlling bartender
 var BARTENDER_HEIGHT = 80;
 var BARTENDER_WIDTH = 40;
-var BARTENDER_START_Y = 60;
+var BARTENDER_START_Y = 100;
 var BARTENDER_START_X = 500;
 var currentYbartender = 0;
 var newYbartender = 0;
@@ -76,18 +77,19 @@ function createBarElements() {
     $("#container").append($barDiv);
     $barDiv.attr("id", "data-bar-index" + i);
     $barDiv.css("left", BAR_PADDING + "px");
-    $barDiv.css("top", BAR_PADDING * i + BAR_PADDING + "px");
+    $barDiv.css("top", BAR_PADDING * i + BAR_START_Y + "px");
   }
 }
 /////////////////////////////////////////// CUSTOMERS ///////////////////////
 //// CREATE CUSTOMER
 // Create a customer per bar row
 function createCustomers() {
+  var rowCounter = 0;
   for (var i = 0; i < CUSTOMER_AMOUNT; i++) {
     var $customerDiv = $("<div class='customer'></div>");
     $customersDiv.append($customerDiv);
     $customerDiv.attr("id", "data-customer-index" + i);
-    $customerDiv.css("top", + (CUSTOMER_HEIGHT / 2 + BAR_PADDING) * i + CUSTOMER_START_Y +"px");
+    $customerDiv.css("top", + (CUSTOMER_HEIGHT / 2 + BAR_PADDING) * rowCounter + CUSTOMER_START_Y +"px");
     $customerDiv.css("left", "30px");
     // customer object
     var customerObj = {};
@@ -100,7 +102,12 @@ function createCustomers() {
     //customerObj.startTime = setTimeout(customerMoving(i), 30000 * i); // something random
     // TO DO : fix the speed of the customers coming out
     //setTimeout(customerMovingToBartender(i), 30000 * i); // something random
-    setTimeout(customerMovingToBartender(i), 30000 * i); // something random
+    setTimeout(customerMovingToBartender(rowCounter), 30000); // something random
+    rowCounter++;
+    // to keep the customers on the bar rows
+    if (rowCounter === BARS_AMOUNT) {
+      rowCounter = 0;
+    }
   }
 }
 
@@ -129,6 +136,54 @@ function customerMovingBackToDoor(currentCustomer) {
   currentCustomer.element.animate({ left: "-=420" },10000);
 }
 
+
+function levelWon() {
+  // ADD POINTS
+  // 1000 Points for completing a level
+  points += 1000;
+  $pointsDiv.text(points);
+  // ADD LEVEL
+  level++;
+  CUSTOMER_AMOUNT = CUSTOMER_AMOUNT * level;
+  $levelDiv.text(level);
+  //reset value for next level
+  levelWon = false;
+  // clear the beer and customer intervals
+  clearInterval(beerInterval);
+  clearInterval(customerInterval);
+  // NEXT LEVEL
+  nextLevel();
+}
+/////////////////////////////////////////// BEER ///////////////////////
+//// CREATE BEER
+// Create a beer when space bar is down
+function createBeer() {
+  if (!pouring) {
+    //add the glass for the beer
+    var $glass = $("<div class='glass'></div>");
+    var $beerDiv = $("<div class='beer'></div>");
+    //do i really need this id if I have an object?
+    $beerDiv.attr("id", "data-beer-index" + beerCount);
+    // position the beer next to the bartender
+    $beerDiv.css("left", "472px");
+    currentYbartender = parseInt($bartenderDiv.css("top"));
+    $beerDiv.css("top", currentYbartender + "px");
+    $beerDiv.append($glass);
+    $("#container").append($beerDiv);
+
+    //beer object
+    var beerObj = {};
+    beerObj.id = "data-beer-index" + beerCount;
+    beerObj.beer = $beerDiv;
+    beerObj.glass = $glass;
+    beerObj.drinking = false;
+    beerObj.movingToCustomer = false; //will be false upon creation
+    beerObj.movingToBartender = false; //need to check for both directions
+    beerObj.collected = false; //used to check for win level
+    //beerObj.barRow = 0; //this will change
+    beersObj[beerCount] = beerObj;
+  }
+}
 //// GET CUSTOMER COLLISONS - SET INTERVAL
 // interval used to test for when all customers are served
 var customerInterval = setInterval(getCustomers, 500);
@@ -174,64 +229,18 @@ function getCustomers() {
      if (countBeersCollected === totalBeers && totalBeers > 0) {
     //if (countBeersCollected === totalBeers) {
       levelWon = true;
+      levelWon();
     } else {
       countBeersCollected = 0;
     }
   }
-  /// TO DO : make this a function?
-  if (levelWon) {
-    // ADD POINTS
-    // 1000 Points for completing a level
-    points += 1000;
-    $pointsDiv.text(points);
-    // ADD LEVEL
-    level++;
-    $levelDiv.text(level);
-    //reset value for next level
-    levelWon = false;
-    // clear the beer and customer intervals
-    clearInterval(beerInterval);
-    clearInterval(customerInterval);
-    // NEXT LEVEL
-    nextLevel();
-  }
 }
-/////////////////////////////////////////// BEER ///////////////////////
-//// CREATE BEER
-// Create a beer when space bar is down
-function createBeer() {
-  if (!pouring) {
-    //add the glass for the beer
-    var $glass = $("<div class='glass'></div>");
-    var $beerDiv = $("<div class='beer'></div>");
-    //do i really need this id if I have an object?
-    $beerDiv.attr("id", "data-beer-index" + beerCount);
-    // position the beer next to the bartender
-    $beerDiv.css("left", "472px");
-    currentYbartender = parseInt($bartenderDiv.css("top"));
-    $beerDiv.css("top", currentYbartender + "px");
-    $beerDiv.append($glass);
-    $("#container").append($beerDiv);
-
-    //beer object
-    var beerObj = {};
-    beerObj.id = "data-beer-index" + beerCount;
-    beerObj.beer = $beerDiv;
-    beerObj.glass = $glass;
-    beerObj.drinking = false;
-    beerObj.movingToCustomer = false; //will be false upon creation
-    beerObj.movingToBartender = false; //need to check for both directions
-    beerObj.collected = false; //used to check for win level
-    //beerObj.barRow = 0; //this will change
-    beersObj[beerCount] = beerObj;
-  }
-}
-
 //// GET BEERS - SET INTERVAL
 // interval used to test for when the beer is moving
 var beerInterval = setInterval(getBeers, 500);
 /// get the beers per row
 function getBeers() {
+  console.log("beerInterval")
   // for each beer
   for (var beer in beersObj) {
     //check if the beer is moving to the customer
@@ -250,6 +259,9 @@ function getBeers() {
           // check if the customer gets a beer
           if (beerPositionY === customerPositionY &&
              customerPositionX + 40 > beerPositionX) {
+            beersObj[beer].movingToCustomer = false;
+            beersObj[beer].drinking = true;
+            customersObj[customer].movingForward = false;
             // TO DO : drink the beer
             // change the beer back to a glass
             beersObj[beer].glass.css("height", "30");
@@ -260,9 +272,7 @@ function getBeers() {
             // 50 Points for each saloon patron you send off his aisle
             points += 50;
             $pointsDiv.text(points);
-            beersObj[beer].movingToCustomer = false;
-            beersObj[beer].drinking = true;
-            customersObj[customer].movingForward = false;
+
             //customersObj[customer].drinking = true;
             customerMovingBackToDoor(customersObj[customer]);
           }
@@ -482,6 +492,9 @@ function lifeLost() {
   //$lives.remove();
   //removeLives();
   lives--;
+  if (lives < 0) {
+    lives = 0;
+  }
   console.log("lives "+lives)
   //createLives();
   if (lives > 0) {
@@ -564,6 +577,8 @@ function endGame() {
     level = 1;
     //remove beer and customer objects
     removeObjects();
+    // reset bartender to start at the top
+    $bartenderDiv.css("top", BARTENDER_START_Y + "px");
     newLevel();
   });
 }
