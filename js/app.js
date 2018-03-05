@@ -6,8 +6,8 @@ var BAR_START_Y = 120;
 var BAR_WIDTH = 400;
 // set level, lives and points
 var level = 1;
-var lives = 3;
-var points = 0;
+var lives = 3; //set to 1 to test game over
+var points = 0; //set to 10000 to test game over
 var levelWon = false;
 // create customers
 var CUSTOMER_AMOUNT = 4;
@@ -119,8 +119,8 @@ createCustomers();
 function customerMovingToBartender(current) {
   customersObj[current].element.animate(
     { left: "+=420" },
-    //10000 * (current + 1), //this is where time is set
-    1000 * (current + 1), //fast cutomers for testing
+    10000 * (current + 1), //this is where time is set
+    //1000 * (current + 1), //fast cutomers for testing
     function() {
       //// KILL THE BARTENDER, CUSTOMER AT END OF BAR
       killTheBartender();
@@ -240,7 +240,6 @@ function createBeer() {
 var beerInterval = setInterval(getBeers, 500);
 /// get the beers per row
 function getBeers() {
-  console.log("beerInterval")
   // for each beer
   for (var beer in beersObj) {
     //check if the beer is moving to the customer
@@ -464,14 +463,12 @@ $("body").on("keyup", function(evt) {
 // create a div to hold the lives
 var $lives;
 function createLives() {
-$lives = $("<div id='lives'></div>");
-$("#container").append($lives);
-  console.log("lives in create lives "+lives)
+  $lives = $("<div id='lives'></div>");
+  $("#container").append($lives);
   for (var i = 0; i < lives; i++) {
     //create a beer per life
     var $beerDiv = $("<div class='beer'></div>");
-    //$beerDiv.attr("id", "data-lives-index" + i);
-    $beerDiv.css("display", "block");
+    $beerDiv.attr("id", "data-lives-index" + i);
     // position the lives beers with next position
     var nextPosition = 30 * i;
     $beerDiv.css("left", nextPosition + "px");
@@ -479,34 +476,23 @@ $("#container").append($lives);
   }
 }
 createLives();
-function removeLives() {
-  for (var i = 0; i < lives; i++) {
-    $("data-lives-index" + i).remove();
-  }
-}
+
 ///////////////////////////////////////////  LIFE LOST ///////////////////
 function lifeLost() {
-  // for presentation
-  // console.log('lifeLost')
   $lives.remove();
-  //removeLives();
   lives--;
   if (lives < 0) {
     lives = 0;
   }
-  console.log("lives "+lives)
   createLives();
   if (lives > 0) {
     nextLevel();
   } else {
-    endGame();
+    endGameCheckForHighScore();
   }
 }
 ///////////////////////////////////////////  NEXT LEVEL ///////////////////
 function nextLevel() {
-  //for presentation
-  //console.log('nextLevel')
-
   // create ready to serve screen
   var $readyToServe = $("<div id='readyToServe'></div>");
   $readyToServe.append("<h1>get ready to serve</h1>");
@@ -560,20 +546,69 @@ function newLevel() {
   customerInterval = setInterval(getCustomers, 500);
 }
 /////////////////////////////////////////// END GAME /////////////////
+var highScores = [{name: 'tara', score: '1020'},{name: 'tara', score: '1010'},{name: 'tara', score: '1000'}];
+function endGameCheckForHighScore() {
+  var $checkForHighScores = $("<div id='enterHighScore'></div>");
+  $("#container").append($checkForHighScores);
+  var scoreToReplace = 4;
+  for (var i = 0; i < highScores.length; i++){
+    // make sure they got a high score
+    if (points > highScores[i].score) {
+      //game over with form
+      console.log(highScores[i].name, highScores[i].score)
+      $checkForHighScores.append("<h1>YOU GOT A HIGH SCORE</h1>");
+      $highscoreForm = $("<form><h2>ENTER YOUR NAME: </h2></form>");
+      $highscoreName = $("<input type='text' id='highName'>");
+      $submitHighscore = $("<div id='submit'><button>Submit</button></div>");
+      $highscoreForm.append($highscoreName);
+      $highscoreForm.append($submitHighscore);
+      $checkForHighScores.append($highscoreForm);
+
+      scoreToReplace = i;
+      break;
+    }
+  }
+  // didn't have a high score
+  if (scoreToReplace === 4) {
+    $checkForHighScores.remove();
+    endGame();
+  }
+  $submitHighscore.click(function(evt) {
+    evt.preventDefault();
+    $submitHighscore.submit();
+    highScores[scoreToReplace].name = $highscoreName.val();
+    highScores[scoreToReplace].score = points;
+     // console.log($highscoreName.val())
+     $checkForHighScores.remove();
+     endGame();
+  });
+}
+
 function endGame() {
   var $end = $("<div id='end'></div>");
-  $end.append("<h1>GAME OVER</h1>");
-  $resetGame = $("<button id='resetGame'>insert quarter</button>");
-  $end.append($resetGame);
   $("#container").append($end);
+  $resetGame = $("<div id='resetGame'></div>");
+  $resetButton = $("<button>insert quarter</button>");
+  $resetGame.append($resetButton);
 
-  $resetGame.on('click', function resetGame() {
+  var $highScores = $("<div id='highScore'></div>");
+  $end.append($highScores);
+
+  $end.append("<h1>HIGH SCORES</h1>");
+  for (var i = 0; i < highScores.length; i++){
+    $end.append("<h3>"+highScores[i].name+"   "+highScores[i].score+"</h3>");
+  }
+  $end.append("<h1>GAME OVER</h1>");
+  $end.append($resetGame);
+
+  $resetButton.on('click', function() {
     $end.remove();
     //reset globals
     points = 0;
     $pointsDiv.text(points);
     lives = 3;
     level = 1;
+    $levelDiv.text(level);
     //remove beer and customer objects
     removeObjects();
     // reset bartender to start at the top

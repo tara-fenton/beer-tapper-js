@@ -97,11 +97,20 @@ found Object.keys(beersObj).length
 //changed to 2 customers to work out the logic
 of winning a level
 
+// finally touches
+add more customers
+add high score board
+add easter egg
+add bonus round
+
+
 // here is a problem that i can describe to the class
 I got to the point where the game worked pretty much
 So I decided to organize my script and put all of
 my variables at the top, once i did that
 the game went crazy - demonstrate
+play a perfect round 1
+
 
 in getCustomers
 

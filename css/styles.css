@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Mina");
 /*div to hold all elements*/
+html {
+  font-family: "Mina";
+}
 #container {
   background-color: black;
   width: 600px;
@@ -45,7 +48,6 @@
 }
 /*POINTS and LEVEL DISPLAYS */
 #points, #level {
-  font-family: "Mina";
   font-size: 26px;
   padding: 0 0 0 15px;
   height: 30px;
@@ -80,20 +82,35 @@
   position: absolute;
   top: 0;
 }
-#readyToServe h1,
-#end h1 {
-  font-family: "Mina";
+#readyToServe h1 {
   text-align: center;
   font-size: 50px;
   position: relative;
   top: 200px;
 }
-#end {
+#end, #enterHighScore {
   background-color: purple;
   width: 600px;
   height: 600px;
   position: absolute;
   top: 0;
+}
+#end h1, #enterHighScore h1 {
+  text-align: center;
+  font-size: 50px;
+}
+/*text input for high scores*/
+#highName {
+  font-size: 26px;
+  text-transform: uppercase;
+}
+h2 {
+  display:inline-block;
+  padding: 25px 38px;
+}
+h3 {
+  font-size: 30px;
+  text-align: center;
 }
 button {
   font-family: "Mina";
@@ -101,9 +118,13 @@ button {
   color: purple;
   padding: 5px 15px;
   font-size: 26px;
-  position: absolute;
-  top: 340px;
-  left: 210px;
+}
+#submit {
+  position: relative;
+  left: 444px;
+}
+#resetGame {
+  margin: 0 202px;
 }
 /*to remove the blue highlight on button*/
 button:focus {outline:0;}
