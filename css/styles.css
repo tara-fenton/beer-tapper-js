@@ -89,11 +89,12 @@ html {
   top: 200px;
 }
 #end, #enterHighScore {
-  background-color: purple;
-  width: 600px;
-  height: 600px;
-  position: absolute;
-  top: 0;
+    background-color: black;
+    color: purple;
+    width: 600px;
+    height: 600px;
+    position: absolute;
+    top: 0;
 }
 #end h1, #enterHighScore h1 {
   text-align: center;
@@ -103,28 +104,51 @@ html {
 #highName {
   font-size: 26px;
   text-transform: uppercase;
+  background-color: black;
+  color: yellow;
+    padding: 10px;
+    border: 2px solid;
 }
 h2 {
   display:inline-block;
   padding: 25px 38px;
 }
 h3 {
+  color: yellow;
   font-size: 30px;
   text-align: center;
+  text-transform: uppercase;
 }
 button {
   font-family: "Mina";
+  background-color: black;
   border: none;
   color: purple;
-  padding: 5px 15px;
-  font-size: 26px;
+  /*padding: 5px 15px;*/
+  font-size: 34px;
+  font-weight: bold;
+}
+/*to remove the blue highlight on button*/
+button:focus, input:focus {outline:0;}
+* {
+  -webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
 }
 #submit {
   position: relative;
-  left: 444px;
+  left: 398px;
+}
+#startGame {
+  margin: 200px 164px;
 }
 #resetGame {
-  margin: 0 202px;
+  margin: 0 164px;
 }
-/*to remove the blue highlight on button*/
-button:focus {outline:0;}
+#gameOver {
+  color: red;
+}
+

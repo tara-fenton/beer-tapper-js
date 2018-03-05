@@ -45,13 +45,8 @@ var countBeersCollected = 0;
 // container div
 var $containerDiv = $("body").append("<div id='container'></div>");
 
-//var $landingDiv = $("<div id='landing' data-text='Beer Tapper'>Beer Tapper</div>");
-// create ready to serve screen
-var $readyToServe = $("<div id='readyToServe'></div>");
-$readyToServe.append("<h1>get ready to serve</h1>");
-$("#container").append($readyToServe);
+startGame();
 
-setTimeout(addDisplay, 3000);
 
 // bartender display
 var $bartenderDiv = $("<div id='bartender'></div>");
@@ -70,7 +65,7 @@ $pointsDiv.append(points);
 var $customersDiv = $("<div class='customers'></div>");
 
 function addDisplay() {
-  $readyToServe.remove();
+
   createBarElements();
   $("#container").append($bartenderDiv);
   $("#container").append($levelDiv);
@@ -129,7 +124,7 @@ createCustomers();
 function customerMovingToBartender(current) {
   customersObj[current].element.animate(
     { left: "+=420" },
-    10000 * (current + 1), //this is where time is set
+    10000 * (current + 1), //SLOW cutomers for game
     //1000 * (current + 1), //fast cutomers for testing
     function() {
       //// KILL THE BARTENDER, CUSTOMER AT END OF BAR
@@ -561,13 +556,14 @@ function endGameCheckForHighScore() {
   var $checkForHighScores = $("<div id='enterHighScore'></div>");
   $("#container").append($checkForHighScores);
   var scoreToReplace = 4;
-  $submitHighscore = $("<div id='submit'><button>Submit</button></div>");
+  $submitHighscore = $("<div id='submit'><button>[ Submit ]</button></div>");
+
   for (var i = 0; i < highScores.length; i++){
     // make sure they got a high score
     if (points > highScores[i].score) {
       //game over with form
       console.log(highScores[i].name, highScores[i].score)
-      $checkForHighScores.append("<h1>YOU GOT A HIGH SCORE</h1>");
+      $checkForHighScores.append("<h1>YOU GOT A HIGH SCORE!</h1>");
       $highscoreForm = $("<form><h2>ENTER YOUR NAME: </h2></form>");
       $highscoreName = $("<input type='text' id='highName'>");
 
@@ -594,12 +590,25 @@ function endGameCheckForHighScore() {
      endGame();
   });
 }
+function startGame() {
+  var $readyToServe = $("<div id='readyToServe'></div>");
+  $resetGame = $("<div id='startGame'></div>")
+  $startButton = $("<button>[ insert quarter ]</button>");
+  $readyToServe.append("<h1>get ready to serve</h1>");
+  $readyToServe.append($resetGame)
+  $resetGame.append($startButton);
+  $("#container").append($readyToServe);
 
+  $startButton.on('click', function() {
+    $readyToServe.remove();
+    addDisplay();
+  })
+}
 function endGame() {
   var $end = $("<div id='end'></div>");
   $("#container").append($end);
   $resetGame = $("<div id='resetGame'></div>");
-  $resetButton = $("<button>insert quarter</button>");
+  $resetButton = $("<button>[ insert quarter ]</button>");
   $resetGame.append($resetButton);
 
   var $highScores = $("<div id='highScore'></div>");
@@ -609,7 +618,7 @@ function endGame() {
   for (var i = 0; i < highScores.length; i++){
     $end.append("<h3>"+highScores[i].name+"   "+highScores[i].score+"</h3>");
   }
-  $end.append("<h1>GAME OVER</h1>");
+  $end.append("<h1 id='gameOver'>GAME OVER</h1>");
   $end.append($resetGame);
 
   $resetButton.on('click', function() {
