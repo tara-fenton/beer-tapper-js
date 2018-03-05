@@ -25,6 +25,7 @@ TO DO :
 *bartender needs to catch the beer glass when moving left
 -(thats when the glass dissappears)
 *glass animation faster - white return
+*style game over screen
 
 why can't i set the height of the bartender in the js?
 
@@ -37,7 +38,7 @@ two per row for level 2, levels can wait til phase 5
 DO RIGHT NOW
 
 
-style game over screen
+
 fix lives to match the lives the player has
 
 
@@ -95,3 +96,17 @@ customersObj.customerObj.length
 found Object.keys(beersObj).length
 //changed to 2 customers to work out the logic
 of winning a level
+
+// here is a problem that i can describe to the class
+I got to the point where the game worked pretty much
+So I decided to organize my script and put all of
+my variables at the top, once i did that
+the game went crazy - demonstrate
+
+in getCustomers
+
+trouble with display removing the lives i put on
+
+presentation
+// fast for testing end of game and levels
+

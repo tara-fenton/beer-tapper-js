@@ -111,8 +111,8 @@ createCustomers();
 function customerMovingToBartender(current) {
   customersObj[current].element.animate(
     { left: "+=420" },
-    //10000 * (current + 1), //this is where time is set
-    1000 * (current + 1), //fast cutomers for testing
+    10000 * (current + 1), //this is where time is set
+    //1000 * (current + 1), //fast cutomers for testing
     function() {
       //// KILL THE BARTENDER, CUSTOMER AT END OF BAR
       killTheBartender();
@@ -164,11 +164,10 @@ function getCustomers() {
       }
     }
     // for presentation
-     console.log(countBeersCollected, totalBeers);
+    // console.log(countBeersCollected, totalBeers);
     // ALL BEERS WERE COLLECTED - LEVEL WON!
-    // for class
-    // if (countBeersCollected === totalBeers && totalBeers > 0) {
-    if (countBeersCollected === totalBeers) {
+     if (countBeersCollected === totalBeers && totalBeers > 0) {
+    //if (countBeersCollected === totalBeers) {
       levelWon = true;
     } else {
       countBeersCollected = 0;
@@ -475,11 +474,11 @@ function removeLives() {
 function lifeLost() {
   // for presentation
   // console.log('lifeLost')
-  $lives.remove();
-  removeLives();
+  //$lives.remove();
+  //removeLives();
   lives--;
   console.log("lives "+lives)
-  createLives();
+  //createLives();
   if (lives > 0) {
     nextLevel();
   } else {
@@ -518,10 +517,23 @@ function removeObjects(){
   }
   //clear the object to start fresh
   beersObj = {};
-  //reset the beer count
-  beerCount = 0;
+
+  resetIntervalGlobals();
   // bartender to start at the left
   $bartenderDiv.css("left", BARTENDER_START_X + "px");
+}
+function resetIntervalGlobals() {
+  //reset the beer count
+  beerCount = 0;
+   //reset globals for collisions
+  pouring = false;
+  pouringSent = false;
+  levelWon = false;
+  checkForBeers = false;
+  totalCustomers = 0;
+  countCustomersReturning = 0;
+  totalBeers = 0;
+  countBeersCollected = 0;
 }
 function newLevel() {
   // create customers for new level/game
@@ -531,7 +543,6 @@ function newLevel() {
   customerInterval = setInterval(getCustomers, 500);
 }
 /////////////////////////////////////////// END GAME /////////////////
-
 function endGame() {
   var $end = $("<div id='end'></div>");
   $end.append("<h1>GAME OVER</h1>");
@@ -540,12 +551,14 @@ function endGame() {
   $("#container").append($end);
 
   $resetGame.on('click', function resetGame() {
-  console.log("rest game");
-  $end.remove();
-  lives = 3;
-  level = 1;
-  removeObjects();
-  newLevel();
-});
+    $end.remove();
+    //reset globals
+    points = 0;
+    $pointsDiv.text(points);
+    lives = 3;
+    level = 1;
+    //remove beer and customer objects
+    removeObjects();
+    newLevel();
+  });
 }
-

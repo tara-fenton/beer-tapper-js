@@ -73,7 +73,8 @@
   display: block;
 }
 #readyToServe {
-  background-color: red;
+  background-color: black;
+  color: yellow;
   width: 600px;
   height: 600px;
   position: absolute;
