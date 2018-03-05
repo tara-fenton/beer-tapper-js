@@ -484,13 +484,13 @@ function createLives() {
 
 ///////////////////////////////////////////  LIFE LOST ///////////////////
 function lifeLost() {
-  $lives.remove();
   lives--;
   if (lives < 0) {
     lives = 0;
   }
-  createLives();
   if (lives > 0) {
+    $lives.remove();
+    createLives();
     nextLevel();
   } else {
     endGameCheckForHighScore();
