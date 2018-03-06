@@ -180,8 +180,6 @@ function getCustomers() {
         countBeersCollected++
       }
     }
-    // for presentation
-    // console.log(countBeersCollected, totalBeers);
     // ALL BEERS WERE COLLECTED - LEVEL WON!
      if (countBeersCollected === totalBeers && totalBeers > 0) {
     //if (countBeersCollected === totalBeers) {
@@ -283,7 +281,7 @@ function getBeers() {
         } else {
           // check if the beer reaches the left of the bar
           // without customer to drink the beer
-          if (beerPositionX < 100) {
+          if (beerPositionX < 100 && beersObj[beer].movingToCustomer && !beersObj[beer].movingToBartender) {
             //die
             killTheBartender();
           }
