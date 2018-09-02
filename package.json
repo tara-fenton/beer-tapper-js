@@ -4,7 +4,8 @@
   "description": "this is your first project",
   "main": "js/app.js",
   "scripts": {
-    "test": "mocha -w"
+    "test": "mocha -w",
+    "start": "node server.js"
   },
   "keywords": [
     "javascript",
@@ -25,5 +26,10 @@
   "repository": {
     "type": "git",
     "url": "git@git.generalassemb.ly:wdi-nyc/project-1.git"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "nodemon": "^1.18.4",
+    "path": "^0.12.7"
   }
 }
