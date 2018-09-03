@@ -2,11 +2,12 @@ import Bar from "./Bar.js";
 import Bartender from "./Bartender.js";
 
 var $containerDiv = $("body").append("<div id='container'></div>");
-var $bartenderDiv = $("<div id='bartender'></div>");
-$("#container").append($bartenderDiv);
 
 const bar = new Bar();
 bar.setup();
+
+var $bartenderDiv = $("<div id='bartender'></div>");
+$("#container").append($bartenderDiv);
 
 const bartender = new Bartender();
 bartender.setup();
@@ -38,27 +39,27 @@ $("body").on("keydown", function(evt) {
     //   $bartenderDiv.css("left", BARTENDER_START_X + "px");
     //   break;
 
-    // case 37: //left key LEFT //////////////////////////////
-    // case 65: //   a key LEFT //////////////////////////////
-    //   newXbartender = currentXbartender - 5;
-    //   // restrict from moving past the left of bar
-    //   if (newXbartender < BAR_PADDING) {
-    //     newXbartender = BAR_PADDING;
-    //   }
-    //   newXbartender += "px";
-    //   $bartenderDiv.css("left", newXbartender);
-    //   // TO DO : catch a beer glass
-    //   break;
-    // case 39: // right key RIGHT //////////////////////////////
-    // case 83: //     s key RIGHT //////////////////////////////
-    //   newXbartender = currentXbartender + 5;
-    //   // restrict from moving past the right
-    //   if (newXbartender > BARTENDER_START_X) {
-    //     newXbartender = BARTENDER_START_X;
-    //   }
-    //   newXbartender += "px";
-    //   $bartenderDiv.css("left", newXbartender);
-    //   break;
+    case 37: //left key LEFT //////////////////////////////
+    case 65: //   a key LEFT //////////////////////////////
+      bartender._newX = bartender._x - 5;
+      // restrict from moving past the left of bar
+      if (bartender._newX < bar._padding) {
+        bartender._newX = bar._padding;
+      }
+      bartender._newX += "px";
+      $bartenderDiv.css("left", bartender._newX);
+      // TO DO : catch a beer glass
+      break;
+    case 39: // right key RIGHT //////////////////////////////
+    case 83: //     s key RIGHT //////////////////////////////
+      bartender._newX = bartender._x + 5;
+      // restrict from moving past the right
+      if (bartender._newX > bartender._startX) {
+        bartender._newX = bartender._startX;
+      }
+      bartender._newX += "px";
+      $bartenderDiv.css("left", bartender._newX);
+      break;
 
     case 13: //return key UP //////////////////////////////
     case 20: //  caps key UP //////////////////////////////
