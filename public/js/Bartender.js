@@ -2,7 +2,7 @@ class Bartender {
 
   constructor() {
     this.BARTENDER_HEIGHT = 80;
-    this.BARTENDER_WIDTH = 40;
+    // this.BARTENDER_WIDTH = 40;
     this.BARTENDER_START_Y = 100;
     this.BARTENDER_START_X = 500;
     this.currentYbartender = 0;
@@ -12,21 +12,45 @@ class Bartender {
   }
 
   setup() {
-    var $bartenderDiv = $("<div id='bartender'></div>");
-    $bartenderDiv.css("top", this.BARTENDER_START_Y + "px");
-    $bartenderDiv.css("left", this.BARTENDER_START_X + "px");
-    $("#container").append($bartenderDiv);
+    $("#bartender").css("top", this.BARTENDER_START_Y + "px");
+    $("#bartender").css("left", this.BARTENDER_START_X + "px");
   }
 
-  //   const getPadding(){
-  //     return BAR_PADDING;
-  // }
-  //   const getAmount(){
-  //     return BARS_AMOUNT;
-  // }
-  //   const getStartX(){
-  //     return BAR_START_X;
-  // }
-  //   const getEnd() { return BAR_START_X + BAR_WIDTH; }
+  get _height() {
+    return this.BARTENDER_HEIGHT;
+  }
+
+  get _startY() {
+    return this.BARTENDER_START_Y;
+  }
+
+  get _startX() {
+    return this.BARTENDER_START_X;
+  }
+
+  get _x() {
+    return this.currentXbartender;
+  }
+
+  set _x(x) {
+    return (this.currentXbartender = x);
+  }
+
+  get _y() {
+    return this.currentYbartender;
+  }
+
+  set _y(y) {
+    return (this.currentYbartender = y);
+  }
+
+  get _newY() {
+    return this.newYbartender;
+  }
+
+  set _newY(y) {
+    return (this.newYbartender = y);
+  }
+
 }
 export default Bartender;
