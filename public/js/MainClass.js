@@ -1,5 +1,8 @@
 import Bar from "./Bar.js";
 import Bartender from "./Bartender.js";
+import Beer from "./Beer.js";
+import Customer from "./Customer.js";
+import Level from "./Level.js";
 
 var $containerDiv = $("body").append("<div id='container'></div>");
 
@@ -12,6 +15,37 @@ $("#container").append($bartenderDiv);
 const bartender = new Bartender();
 bartender.setup();
 
+var $customersDiv = $("<div class='customers'></div>");
+$("#container").append($customersDiv);
+
+// var $levelDiv = $("<div id='level'></div>");
+// $("#container").append($levelDiv);
+//
+// const level = new Level();
+// $("#level").append(String(level._level));
+// level.setup();
+// console.log(typeof level._level);
+
+
+// $levelDiv.append(Level.level);
+
+let customers = [];
+function makeCustomers() {
+  for (let i = 0; i < 4; i++){
+    const customer = new Customer(i);
+    customer.setup();
+    customers.push(customer);
+  }
+}
+makeCustomers();
+console.log(customers);
+
+let beers = [];
+let beerCount = 0;
+let beer = new Beer(beerCount);
+beer.setup();
+beers.push(beer);
+
 /////////////////////////////////////////// KEY DOWN /////////////////
 $("body").on("keydown", function(evt) {
   // get the current x and y of bartender
@@ -20,24 +54,25 @@ $("body").on("keydown", function(evt) {
 
   var keyPressed = event.which;
   switch (keyPressed) {
-    // case 32: /////////// SPACEBAR //////////////////////////////
-    //   if (!pouring) {
-    //     // create beer object and DOM element
-    //     createBeer();
-    //     pouring = true;
-    //     // pouring the beer into the glass
-    //     beersObj[beerCount].beer.css("display", "block");
-    //     beersObj[beerCount].glass.animate({ height: "-=30" }, 700, function() {
-    //       //// BEER IS FULL, ANIMATION COMPLETE
-    //       // move the beer across the bar
-    //       beersObj[beerCount].beer.animate({ left: "-=460" }, 10000);
-    //       beersObj[beerCount].movingToCustomer = true;
-    //       pouringSent = true; // used in key up event
-    //     });
-    //   }
-    //   // jump back to tap by pouring (space bar)
-    //   $bartenderDiv.css("left", BARTENDER_START_X + "px");
-    //   break;
+    case 32: /////////// SPACEBAR //////////////////////////////
+      // if (!pouring) {
+        // create beer object and DOM element
+      //  createBeer();
+        // pouring = true;
+        // pouring the beer into the glass
+        console.log("hello ",beers[beerCount]._beer);
+        beers[beerCount]._beer.beer.css("display", "block");
+        beers[beerCount]._beer.glass.animate({ height: "-=30" }, 700, function() {
+          //// BEER IS FULL, ANIMATION COMPLETE
+          // move the beer across the bar
+          beers[beerCount].beer.animate({ left: "-=460" }, 10000);
+          //beers[beerCount].movingToCustomer = true;
+        //  pouringSent = true; // used in key up event
+        });
+      // }
+      // jump back to tap by pouring (space bar)
+      $bartenderDiv.css("left", bartender._startX + "px");
+      break;
 
     case 37: //left key LEFT //////////////////////////////
     case 65: //   a key LEFT //////////////////////////////
@@ -112,9 +147,9 @@ $("body").on("keydown", function(evt) {
 //       if (pouring && !pouringSent) {
 //         pouring = false;
 //         // stop pouring the beer into the glass
-//         beersObj[beerCount].beer.css("display", "none");
-//         beersObj[beerCount].beer.css("height", "30px");
-//         beersObj[beerCount].glass.stop();
+//         beers[beerCount].beer.css("display", "none");
+//         beers[beerCount].beer.css("height", "30px");
+//         beers[beerCount].glass.stop();
 //       }
 //       // check if the beer is pouring AND being sent to customer
 //       if (pouring && pouringSent) {
