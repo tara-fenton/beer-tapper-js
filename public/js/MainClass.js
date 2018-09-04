@@ -18,10 +18,6 @@ $("#container").append($bartenderDiv);
 var $customersDiv = $("<div class='customers'></div>");
 $("#container").append($customersDiv);
 
-
-// const points = new Points();
-// points.setup();
-
 // const getReady = new GetReady();
 // getReady.setup();
 
@@ -29,19 +25,27 @@ $("#container").append($customersDiv);
 // gameOver.setup();
 
 
+var $levelDiv = $("<div id='level'></div>");
+$("#container").append($levelDiv);
 
-// var $levelDiv = $("<div id='level'></div>");
-// $("#container").append($levelDiv);
-//
-// const level = new Level();
+const level = new Level();
+console.log(level._level);
+$("#level").append(toString(level._level));
 // $("#level").append(String(level._level));
-// level.setup();
+//level.setup();
 // console.log(typeof level._level);
-
-
 // $levelDiv.append(Level.level);
+const points = new Points();
+// points.setup();
+const $pointsDiv = $("<div id='points'></div>");
+$("#container").append($pointsDiv);
+$pointsDiv.append(points._amount);
 
-
+function addPoints(add) {
+  points._amount += add;
+  $pointsDiv.text(points._amount);
+}
+// addPoints(100); //TODO: use this function when points need to be added
 const bartender = new Bartender();
 bartender.setup();
 
@@ -65,6 +69,7 @@ let pouringSent = false;
 function makeBeers() {
     const beer = new Beer(beerCount, bartender);
     beer.setup();
+
 }
 
 
