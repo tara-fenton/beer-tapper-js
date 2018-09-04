@@ -24,7 +24,6 @@ $("#container").append($customersDiv);
 // const gameOver = new GameOver();
 // gameOver.setup();
 
-
 var $levelDiv = $("<div id='level'></div>");
 $("#container").append($levelDiv);
 
@@ -51,7 +50,7 @@ bartender.setup();
 
 const customers = [];
 function makeCustomers() {
-  for (let i = 0; i < 4; i++){
+  for (let i = 0; i < 4; i++) {
     const customer = new Customer(i, bar);
     customer.setup();
     customers.push(customer);
@@ -66,12 +65,11 @@ let beers = [];
 let beerCount = 0;
 let pouring = false;
 let pouringSent = false;
-function makeBeers() {
-    const beer = new Beer(beerCount, bartender);
-    beer.setup();
-
+function makeBeer() {
+  const beer = new Beer(beerCount, bartender);
+  beer.setup();
+  beers.push(beer);
 }
-
 
 //// GET CUSTOMER COLLISONS - SET INTERVAL
 // interval used to test for when all customers are served
@@ -142,8 +140,6 @@ function getCustomers() {
   // }
 }
 
-
-
 /////////////////////////////////////////// KEY DOWN /////////////////
 $("body").on("keydown", function(evt) {
   // get the current x and y of bartender
@@ -155,19 +151,22 @@ $("body").on("keydown", function(evt) {
     case 32: /////////// SPACEBAR //////////////////////////////
       if (!pouring) {
         // create beer object and DOM element
-      //  createBeer();
-      makeBeers();
+        makeBeer();
         pouring = true;
         // pouring the beer into the glass
-        console.log("hello ",beers[beerCount]._beer);
+        console.log("hello ", beers[beerCount]._beer);
         beers[beerCount]._beer.beer.css("display", "block");
-        beers[beerCount]._beer.glass.animate({ height: "-=30" }, 700, function() {
-          //// BEER IS FULL, ANIMATION COMPLETE
-          // move the beer across the bar
-          beers[beerCount]._beer.beer.animate({ left: "-=460" }, 10000);
-          //beers[beerCount].movingToCustomer = true;
-        //  pouringSent = true; // used in key up event
-        });
+        beers[beerCount]._beer.glass.animate(
+          { height: "-=30" },
+          700,
+          function() {
+            //// BEER IS FULL, ANIMATION COMPLETE
+            // move the beer across the bar
+            beers[beerCount]._beer.beer.animate({ left: "-=460" }, 10000);
+            //beers[beerCount].movingToCustomer = true;
+            pouringSent = true; // used in key up event
+          }
+        );
       }
       // jump back to tap by pouring (space bar)
       $bartenderDiv.css("left", bartender._startX + "px");
@@ -175,68 +174,67 @@ $("body").on("keydown", function(evt) {
 
     case 37: //left key LEFT //////////////////////////////
     case 65: //   a key LEFT //////////////////////////////
-      bartender._newX = bartender._x - 5;
-      // restrict from moving past the left of bar
-      if (bartender._newX < bar._padding) {
-        bartender._newX = bar._padding;
-      }
-      // bartender._newX += "px";
-      $bartenderDiv.css("left", bartender._newX);
-      // TO DO : catch a beer glass
+      moveBartenderLeft();
       break;
     case 39: // right key RIGHT //////////////////////////////
     case 83: //     s key RIGHT //////////////////////////////
-      bartender._newX = bartender._x + 5;
-      // restrict from moving past the right
-      if (bartender._newX > bartender._startX) {
-        bartender._newX = bartender._startX;
-      }
-      // bartender._newX += "px";
-      $bartenderDiv.css("left", bartender._newX);
+      moveBartenderRight();
       break;
 
     case 13: //return key UP //////////////////////////////
     case 20: //  caps key UP //////////////////////////////
     case 38: //     arrow UP //////////////////////////////
-      bartender._newY = bartender._y - bar._padding - bartender._height / 2;
-
-      // loop around from the top to the bottom
-      if (bartender._newY < bartender._startY) {
-        bartender._newY =
-          bartender._startY +
-          bar._padding * bar._amount +
-          bartender._height / 2;
-      }
-      // // set the y position of bartender
-      // bartender._newY += "px";
-      $bartenderDiv.css("top", bartender._newY);
-      // // set the x position of the bartender
-      $bartenderDiv.css("left", bartender._startX);
-      // TO DO : stop pouring by moving to another row
+      moveBartenderUp();
       break;
     case 16: // shift DOWN //////////////////////////////
     case 40: // arrow DOWN //////////////////////////////
-      bartender._newY = bartender._y + bar._padding + bartender._height / 2;
-
-      // loop around from the bottom to the top and from the top to the bottom
-      var downLimit =
-        bartender._startY +
-        bar._padding * (bar._amount + 1) +
-        bartender._height / 2;
-      if (bartender._newY >= downLimit) {
-        bartender._newY = bartender._startY;
-      }
-      // set the y position of bartender
-      // bartender._newY += "px";
-      $bartenderDiv.css("top", bartender._newY);
-      // set the x position of the bartender
-      $bartenderDiv.css("left", bartender._startX);
-      // TO DO : stop pouring by moving to another row
+      moveBartenderDown();
       break;
     default:
       break;
   }
 });
+function moveBartenderLeft() {
+  bartender._newX = bartender._x - 5;
+  // restrict from moving past the left of bar
+  if (bartender._newX < bar._padding) {
+    bartender._newX = bar._padding;
+  }
+  $bartenderDiv.css("left", bartender._newX);
+}
+function moveBartenderRight() {
+  bartender._newX = bartender._x + 5;
+  // restrict from moving past the right
+  if (bartender._newX > bartender._startX) {
+    bartender._newX = bartender._startX;
+  }
+  $bartenderDiv.css("left", bartender._newX);
+}
+function moveBartenderUp() {
+  bartender._newY = bartender._y - bar._padding - bartender._height / 2;
+  // loop around from the top to the bottom
+  if (bartender._newY < bartender._startY) {
+    bartender._newY =
+      bartender._startY +
+      bar._padding * bar._amount +
+      bartender._height / 2;
+  }
+  $bartenderDiv.css("top", bartender._newY);
+  $bartenderDiv.css("left", bartender._startX);
+}
+function moveBartenderDown() {
+  bartender._newY = bartender._y + bar._padding + bartender._height / 2;
+  // loop around from the bottom to the top and from the top to the bottom
+  var downLimit =
+    bartender._startY +
+    bar._padding * (bar._amount + 1) +
+    bartender._height / 2;
+  if (bartender._newY >= downLimit) {
+    bartender._newY = bartender._startY;
+  }
+  $bartenderDiv.css("top", bartender._newY);
+  $bartenderDiv.css("left", bartender._startX);
+}
 /////////////////////////////////////////// KEY UP /////////////////
 $("body").on("keyup", function(evt) {
   var keyPressed = event.which;
@@ -252,12 +250,12 @@ $("body").on("keyup", function(evt) {
       }
       // check if the beer is pouring AND being sent to customer
       if (pouring && pouringSent) {
-        beers.push(beer);
+        // beers.push(beer);
         // now its ok to add another beer
-         beerCount++;
-         // reset these values for next beer
-         pouring = false;
-         pouringSent = false;
+        beerCount++;
+        // reset these values for next beer
+        pouring = false;
+        pouringSent = false;
       }
     default:
       break;
