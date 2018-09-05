@@ -7,15 +7,15 @@ import GetReady from "./GetReady.js";
 import Level from "./Level.js";
 import Points from "./Points.js";
 
-var $containerDiv = $("body").append("<div id='container'></div>");
+const $containerDiv = $("body").append("<div id='container'></div>");
 
 const bar = new Bar();
 bar.setup();
 
-var $bartenderDiv = $("<div id='bartender'></div>");
+const $bartenderDiv = $("<div id='bartender'></div>");
 $("#container").append($bartenderDiv);
 
-var $customersDiv = $("<div class='customers'></div>");
+const $customersDiv = $("<div class='customers'></div>");
 $("#container").append($customersDiv);
 
 // const getReady = new GetReady();
@@ -24,7 +24,7 @@ $("#container").append($customersDiv);
 // const gameOver = new GameOver();
 // gameOver.setup();
 
-var $levelDiv = $("<div id='level'></div>");
+const $levelDiv = $("<div id='level'></div>");
 $("#container").append($levelDiv);
 
 const level = new Level();
@@ -70,26 +70,119 @@ function makeBeer() {
   beer.setup();
   beers.push(beer);
 }
+let beerPositionX = 0;
+let beerPositionY = 0;
+let customerPositionX = 0;
+let customerPositionY = 0;
+//// GET BEERS - SET INTERVAL
+// interval used to test for when the beer is moving
+let beerInterval = setInterval(getBeers, 500);
+/// get the beers per row
+function getBeers() {
+  // for each beer
+  for (let beer in beers) {
+    //check if the beer is moving to the customer
+    if (beers[beer]._beer.movingToCustomer) {
+      // get the current position of the beer
+      beerPositionX = parseInt(beers[beer]._beer.beer.css("left"));
+      beerPositionY = parseInt(beers[beer]._beer.beer.css("top"));
+      // for each customer
+      for (let customer in customers) {
+        if (customers[customer]._customer.movingForward) {
+          // get the current position of the customer
+          // console.log(customers[customer]._customer.movingForward);
+          // console.log(parseInt(customers[customer]._customer.element.css("left")));
+          customerPositionX = parseInt(customers[customer]._customer.element.css("left"));
+          customerPositionY = parseInt(customers[customer]._customer.element.css("top"));
+          console.log(customerPositionX);
+          // check if the y positions of the beer and customer match
+          // and check if the beer and customer collided
+          // check if the customer gets a beer
+          if (beerPositionY === customerPositionY &&
+             customerPositionX + 40 > beerPositionX) {
+            beers[beer]._beer.movingToCustomer = false;
+            beers[beer]._beer.drinking = true;
+            customers[customer]._customer.movingForward = false;
+            // TO DO : drink the beer
+            // change the beer back to a glass
+            beers[beer]._beer.glass.css("height", "30");
+            // stop the beer and customer animations
+            beers[beer]._beer.beer.stop();
+            customers[customer]._customer.element.stop();
+            // ADD POINTS
+            // 50 Points for each saloon patron you send off his aisle
+            addPoints(50);
+
+            //customers[customer]._customer.drinking = true;
+            //customerMovingBackToDoor(customers[customer]._customer);
+          }
+        } else {
+          // check if the beer reaches the left of the bar
+          // without customer to drink the beer
+          if (beerPositionX < 100 && beers[beer]._beer.movingToCustomer && !beers[beer]._beer.movingToBartender) {
+            //die
+            //killTheBartender();
+          }
+        }
+      }
+    }
+    // check if the beer is being drunk
+    // if (beers[beer]._beer.drinking) {
+    //   // TO DO : drinking animation
+    //   beers[beer]._beer.drinking = false;
+    //   beers[beer]._beer.movingToBartender = true;
+    //   //send the glass of beer back to bartender
+    //   beers[beer]._beer.beer.animate({ left: "+=460" }, 30000);
+    // }
+    // // check if the beer glass is being send back to bartender
+    // if (beers[beer]._beer.movingToBartender) {
+    //   // get the current position of the beer
+    //   beerPositionX = parseInt(beers[beer]._beer.beer.css("left"));
+    //   beerPositionY = parseInt(beers[beer]._beer.beer.css("top"));
+    //   // get the current x and y of bartender
+    //   currentYbartender = parseInt($bartenderDiv.css("top"));
+    //   currentXbartender = parseInt($bartenderDiv.css("left"));
+    //   //check for collision with the bartender
+    //   if (beerPositionY === currentYbartender &&
+    //          beerPositionX + 15 > currentXbartender) {
+    //     //remove the glass of beer
+    //     beers[beer]._beer.beer.stop();
+    //     beers[beer]._beer.beer.remove();
+    //     beers[beer]._beer.movingToBartender = false;
+    //     // 100 Points for each empty mug you pick up
+    //     beers[beer]._beer.collected = true;
+    //     addPoints(100);
+    //
+    //   }
+    //   //check if the beer glass reaches the right of the bar
+    //   //if the glass reaches the end kill the bartender
+    //   if (beerPositionX > BAR_PADDING + BAR_WIDTH) {
+    //     //die
+    //     killTheBartender();
+    //   }
+    // }
+  }
+}
 
 //// GET CUSTOMER COLLISONS - SET INTERVAL
 // interval used to test for when all customers are served
-var customerInterval = setInterval(getCustomers, 500);
+let customerInterval = setInterval(getCustomers, 500);
 function getCustomers() {
   // set the total customers to the number of customer objects
   // let totalCustomers = Object.keys(customers).length;
   // // will reset each time getCustomer interval is triggered
   // let countCustomersReturning = 0;
   // // for each customer
-  // for (var c = 0; c < totalCustomers; c++) {
+  // for (let c = 0; c < totalCustomers; c++) {
   //   //check if they are moving back
-  //   if(!customers[c].movingForward) {
+  //   if(!customers[c]._customer.movingForward) {
   //     console.log("totalCustomers",customers[c]);
   //     //cuz they have to be moving back to door
   //     countCustomersReturning++;
   //     // check if they are at the door
   //     // if (parseInt(customers[c]._customer.element.css('left')) < CUSTOMER_START_Y - CUSTOMER_WIDTH) {
   //     if (parseInt(customers[c]._customer.element.css('left')) < 100 - 40) {
-  //       customers[c].element.css('display', 'none');
+  //       customers[c]._customer.element.css('display', 'none');
   //     }
   //   }
   // }
@@ -101,24 +194,24 @@ function getCustomers() {
   // // }
   // // now that all customers are returning
   // // check if all glasses are collected
-  // totalBeers = Object.keys(beersObj).length;
+  // totalBeers = Object.keys(beers).length;
   // countBeersCollected = 0;
   //
   // if (checkForBeers) {
   //   // for each beer
-  //   for (var b = 0; b < Object.keys(beersObj).length; b++) {
-  //     // check if all glasses are collected
-  //     if(beersObj[b].collected) {
-  //       countBeersCollected++
-  //     }
-  //   }
-  //   // ALL BEERS WERE COLLECTED - LEVEL WON!
-  //    if (countBeersCollected === totalBeers && totalBeers > 0) {
-  //   //if (countBeersCollected === totalBeers) {
-  //     levelWon = true;
-  //   } else {
-  //     countBeersCollected = 0;
-  //   }
+    // for (let b = 0; b < Object.keys(beers).length; b++) {
+    //   // check if all glasses are collected
+    //   if(beers[b].collected) {
+    //     countBeersCollected++
+    //   }
+    // }
+    // // ALL BEERS WERE COLLECTED - LEVEL WON!
+    //  if (countBeersCollected === totalBeers && totalBeers > 0) {
+    // //if (countBeersCollected === totalBeers) {
+    //   levelWon = true;
+    // } else {
+    //   countBeersCollected = 0;
+    // }
   // }
   /// TO DO : make this a function?
   // if (levelWon) {
@@ -146,7 +239,7 @@ $("body").on("keydown", function(evt) {
   bartender._y = parseInt($bartenderDiv.css("top"));
   bartender._x = parseInt($bartenderDiv.css("left"));
 
-  var keyPressed = event.which;
+  let keyPressed = event.which;
   switch (keyPressed) {
     case 32: /////////// SPACEBAR //////////////////////////////
       if (!pouring) {
@@ -163,7 +256,7 @@ $("body").on("keydown", function(evt) {
             //// BEER IS FULL, ANIMATION COMPLETE
             // move the beer across the bar
             beers[beerCount]._beer.beer.animate({ left: "-=460" }, 10000);
-            //beers[beerCount].movingToCustomer = true;
+            beers[beerCount]._beer.movingToCustomer = true;
             pouringSent = true; // used in key up event
           }
         );
@@ -225,7 +318,7 @@ function moveBartenderUp() {
 function moveBartenderDown() {
   bartender._newY = bartender._y + bar._padding + bartender._height / 2;
   // loop around from the bottom to the top and from the top to the bottom
-  var downLimit =
+  let downLimit =
     bartender._startY +
     bar._padding * (bar._amount + 1) +
     bartender._height / 2;
@@ -237,7 +330,7 @@ function moveBartenderDown() {
 }
 /////////////////////////////////////////// KEY UP /////////////////
 $("body").on("keyup", function(evt) {
-  var keyPressed = event.which;
+  let keyPressed = event.which;
   switch (keyPressed) {
     case 32: //spacebar
       // check if the beer is pouring BUT not being sent to customer

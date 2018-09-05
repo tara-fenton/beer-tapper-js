@@ -2,12 +2,11 @@ class Customer {
 
   constructor (i, bar) {
     this.i = i;
+    this.bar = bar;
     this.CUSTOMER_AMOUNT = 4;
     this.CUSTOMER_HEIGHT = 80;
     this.CUSTOMER_WIDTH = 40;
     this.CUSTOMER_START_Y = 100;
-    // this.customersObj = {};
-    this.bar = bar;
     this.customerObj = {};
   }
 
@@ -19,7 +18,6 @@ class Customer {
     $customerDiv.css("left", "30px");
     // customer object
 
-    // customerObj.id = "data-customer-index" + i;
     this.customerObj.element = $customerDiv;
     this.customerObj.movingForward = true;
     // //customerObj.drinking = false;
