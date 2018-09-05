@@ -6,6 +6,7 @@ import GameOver from "./GameOver.js";
 import GetReady from "./GetReady.js";
 import Level from "./Level.js";
 import Points from "./Points.js";
+import StartGame from "./StartGame.js";
 
 const $containerDiv = $("body").append("<div id='container'></div>");
 
@@ -18,8 +19,8 @@ $("#container").append($bartenderDiv);
 const $customersDiv = $("<div class='customers'></div>");
 $("#container").append($customersDiv);
 
-// const getReady = new GetReady();
-// getReady.setup();
+
+
 
 // const gameOver = new GameOver();
 // gameOver.setup();
@@ -52,8 +53,21 @@ function makeCustomers() {
     setTimeout(customer.customerMovingToBartender(i), 30000); // something random
   }
 }
-makeCustomers();
 
+
+const startGame = new StartGame();
+startGame.setup();
+
+$("#startButton").on('click', function() {
+  $("#readyToServe").remove();
+  startRound();
+
+})
+let gameInterval;
+function startRound() {
+  makeCustomers();
+  gameInterval = setInterval(beersAndCustomersCollisions, 500);
+}
 let beers = [];
 let beerCount = 0;
 let pouring = false;
@@ -72,9 +86,9 @@ let customerPositionY = 0;
 let currentYbartender = 0;
 let currentXbartender = 0;
 
-let beerInterval = setInterval(getBeers, 500);
 
-function getBeers() {
+
+function beersAndCustomersCollisions() {
   for (let beer in beers) {
     getBeerPostion(beer);
 
@@ -140,6 +154,8 @@ function checkForServe(beer, customer) {
   ) {
     beers[beer]._beer.movingToCustomer = false;
     beers[beer]._beer.movingToBartender = true;
+    //send the glass of beer back to bartender
+    beers[beer]._beer.beer.animate({ left: "+=460" }, 30000);
     // beers[beer]._beer.drinking = true;
     customers[customer]._customer.movingForward = false;
     // TO DO : drink the beer
@@ -199,7 +215,7 @@ function levelWon() {
   addPoints(1000);
 }
 function clearGame() {
-  clearInterval(beerInterval);
+  clearInterval(gameInterval);
   stopCustomers();
   stopBeers();
 }
