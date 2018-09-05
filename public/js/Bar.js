@@ -24,6 +24,9 @@ class Bar {
   get _padding() {
     return this.BAR_PADDING;
   }
+  get _width() {
+    return this.BAR_WIDTH;
+  }
 
   //   const getPadding(){
   //     return BAR_PADDING;

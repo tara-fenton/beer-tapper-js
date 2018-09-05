@@ -145,10 +145,13 @@ user-select: none;
 #startGame {
   margin: 200px 164px;
 }
+#instructionsButton {
+  margin: 160px 180px;
+  width: 240px;
+}
 #resetGame {
   margin: 0 164px;
 }
 #gameOver {
   color: red;
 }
-

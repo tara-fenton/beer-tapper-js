@@ -1,9 +1,10 @@
-import Bartender from "./Bartender.js";
+// import Bartender from "./Bartender.js";
 
 class Beer {
 
-  constructor (count) {
-    this.Bartender = new Bartender();
+  constructor (count, bartender) {
+    this.Bartender = bartender;
+    //console.log();
     this.x = 472;
     this.beerCount = count;
 

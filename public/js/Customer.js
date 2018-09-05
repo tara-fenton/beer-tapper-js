@@ -27,7 +27,6 @@ class Customer {
   }
   customerMovingToBartender(current) {
 
-    //console.log(this.customerObj[current]);
     this._customer.element.animate(
       { left: "+=420" },
       10000 * (current + 1), //SLOW cutomers for game

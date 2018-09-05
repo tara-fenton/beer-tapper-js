@@ -19,9 +19,6 @@ $("#container").append($bartenderDiv);
 const $customersDiv = $("<div class='customers'></div>");
 $("#container").append($customersDiv);
 
-
-
-
 // const gameOver = new GameOver();
 // gameOver.setup();
 
@@ -44,8 +41,9 @@ function addPoints(add) {
 const bartender = new Bartender();
 bartender.setup();
 
-const customers = [];
+let customers;
 function makeCustomers() {
+  customers = [];
   for (let i = 0; i < 4; i++) {
     const customer = new Customer(i, bar);
     customer.setup();
@@ -54,24 +52,39 @@ function makeCustomers() {
   }
 }
 
-
 const startGame = new StartGame();
 startGame.setup();
 
-$("#startButton").on('click', function() {
+const getReady = new GetReady();
+
+
+$("#startButton").on("click", function() {
   $("#readyToServe").remove();
   startRound();
+});
 
-})
+// $("#instructionsButton").on('click', function() {
+//   console.log('instructions clicked');
+//   startGame.instructions();
+// })
+
 let gameInterval;
 function startRound() {
+  setBeerProps();
   makeCustomers();
   gameInterval = setInterval(beersAndCustomersCollisions, 500);
 }
-let beers = [];
-let beerCount = 0;
-let pouring = false;
-let pouringSent = false;
+let beers;
+let beerCount;
+let pouring;
+let pouringSent;
+
+function setBeerProps() {
+   beers = [];
+   beerCount = 0;
+   pouring = false;
+   pouringSent = false;
+}
 
 function makeBeer() {
   const beer = new Beer(beerCount, bartender);
@@ -85,8 +98,6 @@ let customerPositionX = 0;
 let customerPositionY = 0;
 let currentYbartender = 0;
 let currentXbartender = 0;
-
-
 
 function beersAndCustomersCollisions() {
   for (let beer in beers) {
@@ -110,22 +121,17 @@ function beersAndCustomersCollisions() {
       checkForGlassMissed();
     }
     if (checkReturningCustomers()) {
-      console.log('we have true');
+      console.log("we have true");
       levelWon();
     }
   }
 }
 function checkReturningCustomers() {
-  //check if they are moving back
   let countCustomersReturning = 0;
   for (let customer in customers) {
-    if (!customers[customer]._customer.movingForward) {
-      countCustomersReturning++;
-    }
+    if (!customers[customer]._customer.movingForward) countCustomersReturning++;
   }
-  if (countCustomersReturning === Object.keys(customers).length) {
-    return true;
-  }
+  if (countCustomersReturning === Object.keys(customers).length) return true;
   return false;
 }
 function getBeerPostion(beer) {
@@ -218,6 +224,19 @@ function clearGame() {
   clearInterval(gameInterval);
   stopCustomers();
   stopBeers();
+  window.setTimeout( show_popup, 1000 );
+}
+function show_popup() {
+  getReady.setup();
+  window.setTimeout( remove_popup, 1000 );
+}
+function remove_popup() {
+  getReady.remove();
+  // customers = [];
+  // remove the beer elements
+  removeCustomers();
+  removeBeers();
+  startRound();
 }
 function stopCustomers() {
   for (let customer in customers) {
@@ -227,9 +246,16 @@ function stopCustomers() {
 function stopBeers() {
   for (let beer in beers) {
     beers[beer]._beer.beer.stop();
-    //reset to stop conditionals
-    // beers[beer].beer.movingToCustomer = false; //will be false upon creation
-    // beers[beer].beer.movingToBartender = false;
+  }
+}
+function removeCustomers() {
+  for (let customer in customers) {
+    customers[customer]._customer.element.remove();
+  }
+}
+function removeBeers() {
+  for (var beer in beers) {
+    beers[beer]._beer.beer.remove();
   }
 }
 /////////////////////////////////////////// KEY DOWN /////////////////
