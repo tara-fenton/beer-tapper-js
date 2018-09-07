@@ -54,6 +54,10 @@ html {
   color: white;
   position: absolute;
 }
+/* #level {
+  top: 10px;
+  left:10px;
+} */
 #points {
   top: 15px;
 }

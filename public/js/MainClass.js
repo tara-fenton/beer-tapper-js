@@ -26,7 +26,7 @@ const $levelDiv = $("<div id='level'></div>");
 $("#container").append($levelDiv);
 
 const level = new Level();
-$("#level").append(toString(level._level));
+$("#level").append((level._level));
 
 const points = new Points();
 const $pointsDiv = $("<div id='points'></div>");
@@ -217,6 +217,7 @@ function killTheBartender() {
   // setTimeout(lifeLost, 1500);
 }
 function levelWon() {
+  $("#level").text((level._level++));
   clearGame();
   addPoints(1000);
 }
