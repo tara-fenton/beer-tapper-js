@@ -1,16 +1,16 @@
 class GetReady {
 
   constructor() {
-    this.$readyToServe = $("<div id='readyToServe'></div>");
+    this.$readyToServe = $("<div id='readyToServe'><h1>get ready to serve</h1></div>");
+    this.$resetGame = $("<div id='startGame'></div>");
   }
 
   setup() {
-    const $resetGame = $("<div id='startGame'></div>");
-    this.$readyToServe.append("<h1>get ready to serve</h1>");
-    this.$readyToServe.append($resetGame);
+    this.$readyToServe.append(this.$resetGame);
     $("#container").append(this.$readyToServe);
   }
   remove() {
+    this.$resetGame.remove();
     this.$readyToServe.remove();
   }
 }
