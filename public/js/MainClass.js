@@ -5,6 +5,7 @@ import Customer from "./Customer.js";
 import GameOver from "./GameOver.js";
 import GetReady from "./GetReady.js";
 import Level from "./Level.js";
+import Lives from "./Lives.js";
 import Points from "./Points.js";
 import StartGame from "./StartGame.js";
 
@@ -21,6 +22,9 @@ $("#container").append($customersDiv);
 
 // const gameOver = new GameOver();
 // gameOver.setup();
+
+const lives = new Lives();
+lives.setup();
 
 const $levelDiv = $("<div id='level'></div>");
 $("#container").append($levelDiv);
@@ -212,16 +216,16 @@ function checkForOverPour(beer) {
 }
 function killTheBartender() {
   console.log("kill the bartender");
-  clearGame();
+  pauseGame();
   // // loose a life
   // setTimeout(lifeLost, 1500);
 }
 function levelWon() {
   $("#level").text((level._level++));
-  clearGame();
+  pauseGame();
   addPoints(1000);
 }
-function clearGame() {
+function pauseGame() {
   clearInterval(gameInterval);
   stopCustomers();
   stopBeers();

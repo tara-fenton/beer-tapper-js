@@ -1,13 +1,9 @@
-// import Bartender from "./Bartender.js";
-
 class Beer {
 
   constructor (count, bartender) {
-    this.Bartender = bartender;
-    //console.log();
-    this.x = 472;
     this.beerCount = count;
-
+    this.Bartender = bartender;
+    this.x = 472;
     this.beerObj = {};
   }
 
@@ -18,14 +14,13 @@ class Beer {
     //do i really need this id if I have an object?
     $beerDiv.attr("id", "data-beer-index" + this.beerCount);
     // position the beer next to the bartender
-    $beerDiv.css("left", "472px");
+    $beerDiv.css("left", this.x + "px");
     //currentYbartender = parseInt($bartenderDiv.css("top"));
     $beerDiv.css("top", this.Bartender._y + "px");
     $beerDiv.append($glass);
     $("#container").append($beerDiv);
 
     //beer object
-
     this.beerObj.id = "data-beer-index" + this.beerCount;
     this.beerObj.beer = $beerDiv;
     this.beerObj.glass = $glass;
