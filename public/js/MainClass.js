@@ -57,14 +57,9 @@ const getReady = new GetReady();
 const gameOver = new GameOver();
 
 $("#startButton").on("click", function() {
-  console.log("start button");
   $("#readyToServe").remove();
   startRound();
 });
-$("#test").on("click", function() {
-  console.log("test");
-});
-
 
 // $("#instructionsButton").on('click', function() {
 //   console.log('instructions clicked');
@@ -237,8 +232,7 @@ function killTheBartender() {
 function showGameOver() {
   gameOver.setup();
   $("#restartButton").on("click", function() {
-    $("#end").remove();
-    console.log("reset button clicked");
+    gameOver.remove();
     removeCustomers();
     removeBeers();
     startRound();

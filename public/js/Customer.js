@@ -25,19 +25,7 @@ class Customer {
     // customersObj[i] = customerObj;
 
   }
-  customerMovingToBartender(current) {
-
-    this._customer.element.animate(
-      { left: "+=420" },
-      10000 * (current + 1), //SLOW cutomers for game
-      //1000 * (current + 1), //fast cutomers for testing
-      function() {
-        //// KILL THE BARTENDER, CUSTOMER AT END OF BAR
-        //killTheBartender();
-        console.log("killTheBartender");
-      }
-    );
-  }
+  
   get _customer() {
     return this.customerObj;
   }

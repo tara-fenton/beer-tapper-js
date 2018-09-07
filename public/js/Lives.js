@@ -1,7 +1,7 @@
 class Lives {
 
   constructor () {
-    this.lives = 3;
+    this.lives = 1;
     this.$lives;
   }
 
@@ -10,6 +10,7 @@ class Lives {
     $("#container").append(this.$lives);
     this.createBeerLife();
   }
+
   createBeerLife(){
     for (var i = 0; i < this.lives; i++) {
       var $beerDiv = $("<div class='beer'></div>");
@@ -19,6 +20,18 @@ class Lives {
       $beerDiv.css("left", nextPosition + "px");
       this.$lives.append($beerDiv);
     }
+  }
+
+  remove() {
+    this.$lives.remove();
+  }
+
+  get _lives() {
+    return this.lives;
+  }
+
+  set _lives(l) {
+    return this.lives = l;
   }
 }
 export default Lives;

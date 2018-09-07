@@ -146,7 +146,7 @@ user-select: none;
   position: relative;
   left: 398px;
 }
-#startGame {
+#startGame, #restartButton {
   margin: 200px 164px;
 }
 #instructionsButton {
@@ -158,4 +158,7 @@ user-select: none;
 }
 #gameOver {
   color: red;
+}
+#restartButton {
+  margin: 0px 164px;
 }
