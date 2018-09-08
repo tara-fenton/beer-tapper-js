@@ -4,6 +4,7 @@ import Beer from "./Beer.js";
 import Customer from "./Customer.js";
 import GameOver from "./GameOver.js";
 import GetReady from "./GetReady.js";
+import HighScoreForm from "./HighScoreForm.js";
 import Level from "./Level.js";
 import Lives from "./Lives.js";
 import Points from "./Points.js";
@@ -54,6 +55,7 @@ const startGame = new StartGame();
 startGame.setup();
 
 const getReady = new GetReady();
+const highScoreForm = new HighScoreForm();
 const gameOver = new GameOver();
 
 $("#startButton").on("click", function() {
@@ -225,10 +227,25 @@ function killTheBartender() {
   if (lives._lives > 0) {
     window.setTimeout(showGetReady, 1000);
   } else {
-    window.setTimeout(showGameOver, 1000);
+    window.setTimeout(checkForHighScores, 1000);
   }
 }
+function checkForHighScores() {
+  // show form
+  showHighScoreForm();
+  // show game over
 
+  //showGameOver();
+}
+function showHighScoreForm() {
+  highScoreForm.setup();
+  // $("#restartButton").on("click", function() {
+  //   gameOver.remove();
+  //   removeCustomers();
+  //   removeBeers();
+  //   startRound();
+  // });
+}
 function showGameOver() {
   gameOver.setup();
   $("#restartButton").on("click", function() {
