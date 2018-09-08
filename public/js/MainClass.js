@@ -34,6 +34,8 @@ const points = new Points();
 const $pointsDiv = $("<div id='points'></div>");
 $("#container").append($pointsDiv);
 $pointsDiv.append(points._amount);
+// points._amount += 500;
+// $pointsDiv.append(500);
 
 const bartender = new Bartender();
 bartender.setup();
@@ -47,7 +49,6 @@ function makeCustomers() {
     customers.push(customer);
 
     setTimeout(customerMovingToBartender(customer._customer, i), 30000); // something random
-    // setTimeout(customer.customerMovingToBartender(i), 30000); // something random
   }
 }
 
@@ -101,11 +102,12 @@ let currentXbartender = 0;
 
 function beersAndCustomersCollisions() {
   for (let beer in beers) {
-    getBeerPostion(beer);
+
 
     if (beers[beer]._beer.movingToCustomer) {
       // for each customer
       for (let customer in customers) {
+        getBeerPostion(beer);
         getCustomerPostion(customer);
         if (customers[customer]._customer.movingForward) {
           checkForServe(beer, customer);
@@ -129,10 +131,19 @@ function beersAndCustomersCollisions() {
 function checkReturningCustomers() {
   let countCustomersReturning = 0;
   for (let customer in customers) {
+    checkReturnedToDoor(customers[customer]._customer);
     if (!customers[customer]._customer.movingForward) countCustomersReturning++;
   }
   if (countCustomersReturning === Object.keys(customers).length) return true;
   return false;
+}
+function checkReturnedToDoor(currentCustomer) {
+  if (
+    parseInt(currentCustomer.element.css("left")) < 20 &&
+    !currentCustomer.movingForward
+  ) {
+    currentCustomer.element.css("display", "none");
+  }
 }
 function getBeerPostion(beer) {
   beerPositionX = parseInt(beers[beer]._beer.beer.css("left"));
@@ -158,23 +169,15 @@ function checkForServe(beer, customer) {
     beerPositionY === customerPositionY &&
     customerPositionX + 40 > beerPositionX
   ) {
+    console.log('check for server');
     beers[beer]._beer.movingToCustomer = false;
     beers[beer]._beer.movingToBartender = true;
-    //send the glass of beer back to bartender
-    beers[beer]._beer.beer.animate({ left: "+=460" }, 30000);
-    // beers[beer]._beer.drinking = true;
-    customers[customer]._customer.movingForward = false;
-    // TO DO : drink the beer
-    // change the beer back to a glass
-    beers[beer]._beer.glass.css("height", "30");
-    // stop the beer and customer animations
     beers[beer]._beer.beer.stop();
+    beers[beer]._beer.glass.css("height", "30");
     customers[customer]._customer.element.stop();
-    // ADD POINTS
-    // 50 Points for each saloon patron you send off his aisle
+    customers[customer]._customer.movingForward = false;
+    beers[beer]._beer.beer.animate({ left: "+=460" }, 30000);
     addPoints(50);
-
-    //customers[customer]._customer.drinking = true;
     customerMovingBackToDoor(customers[customer]._customer);
   }
 }
@@ -195,6 +198,8 @@ function checkForGlassCollected(beer) {
 function checkForGlassMissed() {
   if (beerPositionX > bar._padding + bar._width) {
     killTheBartender();
+      // console.log('kill thats breaking');
+
   }
 }
 function customerMovingBackToDoor(currentCustomer) {
@@ -204,10 +209,11 @@ function customerMovingBackToDoor(currentCustomer) {
 function customerMovingToBartender(currentCustomer, current) {
   currentCustomer.element.animate(
     { left: "+=420" },
-    // 10000 * (current + 1), //SLOW cutomers for game
-    1000 * (current + 1), //fast cutomers for testing
+    10000 * (current + 1), //SLOW cutomers for game
+    // 1000 * (current + 1), //fast cutomers for testing
     function() {
       killTheBartender();
+  // console.log('kill thats breaking');
       // console.log("killTheBartender");
     }
   );
@@ -218,6 +224,7 @@ function checkForOverPour(beer) {
     beers[beer]._beer.movingToCustomer &&
     !beers[beer]._beer.movingToBartender
   ) {
+  console.log('kill thats breaking');
     killTheBartender();
   }
 }
@@ -230,22 +237,22 @@ function killTheBartender() {
     window.setTimeout(checkForHighScores, 1000);
   }
 }
-function checkForHighScores() {
-  // show form
-  showHighScoreForm();
-  // show game over
 
-  //showGameOver();
+function checkForHighScores() {
+  if (points._amount > gameOver.highestScore()) showHighScoreForm();
+  else showGameOver();
 }
+
 function showHighScoreForm() {
+  console.log("showHighScoreForm");
   highScoreForm.setup();
-  // $("#restartButton").on("click", function() {
-  //   gameOver.remove();
-  //   removeCustomers();
-  //   removeBeers();
-  //   startRound();
-  // });
+  $("#submitHighScore").on("click", function() {
+    gameOver.addNewHighScore(highScoreForm.inputValue(), points._amount);
+    highScoreForm.remove();
+    showGameOver();
+  });
 }
+
 function showGameOver() {
   gameOver.setup();
   $("#restartButton").on("click", function() {
@@ -257,9 +264,10 @@ function showGameOver() {
 }
 
 function levelWon() {
-  $("#level").text(level._level++);
   pauseGame();
   addPoints(1000);
+  addLevel();
+  window.setTimeout(clearRound, 1000);
 }
 
 function pauseGame() {
@@ -278,6 +286,10 @@ function addPoints(add) {
   points._amount += add;
   $pointsDiv.text(points._amount);
 }
+function addLevel(){
+  level._level++;
+  $("#level").text(level._level);
+}
 
 function showGetReady() {
   getReady.setup();
@@ -285,6 +297,9 @@ function showGetReady() {
 }
 function removeGetReady() {
   getReady.remove();
+  clearRound();
+}
+function clearRound() {
   removeCustomers();
   removeBeers();
   startRound();
@@ -330,8 +345,8 @@ $("body").on("keydown", function(evt) {
           function() {
             //// BEER IS FULL, ANIMATION COMPLETE
             // move the beer across the bar
-            beers[beerCount]._beer.beer.animate({ left: "-=460" }, 100);
-            // beers[beerCount]._beer.beer.animate({ left: "-=460" }, 10000);
+            // beers[beerCount]._beer.beer.animate({ left: "-=460" }, 100);
+            beers[beerCount]._beer.beer.animate({ left: "-=460" }, 10000);
             beers[beerCount]._beer.movingToCustomer = true;
             pouringSent = true; // used in key up event
           }
