@@ -237,12 +237,10 @@ function killTheBartender() {
     window.setTimeout(checkForHighScores, 1000);
   }
 }
-
 function checkForHighScores() {
   if (points._amount > gameOver.highestScore()) showHighScoreForm();
   else showGameOver();
 }
-
 function showHighScoreForm() {
   console.log("showHighScoreForm");
   highScoreForm.setup();
@@ -252,36 +250,34 @@ function showHighScoreForm() {
     showGameOver();
   });
 }
-
 function showGameOver() {
   gameOver.setup();
   $("#restartButton").on("click", function() {
     gameOver.remove();
+    resetLives();
     removeCustomers();
     removeBeers();
-    startRound();
+    clearLevel();
+    clearPoints();
+    clearRound();
   });
 }
-
 function levelWon() {
   pauseGame();
   addPoints(1000);
   addLevel();
   window.setTimeout(clearRound, 1000);
 }
-
 function pauseGame() {
   clearInterval(gameInterval);
   stopCustomers();
   stopBeers();
 }
-
 function loseLife() {
   lives._lives--;
   lives.remove();
   lives.setup();
 }
-
 function addPoints(add) {
   points._amount += add;
   $pointsDiv.text(points._amount);
@@ -290,7 +286,6 @@ function addLevel(){
   level._level++;
   $("#level").text(level._level);
 }
-
 function showGetReady() {
   getReady.setup();
   window.setTimeout(removeGetReady, 1000);
@@ -300,9 +295,26 @@ function removeGetReady() {
   clearRound();
 }
 function clearRound() {
+  resetBartender();
   removeCustomers();
   removeBeers();
   startRound();
+}
+function resetLives() {
+  lives._lives = 3;
+  lives.setup();
+}
+function resetBartender(){
+  $bartenderDiv.css("top", bartender._startY);
+  $bartenderDiv.css("left", bartender._startX);
+}
+function clearLevel(){
+  level._level = 1;
+  $("#level").text(level._level);
+}
+function clearPoints(){
+  points._amount = 0;
+  $pointsDiv.text(points._amount);
 }
 function stopCustomers() {
   for (let customer in customers) {
