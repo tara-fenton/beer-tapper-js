@@ -34,8 +34,6 @@ const points = new Points();
 const $pointsDiv = $("<div id='points'></div>");
 $("#container").append($pointsDiv);
 $pointsDiv.append(points._amount);
-// points._amount += 500;
-// $pointsDiv.append(500);
 
 const bartender = new Bartender();
 bartender.setup();
@@ -103,17 +101,10 @@ let currentXbartender = 0;
 function beersAndCustomersCollisions() {
   for (let beer in beers) {
     getBeerPostion(beer);
-
     if (beers[beer]._beer.movingToCustomer) {
-      // for each customer
       for (let customer in customers) {
         getCustomerPostion(customer);
-        if (customers[customer]._customer.movingForward &&
-          beerPositionY === customerPositionY &&
-          customerPositionX + 40 > beerPositionX
-        ) {
-          checkForServe(beer, customer);
-        }
+        checkForServe(beer, customer);
       }
       checkForOverPour(beer);
     }
@@ -124,7 +115,6 @@ function beersAndCustomersCollisions() {
       checkForGlassMissed();
     }
     if (Object.keys(customers).length > 0 && checkReturningCustomers()) {
-      console.log("we have true");
       levelWon();
     }
   }
@@ -183,7 +173,6 @@ function checkForGlassCollected(beer) {
     beerPositionY === currentYbartender &&
     beerPositionX + 15 > currentXbartender
   ) {
-    console.log(beers[beer]._beer);
     //remove the glass of beer
     beers[beer]._beer.beer.stop();
     beers[beer]._beer.beer.remove();
@@ -218,18 +207,14 @@ function checkForOverPour(beer) {
 function killTheBartender() {
   pauseGame();
   loseLife();
-  if (lives._lives > 0) {
-    window.setTimeout(showGetReady, 2000);
-  } else {
-    window.setTimeout(checkForHighScores, 2000);
-  }
+  if (lives._lives > 0) window.setTimeout(showGetReady, 2000);
+  else window.setTimeout(checkForHighScores, 2000);
 }
 function checkForHighScores() {
   if (points._amount > gameOver.highestScore()) showHighScoreForm();
   else showGameOver();
 }
 function showHighScoreForm() {
-  console.log("showHighScoreForm");
   highScoreForm.setup();
   $("#submitHighScore").on("click", function() {
     gameOver.addNewHighScore(highScoreForm.inputValue(), points._amount);
@@ -317,11 +302,13 @@ function removeCustomers() {
   for (let customer in customers) {
     customers[customer]._customer.element.remove();
   }
+  customers = [];
 }
 function removeBeers() {
   for (var beer in beers) {
     beers[beer]._beer.beer.remove();
   }
+  beers = [];
 }
 /////////////////////////////////////////// KEY DOWN /////////////////
 $("body").on("keydown", function(evt) {

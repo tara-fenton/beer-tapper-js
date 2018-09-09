@@ -51,7 +51,6 @@ class GameOver {
   addNewHighScore(name, score) {
     this.highScores.unshift({ name: name, score: score });
     this.highScores.pop();
-    console.log('this.heighgahdskj ',this.highScores);
   }
 }
 export default GameOver;
