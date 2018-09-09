@@ -108,12 +108,14 @@ function beersAndCustomersCollisions() {
       // for each customer
       for (let customer in customers) {
         getCustomerPostion(customer);
-        if (customers[customer]._customer.movingForward) {
+        if (customers[customer]._customer.movingForward &&
+          beerPositionY === customerPositionY &&
+          customerPositionX + 40 > beerPositionX
+        ) {
           checkForServe(beer, customer);
-        } else {
-          checkForOverPour(beer);
         }
       }
+      checkForOverPour(beer);
     }
 
     if (beers[beer]._beer.movingToBartender) {
@@ -161,14 +163,10 @@ function getBartenderPostion() {
   currentXbartender = parseInt($bartenderDiv.css("left"));
 }
 function checkForServe(beer, customer) {
-  // check if the y positions of the beer and customer match
-  // and check if the beer and customer collided
-  // check if the customer gets a beer
-  if (
+  if (customers[customer]._customer.movingForward &&
     beerPositionY === customerPositionY &&
     customerPositionX + 40 > beerPositionX
   ) {
-    console.log("check for server");
     beers[beer]._beer.movingToCustomer = false;
     beers[beer]._beer.movingToBartender = true;
     beers[beer]._beer.beer.stop();
@@ -209,15 +207,11 @@ function customerMovingToBartender(currentCustomer, current) {
     // 1000 * (current + 1), //fast cutomers for testing
     function() {
       killTheBartender();
-      // console.log('kill thats breaking');
-      // console.log("killTheBartender");
     }
   );
 }
 function checkForOverPour(beer) {
   if (beerPositionX < 100 && beers[beer]._beer.movingToCustomer) {
-    console.log(beers[beer]._beer);
-    console.log("kill thats breaking");
     killTheBartender();
   }
 }
