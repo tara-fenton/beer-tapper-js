@@ -102,12 +102,11 @@ let currentXbartender = 0;
 
 function beersAndCustomersCollisions() {
   for (let beer in beers) {
-
+    getBeerPostion(beer);
 
     if (beers[beer]._beer.movingToCustomer) {
       // for each customer
       for (let customer in customers) {
-        getBeerPostion(beer);
         getCustomerPostion(customer);
         if (customers[customer]._customer.movingForward) {
           checkForServe(beer, customer);
@@ -122,7 +121,7 @@ function beersAndCustomersCollisions() {
       checkForGlassCollected(beer);
       checkForGlassMissed();
     }
-    if (checkReturningCustomers()) {
+    if (Object.keys(customers).length > 0 && checkReturningCustomers()) {
       console.log("we have true");
       levelWon();
     }
@@ -169,7 +168,7 @@ function checkForServe(beer, customer) {
     beerPositionY === customerPositionY &&
     customerPositionX + 40 > beerPositionX
   ) {
-    console.log('check for server');
+    console.log("check for server");
     beers[beer]._beer.movingToCustomer = false;
     beers[beer]._beer.movingToBartender = true;
     beers[beer]._beer.beer.stop();
@@ -186,6 +185,7 @@ function checkForGlassCollected(beer) {
     beerPositionY === currentYbartender &&
     beerPositionX + 15 > currentXbartender
   ) {
+    console.log(beers[beer]._beer);
     //remove the glass of beer
     beers[beer]._beer.beer.stop();
     beers[beer]._beer.beer.remove();
@@ -196,11 +196,7 @@ function checkForGlassCollected(beer) {
   }
 }
 function checkForGlassMissed() {
-  if (beerPositionX > bar._padding + bar._width) {
-    killTheBartender();
-      // console.log('kill thats breaking');
-
-  }
+  if (beerPositionX > bar._padding + bar._width) killTheBartender();
 }
 function customerMovingBackToDoor(currentCustomer) {
   currentCustomer.element.css("backgroundColor", "green");
@@ -213,18 +209,15 @@ function customerMovingToBartender(currentCustomer, current) {
     // 1000 * (current + 1), //fast cutomers for testing
     function() {
       killTheBartender();
-  // console.log('kill thats breaking');
+      // console.log('kill thats breaking');
       // console.log("killTheBartender");
     }
   );
 }
 function checkForOverPour(beer) {
-  if (
-    beerPositionX < 100 &&
-    beers[beer]._beer.movingToCustomer &&
-    !beers[beer]._beer.movingToBartender
-  ) {
-  console.log('kill thats breaking');
+  if (beerPositionX < 100 && beers[beer]._beer.movingToCustomer) {
+    console.log(beers[beer]._beer);
+    console.log("kill thats breaking");
     killTheBartender();
   }
 }
@@ -232,9 +225,9 @@ function killTheBartender() {
   pauseGame();
   loseLife();
   if (lives._lives > 0) {
-    window.setTimeout(showGetReady, 1000);
+    window.setTimeout(showGetReady, 2000);
   } else {
-    window.setTimeout(checkForHighScores, 1000);
+    window.setTimeout(checkForHighScores, 2000);
   }
 }
 function checkForHighScores() {
@@ -266,7 +259,7 @@ function levelWon() {
   pauseGame();
   addPoints(1000);
   addLevel();
-  window.setTimeout(clearRound, 1000);
+  window.setTimeout(showGetReady, 2000);
 }
 function pauseGame() {
   clearInterval(gameInterval);
@@ -282,13 +275,13 @@ function addPoints(add) {
   points._amount += add;
   $pointsDiv.text(points._amount);
 }
-function addLevel(){
+function addLevel() {
   level._level++;
   $("#level").text(level._level);
 }
 function showGetReady() {
   getReady.setup();
-  window.setTimeout(removeGetReady, 1000);
+  window.setTimeout(removeGetReady, 2000);
 }
 function removeGetReady() {
   getReady.remove();
@@ -304,15 +297,15 @@ function resetLives() {
   lives._lives = 3;
   lives.setup();
 }
-function resetBartender(){
+function resetBartender() {
   $bartenderDiv.css("top", bartender._startY);
   $bartenderDiv.css("left", bartender._startX);
 }
-function clearLevel(){
+function clearLevel() {
   level._level = 1;
   $("#level").text(level._level);
 }
-function clearPoints(){
+function clearPoints() {
   points._amount = 0;
   $pointsDiv.text(points._amount);
 }
@@ -351,6 +344,7 @@ $("body").on("keydown", function(evt) {
         pouring = true;
         // pouring the beer into the glass
         beers[beerCount]._beer.beer.css("display", "block");
+        beers[beerCount]._beer.beer.css("top", bartender._y +"px");
         beers[beerCount]._beer.glass.animate(
           { height: "-=30" },
           700,
