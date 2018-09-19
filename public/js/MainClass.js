@@ -38,17 +38,18 @@ $pointsDiv.append(points._amount);
 const bartender = new Bartender();
 bartender.setup();
 
-let customers;
-function makeCustomers() {
-  customers = [];
-  for (let i = 0; i < 4; i++) {
-    const customer = new Customer(i, bar);
-    customer.setup();
-    customers.push(customer);
-
-    setTimeout(customerMovingToBartender(customer._customer, i), 30000); // something random
-  }
-}
+let gameInterval;
+let customers = [];
+let beers;
+let beerCount;
+let pouring;
+let pouringSent;
+let beerPositionX = 0;
+let beerPositionY = 0;
+let customerPositionX = 0;
+let customerPositionY = 0;
+let currentYbartender = 0;
+let currentXbartender = 0;
 
 const startGame = new StartGame();
 startGame.setup();
@@ -67,37 +68,41 @@ $("#startButton").on("click", function() {
 //   startGame.instructions();
 // })
 
-let gameInterval;
 function startRound() {
   setBeerProps();
   makeCustomers();
   gameInterval = setInterval(beersAndCustomersCollisions, 500);
-}
-let beers;
-let beerCount;
-let pouring;
-let pouringSent;
+  // finish clearRound
+  addPoints(700);
+  // levelWon();
+  //endGame();
 
+}
 function setBeerProps() {
   beers = [];
   beerCount = 0;
   pouring = false;
   pouringSent = false;
 }
-
-function makeBeer() {
-  const beer = new Beer(beerCount, bartender);
-  beer.setup();
-  beers.push(beer);
+function makeCustomers() {
+  for (let i = 0; i < 4; i++) {
+    let customer = new Customer(i, bar);
+    customer.setup();
+    customerMovingToBartender(customer._customer, i);
+    customers.push(customer);
+  }
+  console.log("make customers ",customers);
 }
-
-let beerPositionX = 0;
-let beerPositionY = 0;
-let customerPositionX = 0;
-let customerPositionY = 0;
-let currentYbartender = 0;
-let currentXbartender = 0;
-
+function customerMovingToBartender(currentCustomer, current) {
+  currentCustomer.element.animate(
+    { left: "+=420" },
+    // 10000 * (current + 1), //SLOW cutomers for game // TODO: something random
+    1000 * (current + 1), //fast cutomers for testing
+    function() {
+      killTheBartender();
+    }
+  );
+}
 function beersAndCustomersCollisions() {
   for (let beer in beers) {
     getBeerPostion(beer);
@@ -119,23 +124,6 @@ function beersAndCustomersCollisions() {
     }
   }
 }
-function checkReturningCustomers() {
-  let countCustomersReturning = 0;
-  for (let customer in customers) {
-    checkReturnedToDoor(customers[customer]._customer);
-    if (!customers[customer]._customer.movingForward) countCustomersReturning++;
-  }
-  if (countCustomersReturning === Object.keys(customers).length) return true;
-  return false;
-}
-function checkReturnedToDoor(currentCustomer) {
-  if (
-    parseInt(currentCustomer.element.css("left")) < 20 &&
-    !currentCustomer.movingForward
-  ) {
-    currentCustomer.element.css("display", "none");
-  }
-}
 function getBeerPostion(beer) {
   beerPositionX = parseInt(beers[beer]._beer.beer.css("left"));
   beerPositionY = parseInt(beers[beer]._beer.beer.css("top"));
@@ -147,10 +135,6 @@ function getCustomerPostion(customer) {
   customerPositionY = parseInt(
     customers[customer]._customer.element.css("top")
   );
-}
-function getBartenderPostion() {
-  currentYbartender = parseInt($bartenderDiv.css("top"));
-  currentXbartender = parseInt($bartenderDiv.css("left"));
 }
 function checkForServe(beer, customer) {
   if (customers[customer]._customer.movingForward &&
@@ -167,6 +151,19 @@ function checkForServe(beer, customer) {
     addPoints(50);
     customerMovingBackToDoor(customers[customer]._customer);
   }
+}
+function customerMovingBackToDoor(currentCustomer) {
+  currentCustomer.element.css("backgroundColor", "green");
+  currentCustomer.element.animate({ left: "-=420" }, 10000);
+}
+function checkForOverPour(beer) {
+  if (beerPositionX < 100 && beers[beer]._beer.movingToCustomer) {
+    killTheBartender();
+  }
+}
+function getBartenderPostion() {
+  currentYbartender = parseInt($bartenderDiv.css("top"));
+  currentXbartender = parseInt($bartenderDiv.css("left"));
 }
 function checkForGlassCollected(beer) {
   if (
@@ -185,54 +182,22 @@ function checkForGlassCollected(beer) {
 function checkForGlassMissed() {
   if (beerPositionX > bar._padding + bar._width) killTheBartender();
 }
-function customerMovingBackToDoor(currentCustomer) {
-  currentCustomer.element.css("backgroundColor", "green");
-  currentCustomer.element.animate({ left: "-=420" }, 10000);
-}
-function customerMovingToBartender(currentCustomer, current) {
-  currentCustomer.element.animate(
-    { left: "+=420" },
-    10000 * (current + 1), //SLOW cutomers for game
-    // 1000 * (current + 1), //fast cutomers for testing
-    function() {
-      killTheBartender();
-    }
-  );
-}
-function checkForOverPour(beer) {
-  if (beerPositionX < 100 && beers[beer]._beer.movingToCustomer) {
-    killTheBartender();
+function checkReturningCustomers() {
+  let countCustomersReturning = 0;
+  for (let customer in customers) {
+    checkReturnedToDoor(customers[customer]._customer);
+    if (!customers[customer]._customer.movingForward) countCustomersReturning++;
   }
+  if (countCustomersReturning === Object.keys(customers).length) return true;
+  return false;
 }
-function killTheBartender() {
-  pauseGame();
-  loseLife();
-  if (lives._lives > 0) window.setTimeout(showGetReady, 2000);
-  else window.setTimeout(checkForHighScores, 2000);
-}
-function checkForHighScores() {
-  if (points._amount > gameOver.highestScore()) showHighScoreForm();
-  else showGameOver();
-}
-function showHighScoreForm() {
-  highScoreForm.setup();
-  $("#submitHighScore").on("click", function() {
-    gameOver.addNewHighScore(highScoreForm.inputValue(), points._amount);
-    highScoreForm.remove();
-    showGameOver();
-  });
-}
-function showGameOver() {
-  gameOver.setup();
-  $("#restartButton").on("click", function() {
-    gameOver.remove();
-    resetLives();
-    removeCustomers();
-    removeBeers();
-    clearLevel();
-    clearPoints();
-    clearRound();
-  });
+function checkReturnedToDoor(currentCustomer) {
+  if (
+    parseInt(currentCustomer.element.css("left")) < 20 &&
+    !currentCustomer.movingForward
+  ) {
+    currentCustomer.element.css("display", "none");
+  }
 }
 function levelWon() {
   pauseGame();
@@ -245,49 +210,6 @@ function pauseGame() {
   stopCustomers();
   stopBeers();
 }
-function loseLife() {
-  lives._lives--;
-  lives.remove();
-  lives.setup();
-}
-function addPoints(add) {
-  points._amount += add;
-  $pointsDiv.text(points._amount);
-}
-function addLevel() {
-  level._level++;
-  $("#level").text(level._level);
-}
-function showGetReady() {
-  getReady.setup();
-  window.setTimeout(removeGetReady, 2000);
-}
-function removeGetReady() {
-  getReady.remove();
-  clearRound();
-}
-function clearRound() {
-  resetBartender();
-  removeCustomers();
-  removeBeers();
-  startRound();
-}
-function resetLives() {
-  lives._lives = 3;
-  lives.setup();
-}
-function resetBartender() {
-  $bartenderDiv.css("top", bartender._startY);
-  $bartenderDiv.css("left", bartender._startX);
-}
-function clearLevel() {
-  level._level = 1;
-  $("#level").text(level._level);
-}
-function clearPoints() {
-  points._amount = 0;
-  $pointsDiv.text(points._amount);
-}
 function stopCustomers() {
   for (let customer in customers) {
     customers[customer]._customer.element.stop();
@@ -298,9 +220,39 @@ function stopBeers() {
     beers[beer]._beer.beer.stop();
   }
 }
+function addPoints(add) {
+  points._amount += add;
+  $pointsDiv.text(points._amount);
+}
+function addLevel() {
+  level._level++;
+  $("#level").text(level._level);
+}
+function showGetReady() {
+  console.log("showGetReady");
+  getReady.setup();
+  window.clearTimeout(showGetReady);
+  window.setTimeout(removeGetReady, 2000);
+}
+function removeGetReady() {
+  window.clearTimeout(removeGetReady);
+  getReady.remove();
+  clearRound();
+  startRound();
+}
+function clearRound() {
+  resetBartender();
+  removeCustomers();
+  removeBeers();
+}
+function resetBartender() {
+  $bartenderDiv.css("top", bartender._startY);
+  $bartenderDiv.css("left", bartender._startX);
+}
 function removeCustomers() {
   for (let customer in customers) {
     customers[customer]._customer.element.remove();
+    //clearTimeout(customers[customer].timeout);
   }
   customers = [];
 }
@@ -309,6 +261,73 @@ function removeBeers() {
     beers[beer]._beer.beer.remove();
   }
   beers = [];
+}
+
+function killTheBartender() {
+  pauseGame();
+  loseLife();
+  if (lives._lives > 0) window.setTimeout(showGetReady, 2000);
+  else window.setTimeout(endGame, 2000);
+}
+function loseLife() {
+  lives._lives--;
+  lives.remove();
+  lives.setup();
+}
+function endGame() {
+  window.clearTimeout(endGame);
+  resetLives();
+  resetLevel();
+  clearRound();
+  checkForHighScores();
+}
+function resetLives() {
+  lives._lives = 3;
+  lives.setup();
+}
+function resetLevel() {
+  level._level = 1;
+  $("#level").text(level._level);
+}
+function checkForHighScores() {
+  //sent the points _amount
+  // determine if it is in the hightscore range
+  // then show score form
+  console.log("gameOver.highScoreRange(points._amount)");
+  console.log(gameOver.highScoreRange(points._amount));
+  if (gameOver.highScoreRange(points._amount)) showHighScoreForm();
+  // if (points._amount > gameOver.highestScore()) showHighScoreForm();
+  else showGameOver();
+}
+function showHighScoreForm() {
+console.log("showHighScoreForm");
+  highScoreForm.setup();
+  $("#submitHighScore").on("click", function() {
+    gameOver.addNewHighScore(highScoreForm.inputValue(), points._amount);
+    highScoreForm.remove();
+    showGameOver();
+  });
+}
+
+function showGameOver() {
+  console.log("showGameOver");
+  gameOver.setup();
+  $("#restartButton").on("click", function() {
+    gameOver.remove();
+    resetPoints();
+    startRound();
+  });
+}
+function resetPoints() {
+  points._amount = 0;
+  $pointsDiv.text(points._amount);
+}
+
+
+function makeBeer() {
+  const beer = new Beer(beerCount, bartender);
+  beer.setup();
+  beers.push(beer);
 }
 /////////////////////////////////////////// KEY DOWN /////////////////
 $("body").on("keydown", function(evt) {

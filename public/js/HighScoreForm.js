@@ -17,9 +17,10 @@ class HighScoresForm {
   }
 
   remove() {
+    this.$highScoreForm.remove();
     this.$enterHighScore.remove();
   }
-  
+
   inputValue() {
     return this.$highScoreName.val();
   }

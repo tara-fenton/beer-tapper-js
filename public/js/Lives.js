@@ -1,7 +1,7 @@
 class Lives {
 
   constructor () {
-    this.lives = 3;
+    this.lives = 1;
     this.$lives;
   }
 
