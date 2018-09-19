@@ -72,11 +72,6 @@ function startRound() {
   setBeerProps();
   makeCustomers();
   gameInterval = setInterval(beersAndCustomersCollisions, 500);
-  // finish clearRound
-  addPoints(700);
-  // levelWon();
-  //endGame();
-
 }
 function setBeerProps() {
   beers = [];
@@ -91,13 +86,12 @@ function makeCustomers() {
     customerMovingToBartender(customer._customer, i);
     customers.push(customer);
   }
-  console.log("make customers ",customers);
 }
 function customerMovingToBartender(currentCustomer, current) {
   currentCustomer.element.animate(
     { left: "+=420" },
-    // 10000 * (current + 1), //SLOW cutomers for game // TODO: something random
-    1000 * (current + 1), //fast cutomers for testing
+    10000 * (current + 1), //SLOW cutomers for game // TODO: something random
+    // 1000 * (current + 1), //fast cutomers for testing
     function() {
       killTheBartender();
     }
@@ -229,7 +223,6 @@ function addLevel() {
   $("#level").text(level._level);
 }
 function showGetReady() {
-  console.log("showGetReady");
   getReady.setup();
   window.clearTimeout(showGetReady);
   window.setTimeout(removeGetReady, 2000);
@@ -290,17 +283,10 @@ function resetLevel() {
   $("#level").text(level._level);
 }
 function checkForHighScores() {
-  //sent the points _amount
-  // determine if it is in the hightscore range
-  // then show score form
-  console.log("gameOver.highScoreRange(points._amount)");
-  console.log(gameOver.highScoreRange(points._amount));
   if (gameOver.highScoreRange(points._amount)) showHighScoreForm();
-  // if (points._amount > gameOver.highestScore()) showHighScoreForm();
   else showGameOver();
 }
 function showHighScoreForm() {
-console.log("showHighScoreForm");
   highScoreForm.setup();
   $("#submitHighScore").on("click", function() {
     gameOver.addNewHighScore(highScoreForm.inputValue(), points._amount);
@@ -308,9 +294,7 @@ console.log("showHighScoreForm");
     showGameOver();
   });
 }
-
 function showGameOver() {
-  console.log("showGameOver");
   gameOver.setup();
   $("#restartButton").on("click", function() {
     gameOver.remove();
@@ -322,7 +306,6 @@ function resetPoints() {
   points._amount = 0;
   $pointsDiv.text(points._amount);
 }
-
 
 function makeBeer() {
   const beer = new Beer(beerCount, bartender);

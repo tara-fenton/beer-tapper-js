@@ -36,21 +36,16 @@ class GameOver {
 
   remove() {
     for (var i = 0; i < this.highScores.length; i++) {
-      // console.log("remove #hs" + i);
       $("#hs" + i).remove();
     }
     this.$end.remove();
   }
   highScoreRange(points) {
-    // return true if it is in the highScoreRange
     this.sortScores();
     if (points > this.lowestScore()) return true;
     else return false;
   }
 
-  // highestScore() {
-  //   return this.highScores[0].score;
-  // }
   lowestScore() {
     return this.highScores[2].score;
   }
@@ -62,11 +57,10 @@ class GameOver {
   }
 
   addNewHighScore(name, score) {
-    this.highScores.map(function(points) {
-      // console.log(points);;
-    });
     this.highScores.unshift({ name: name, score: score });
+    this.sortScores();
     this.highScores.pop();
   }
+
 }
 export default GameOver;
