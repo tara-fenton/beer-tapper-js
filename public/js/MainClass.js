@@ -50,10 +50,9 @@ let customerPositionX = 0;
 let customerPositionY = 0;
 let currentYbartender = 0;
 let currentXbartender = 0;
+let won = false;
 
 const startGame = new StartGame();
-startGame.setup();
-
 const getReady = new GetReady();
 const highScoreForm = new HighScoreForm();
 const gameOver = new GameOver();
@@ -63,15 +62,20 @@ $("#startButton").on("click", function() {
   startRound();
 });
 
-// $("#instructionsButton").on('click', function() {
-//   console.log('instructions clicked');
-//   startGame.instructions();
-// })
+$("#instructionsButton").on('click', function() {
+  startGame.instructions();
+
+  $("#closeButton").on('click', function() {
+    startGame.removeInstructions();
+  })
+})
+
 
 function startRound() {
   setBeerProps();
   makeCustomers();
-  gameInterval = setInterval(beersAndCustomersCollisions, 500);
+  won = false;
+  gameInterval = setInterval(beersAndCustomersCollisions, 100);
 }
 function setBeerProps() {
   beers = [];
@@ -113,7 +117,7 @@ function beersAndCustomersCollisions() {
       checkForGlassCollected(beer);
       checkForGlassMissed();
     }
-    if (Object.keys(customers).length > 0 && checkReturningCustomers()) {
+    if (Object.keys(customers).length > 0 && checkReturningCustomers() && !won) {
       levelWon();
     }
   }
@@ -185,6 +189,7 @@ function checkReturningCustomers() {
   if (countCustomersReturning === Object.keys(customers).length) return true;
   return false;
 }
+
 function checkReturnedToDoor(currentCustomer) {
   if (
     parseInt(currentCustomer.element.css("left")) < 20 &&
@@ -194,10 +199,11 @@ function checkReturnedToDoor(currentCustomer) {
   }
 }
 function levelWon() {
+  won = true;
   pauseGame();
   addPoints(1000);
+  setTimeout(showGetReady, 2000);
   addLevel();
-  window.setTimeout(showGetReady, 2000);
 }
 function pauseGame() {
   clearInterval(gameInterval);
@@ -219,18 +225,22 @@ function addPoints(add) {
   $pointsDiv.text(points._amount);
 }
 function addLevel() {
+  console.log('add level',beers);
   level._level++;
   $("#level").text(level._level);
 }
 function showGetReady() {
   getReady.setup();
-  window.clearTimeout(showGetReady);
-  window.setTimeout(removeGetReady, 2000);
+  // clearTimeout(showGetReady);
+
+  setTimeout(removeGetReady, 2000);
 }
 function removeGetReady() {
-  window.clearTimeout(removeGetReady);
   getReady.remove();
+  // clearTimeout(removeGetReady);
+
   clearRound();
+  // trying new location
   startRound();
 }
 function clearRound() {
@@ -259,8 +269,8 @@ function removeBeers() {
 function killTheBartender() {
   pauseGame();
   loseLife();
-  if (lives._lives > 0) window.setTimeout(showGetReady, 2000);
-  else window.setTimeout(endGame, 2000);
+  if (lives._lives > 0) setTimeout(showGetReady, 2000);
+  else setTimeout(endGame, 2000);
 }
 function loseLife() {
   lives._lives--;
@@ -268,7 +278,7 @@ function loseLife() {
   lives.setup();
 }
 function endGame() {
-  window.clearTimeout(endGame);
+  // clearTimeout(endGame);
   resetLives();
   resetLevel();
   clearRound();
@@ -418,6 +428,7 @@ $("body").on("keyup", function(evt) {
         beers[beerCount]._beer.beer.css("display", "none");
         beers[beerCount]._beer.beer.css("height", "30px");
         beers[beerCount]._beer.glass.stop();
+        beers.pop();
       }
       // check if the beer is pouring AND being sent to customer
       if (pouring && pouringSent) {
