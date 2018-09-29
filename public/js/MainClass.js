@@ -58,7 +58,7 @@ const highScoreForm = new HighScoreForm();
 const gameOver = new GameOver();
 
 $("#startButton").on("click", function() {
-  $("#readyToServe").remove();
+  $("#beerTapper").remove();
   startRound();
 });
 

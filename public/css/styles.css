@@ -78,7 +78,7 @@ html {
 #lives .beer {
   display: block;
 }
-#readyToServe {
+#readyToServe, #beerTapper {
   background-color: black;
   color: yellow;
   width: 600px;
@@ -86,11 +86,17 @@ html {
   position: absolute;
   top: 0;
 }
-#readyToServe h1 {
-  text-align: center;
-  font-size: 50px;
+#beerTapper h1, #readyToServe h1 {
   position: relative;
+  text-align: center;
+}
+#beerTapper h1 {
+  top: 150px;
+  font-size: 80px;
+}
+#readyToServe h1 {
   top: 200px;
+  font-size: 80px;
 }
 #end, #enterHighScore {
     background-color: black;
@@ -146,15 +152,33 @@ user-select: none;
   position: relative;
   left: 398px;
 }
-#startGame, #restartButton {
-  margin: 200px 164px;
+#startButton {
+  margin: 74px 164px 0 164px;
+}
+#instructions {
+  background-color: black;
+  color: yellow;
+  width: 600px;
+  height: 600px;
+  position: absolute;
+  top: 0;
+}
+#instructionsText {
+  padding: 0 30px 20px 30px;
+}
+#instructionsImages {
+  padding: 0 40px;
+}
+#instructionsImages img {
+  padding: 0 30px;
+  height: 100px;
+  width: 200px;
+}
+#closeButton {
+  margin: 157px 0 0 450px;
 }
 #instructionsButton {
-  margin: 160px 180px;
-  width: 240px;
-}
-#resetGame {
-  margin: 0 164px;
+  margin: 168px 0 0 352px;
 }
 #gameOver {
   color: red;
