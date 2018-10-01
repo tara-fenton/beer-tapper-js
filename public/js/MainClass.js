@@ -225,22 +225,16 @@ function addPoints(add) {
   $pointsDiv.text(points._amount);
 }
 function addLevel() {
-  console.log('add level',beers);
   level._level++;
   $("#level").text(level._level);
 }
 function showGetReady() {
   getReady.setup();
-  // clearTimeout(showGetReady);
-
   setTimeout(removeGetReady, 2000);
 }
 function removeGetReady() {
   getReady.remove();
-  // clearTimeout(removeGetReady);
-
   clearRound();
-  // trying new location
   startRound();
 }
 function clearRound() {
@@ -255,7 +249,6 @@ function resetBartender() {
 function removeCustomers() {
   for (let customer in customers) {
     customers[customer]._customer.element.remove();
-    //clearTimeout(customers[customer].timeout);
   }
   customers = [];
 }
@@ -273,18 +266,18 @@ function killTheBartender() {
   else setTimeout(endGame, 2000);
 }
 function loseLife() {
-  lives._lives--;
   lives.remove();
-  lives.setup();
+  lives._lives--;
+  if (lives._lives > 0) lives.setup();
 }
 function endGame() {
-  // clearTimeout(endGame);
   resetLives();
   resetLevel();
   clearRound();
   checkForHighScores();
 }
 function resetLives() {
+  lives.remove();
   lives._lives = 3;
   lives.setup();
 }

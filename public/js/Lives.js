@@ -6,7 +6,6 @@ class Lives {
   }
 
   setup() {
-    // this.$lives
     $("#container").append(this.$lives);
     this.createBeerLife();
   }
@@ -20,11 +19,11 @@ class Lives {
       $beerDiv.css("left", nextPosition + "px");
       this.$lives.append($beerDiv);
     }
-    console.log("lives length ",$("#lives > div").length);
   }
 
   remove() {
-    for (var i = 0; i <= $("#lives > div").length; i++) {
+    let total = $("#lives > div").length
+    for (var i = 0; i < total; i++) {
         $("#data-lives-index"+i).remove();
     }
     this.$lives.remove();
