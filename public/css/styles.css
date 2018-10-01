@@ -2,11 +2,19 @@
 /*div to hold all elements*/
 html {
   font-family: "Mina";
+  background-color: black;
+  padding: 40px;
 }
-#container {
+
+#container, #readyToServe, #beerTapper, #instructions, #end, #enterHighScore {
   background-color: black;
   width: 600px;
   height: 600px;
+  color: yellow;
+  border-radius: 25px;
+  border: 1px dotted yellow;
+}
+#container {
   position: relative;
   margin: 0 auto;
 }
@@ -63,7 +71,7 @@ html {
 }
 #level {
   top: 560px;
-  left: 560px;
+  left: 540px;
 }
 /*LIVES and END DISPLAYS */
 #lives {
@@ -78,11 +86,8 @@ html {
 #lives .beer {
   display: block;
 }
-#readyToServe, #beerTapper {
-  background-color: black;
-  color: yellow;
-  width: 600px;
-  height: 600px;
+
+#readyToServe, #beerTapper, #instructions, #end, #enterHighScore {
   position: absolute;
   top: 0;
 }
@@ -96,15 +101,10 @@ html {
 }
 #readyToServe h1 {
   top: 200px;
-  font-size: 80px;
+  font-size: 50px;
 }
 #end, #enterHighScore {
-    background-color: black;
     color: purple;
-    width: 600px;
-    height: 600px;
-    position: absolute;
-    top: 0;
 }
 #end h1, #enterHighScore h1 {
   text-align: center;
@@ -155,14 +155,7 @@ user-select: none;
 #startButton {
   margin: 74px 164px 0 164px;
 }
-#instructions {
-  background-color: black;
-  color: yellow;
-  width: 600px;
-  height: 600px;
-  position: absolute;
-  top: 0;
-}
+
 #instructionsText {
   padding: 0 30px 20px 30px;
 }
