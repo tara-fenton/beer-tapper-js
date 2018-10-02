@@ -1,7 +1,8 @@
 class Customer {
 
-  constructor (i, bar) {
+  constructor (i, row, bar) {
     this.i = i;
+    this.row = row;
     this.bar = bar;
     this.CUSTOMER_AMOUNT = 4;
     this.CUSTOMER_HEIGHT = 80;
@@ -14,7 +15,7 @@ class Customer {
     let $customerDiv = $("<div class='customer'></div>");
     $(".customers").append($customerDiv);
     $customerDiv.attr("id", "data-customer-index" + this.i);
-    $customerDiv.css("top", (this.CUSTOMER_HEIGHT / 2 + this.bar._padding) * this.i + this.CUSTOMER_START_Y +"px");
+    $customerDiv.css("top", (this.CUSTOMER_HEIGHT / 2 + this.bar._padding) * this.row + this.CUSTOMER_START_Y +"px");
     $customerDiv.css("left", "30px");
     // customer object
 
@@ -25,7 +26,7 @@ class Customer {
     // customersObj[i] = customerObj;
 
   }
-  
+
   get _customer() {
     return this.customerObj;
   }

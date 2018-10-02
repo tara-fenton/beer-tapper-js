@@ -84,11 +84,15 @@ function setBeerProps() {
   pouringSent = false;
 }
 function makeCustomers() {
-  for (let i = 0; i < 4; i++) {
-    let customer = new Customer(i, bar);
+  let amount = level._level * 4;
+  let row = 0;
+  for (let i = 0; i < amount; i++) {
+    let customer = new Customer(i, row, bar);
     customer.setup();
     customerMovingToBartender(customer._customer, i);
     customers.push(customer);
+    row++;
+    if (row > 3) row = 0;
   }
 }
 function customerMovingToBartender(currentCustomer, current) {
