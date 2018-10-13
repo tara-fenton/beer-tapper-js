@@ -2,12 +2,17 @@
 /*div to hold all elements*/
 html {
   font-family: "Mina";
-  background-color: black;
+  background-color: #b1dbdf;
   padding: 40px;
 }
 
-#container, #readyToServe, #beerTapper, #instructions, #end, #enterHighScore {
-  background-color: black;
+#container,
+#readyToServe,
+#beerTapper,
+#instructions,
+#end,
+#enterHighScore {
+  background-color: #9bc1c3;
   width: 600px;
   height: 600px;
   color: yellow;
@@ -40,8 +45,6 @@ html {
 }
 /*CUSTOMER */
 .customer {
-  /* background: url(../images/customer.svg) no-repeat; */
-  /* background-color: red; */
   width: 40px;
   height: 80px;
   position: absolute;
@@ -49,7 +52,6 @@ html {
 /*BEER */
 .beerLife {
   background: url(../images/beerLife.svg) no-repeat;
-  /* background-color: yellow; */
   width: 25px;
   height: 50px;
   position: absolute;
@@ -59,7 +61,7 @@ html {
 }
 .glass {
   /* background: url(http://www.tarafenton.com/2018/codepen/images/beer.svg) no-repeat; */
-  background: url(../images/beer2.svg) no-repeat;
+  background: url(../images/beer.svg) no-repeat;
   position: relative;
   width: 100px;
   height: 50px;
@@ -71,11 +73,12 @@ html {
   width: 21px;
   height: 1px;
   z-index: 1;
-  top:47px;
+  top: 47px;
   left: 8px;
 }
 /*POINTS and LEVEL DISPLAYS */
-#points, #level {
+#points,
+#level {
   font-size: 26px;
   padding: 0 0 0 15px;
   height: 30px;
@@ -99,13 +102,18 @@ html {
   top: 0px;
   left: 270px;
   width: 100px;
-  margin: 10px auto ;
+  margin: 10px auto;
 }
-#readyToServe, #beerTapper, #instructions, #end, #enterHighScore {
+#readyToServe,
+#beerTapper,
+#instructions,
+#end,
+#enterHighScore {
   position: absolute;
   top: 0;
 }
-#beerTapper h1, #readyToServe h1 {
+#beerTapper h1,
+#readyToServe h1 {
   position: relative;
   text-align: center;
 }
@@ -117,10 +125,12 @@ html {
   top: 200px;
   font-size: 50px;
 }
-#end, #enterHighScore {
-    color: purple;
+#end,
+#enterHighScore {
+  color: #7c6a51;
 }
-#end h1, #enterHighScore h1 {
+#end h1,
+#enterHighScore h1 {
   text-align: center;
   font-size: 50px;
 }
@@ -128,13 +138,13 @@ html {
 #highName {
   font-size: 26px;
   text-transform: uppercase;
-  background-color: black;
+  background-color: #9bc1c3;
   color: yellow;
-    padding: 10px;
-    border: 2px solid;
+  padding: 10px;
+  border: 2px solid;
 }
 h2 {
-  display:inline-block;
+  display: inline-block;
   padding: 25px 38px;
 }
 h3 {
@@ -145,22 +155,25 @@ h3 {
 }
 button {
   font-family: "Mina";
-  background-color: black;
+  background-color: #9bc1c3;
   border: none;
-  color: purple;
+  color: #7c6a51;
   /*padding: 5px 15px;*/
   font-size: 34px;
   font-weight: bold;
 }
 /*to remove the blue highlight on button*/
-button:focus, input:focus {outline:0;}
+button:focus,
+input:focus {
+  outline: 0;
+}
 * {
   -webkit-touch-callout: none;
--webkit-user-select: none;
--khtml-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
-user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 #submitHighScore {
   position: relative;
@@ -188,7 +201,7 @@ user-select: none;
   margin: 168px 0 0 352px;
 }
 #gameOver {
-  color: red;
+  color: #3f3124;
 }
 #restartButton {
   margin: 0px 164px;

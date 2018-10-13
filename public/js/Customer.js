@@ -32,7 +32,7 @@ class Customer {
   }
   createCustomerDiv(customerID) {
     let $customerDiv = $(
-      "<div class='customer'><img src='../images/" +
+      "<div class='customer'><img src='./images/" +
         this.randomArray[customerID] +
         "' /></div>"
     );
