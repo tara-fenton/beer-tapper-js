@@ -8,34 +8,42 @@ class Beer {
   }
 
   setup() {
-    //add the glass for the beer
+    const containerDiv = this.createContainerDiv();
+    const beerDiv = this.createBeerDiv(containerDiv);
+    const glassDiv = this.createGlassDiv(containerDiv);
+    this.beerCSS(containerDiv);
+    this.createBeerObject(containerDiv, beerDiv, glassDiv);
+  }
+  createContainerDiv() {
     const $beerContainer = $("<div class='beerContainer'></div>");
-    const $beerDiv = $("<div class='beer'></div>");
-    const $glass = $("<div class='glass'></div>");
-    //do i really need this id if I have an object?
-    $beerContainer.attr("id", "data-beer-index" + this.beerCount);
-    // position the beer next to the bartender
-    $beerContainer.css("left", this.x + "px");
-    //currentYbartender = parseInt($bartenderDiv.css("top"));
-    $beerContainer.css("top", this.Bartender._y + 60 + "px");
-    // $beerDiv.append($glass);
-    $beerContainer.append($beerDiv);
-    $beerContainer.append($glass);
     $("#container").append($beerContainer);
+    return $beerContainer;
+  }
+  createBeerDiv(containerDiv) {
+    const $beerDiv = $("<div class='beer'></div>");
+    containerDiv.append($beerDiv);
+    return $beerDiv;
+  }
+  createGlassDiv(containerDiv) {
+    const $glassDiv = $("<div class='glass'></div>");
+    containerDiv.append($glassDiv);
+    return $glassDiv;
+  }
 
-    //beer object
-    this.beerObj.id = "data-beer-index" + this.beerCount;
-    this.beerObj.beer = $beerDiv;
-    this.beerObj.glass = $glass;
-    this.beerObj.beerContainer = $beerContainer;
-    this.beerObj.drinking = false;
+  beerCSS(containerDiv) {
+    containerDiv.attr("id", "data-beer-index" + this.beerCount);
+    containerDiv.css("left", this.x + "px");
+    containerDiv.css("top", this.Bartender._y + 60 + "px");
+  }
+  createBeerObject(containerDiv, beerDiv, glassDiv){
+    this.beerObj.beerContainer = containerDiv;
+    this.beerObj.beer = beerDiv;
+    this.beerObj.glass = glassDiv;
+    // this.beerObj.drinking = false;
     this.beerObj.movingToCustomer = false; //will be false upon creation
     this.beerObj.movingToBartender = false; //need to check for both directions
     this.beerObj.collected = false; //used to check for win level
-    //beerObj.barRow = 0; //this will change
-    // beersObj[this.beerCount] = beerObj;
   }
-
   get _x() {
     return this.x;
   }

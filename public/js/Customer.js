@@ -3,9 +3,7 @@ class Customer {
     this.i = i;
     this.row = row;
     this.bar = bar;
-    this.CUSTOMER_AMOUNT = 4;
     this.CUSTOMER_HEIGHT = 80;
-    this.CUSTOMER_WIDTH = 40;
     this.CUSTOMER_START_Y = 62;
     this.customerObj = {};
     this.randomArray = [
@@ -24,7 +22,7 @@ class Customer {
     let customerID = this.randomCustomerImage();
     let customerDiv = this.createCustomerDiv(customerID);
 
-    this.createCustomerObject();
+    this.createCustomerObject(customerDiv);
   }
   randomCustomerImage() {
     let random = Math.floor(
@@ -53,10 +51,9 @@ class Customer {
     );
     customerDiv.css("left", "100px");
   }
-  createCustomerObject(){
+  createCustomerObject(customerDiv){
     this.customerObj.element = customerDiv;
     this.customerObj.movingForward = true;
-    // //customerObj.drinking = false;
   }
   get _customer() {
     return this.customerObj;

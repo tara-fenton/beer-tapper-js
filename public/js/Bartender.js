@@ -2,13 +2,10 @@ class Bartender {
 
   constructor() {
     this.BARTENDER_HEIGHT = 80;
-    // this.BARTENDER_WIDTH = 40;
     this.BARTENDER_START_Y = 40;
     this.BARTENDER_START_X = 500;
-    this.currentYbartender = 0;
-    this.newYbartender = 0;
-    this.currentXbartender = 0;
-    this.newXbartender = 0;
+    this.y = 0;
+    this.x = 0;
   }
 
   setup() {
@@ -29,27 +26,19 @@ class Bartender {
   }
 
   get _x() {
-    return this.currentXbartender;
+    return this.x;
   }
 
   set _x(x) {
-    return (this.currentXbartender = x);
+    return (this.x = x);
   }
 
   get _y() {
-    return this.currentYbartender;
+    return this.y;
   }
 
   set _y(y) {
-    return (this.currentYbartender = y);
-  }
-
-  get _newY() {
-    return this.newYbartender;
-  }
-
-  set _newY(y) {
-    return (this.newYbartender = y);
+    return (this.y = y);
   }
 
 }

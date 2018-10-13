@@ -6,7 +6,6 @@ class Bar {
     this.BAR_START_X = 100;
     this.BAR_START_Y = 140;
     this.BAR_WIDTH = 400;
-    this.BAR_HEIGHT = 40;
   }
 
   setup() {
