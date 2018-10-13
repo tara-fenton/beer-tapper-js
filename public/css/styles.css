@@ -20,9 +20,15 @@ html {
 }
 /*BAR */
 .bar {
-  background-color: brown;
+  background-color: #60513f;
   width: 400px;
   height: 40px;
+  position: relative;
+}
+.bar-highlight {
+  background-color: #7c6a51;
+  width: 400px;
+  height: 8px;
   position: relative;
 }
 /*BARTENDER */

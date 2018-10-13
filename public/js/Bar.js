@@ -11,7 +11,9 @@ class Bar {
 
   setup() {
     for (let i = 0; i < this.BARS_AMOUNT; i++) {
-      var $barDiv = $("<div class='bar'></div>");
+      var $barDiv = $("<div class='bar'></div>")
+      var $barHighlightDiv = $("<div class='bar-highlight'></div>");
+      $($barDiv).append($barHighlightDiv);
       $("#container").append($barDiv);
       $barDiv.attr("id", "data-bar-index" + i);
       $barDiv.css("left", this.BAR_START_X + "px");
