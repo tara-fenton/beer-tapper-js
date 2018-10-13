@@ -1,6 +1,5 @@
 class Customer {
-
-  constructor (i, row, bar) {
+  constructor(i, row, bar) {
     this.i = i;
     this.row = row;
     this.bar = bar;
@@ -9,24 +8,56 @@ class Customer {
     this.CUSTOMER_WIDTH = 40;
     this.CUSTOMER_START_Y = 62;
     this.customerObj = {};
+    this.randomArray = [
+      "customer0.svg",
+      "customer1.svg",
+      "customer2.svg",
+      "customer3.svg",
+      "customer4.svg",
+      "customer5.svg",
+      "customer6.svg",
+      "customer7.svg"
+    ];
   }
 
   setup() {
-    let $customerDiv = $("<div class='customer'></div>");
-    $(".customers").append($customerDiv);
-    $customerDiv.attr("id", "data-customer-index" + this.i);
-    $customerDiv.css("top", (this.CUSTOMER_HEIGHT / 2 + this.bar._padding) * this.row + this.CUSTOMER_START_Y +"px");
-    $customerDiv.css("left", "100px");
-    // customer object
+    let customerID = this.randomCustomerImage();
+    let customerDiv = this.createCustomerDiv(customerID);
 
-    this.customerObj.element = $customerDiv;
+    this.createCustomerObject();
+  }
+  randomCustomerImage() {
+    let random = Math.floor(
+      Math.random() * Math.floor(this.randomArray.length)
+    );
+    return random;
+  }
+  createCustomerDiv(customerID) {
+    let $customerDiv = $(
+      "<div class='customer'><img src='../images/" +
+        this.randomArray[customerID] +
+        "' /></div>"
+    );
+    $(".customers").append($customerDiv);
+    this.customerCSS($customerDiv);
+
+    return $customerDiv;
+  }
+  customerCSS(customerDiv) {
+    customerDiv.attr("id", "data-customer-index" + this.i);
+    customerDiv.css(
+      "top",
+      (this.CUSTOMER_HEIGHT / 2 + this.bar._padding) * this.row +
+        this.CUSTOMER_START_Y +
+        "px"
+    );
+    customerDiv.css("left", "100px");
+  }
+  createCustomerObject(){
+    this.customerObj.element = customerDiv;
     this.customerObj.movingForward = true;
     // //customerObj.drinking = false;
-    // customerObj.barRow = i;
-    // customersObj[i] = customerObj;
-
   }
-
   get _customer() {
     return this.customerObj;
   }

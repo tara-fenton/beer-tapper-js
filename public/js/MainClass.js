@@ -201,7 +201,7 @@ function checkReturningCustomers() {
 
 function checkReturnedToDoor(currentCustomer) {
   if (
-    parseInt(currentCustomer.element.css("left")) < 20 &&
+    parseInt(currentCustomer.element.css("left")) < bar._startX &&
     !currentCustomer.movingForward
   ) {
     currentCustomer.element.css("display", "none");

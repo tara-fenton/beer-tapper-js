@@ -40,7 +40,7 @@ html {
 }
 /*CUSTOMER */
 .customer {
-  background: url(../images/customer.svg) no-repeat;
+  /* background: url(../images/customer.svg) no-repeat; */
   /* background-color: red; */
   width: 40px;
   height: 80px;
