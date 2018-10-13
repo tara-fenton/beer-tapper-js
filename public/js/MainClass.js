@@ -270,10 +270,10 @@ function removeBeers() {
 }
 
 function killTheBartender() {
-  pauseGame();
-  loseLife();
-  if (lives._lives > 0) setTimeout(showGetReady, 2000);
-  else setTimeout(endGame, 2000);
+  // pauseGame();
+  // loseLife();
+  // if (lives._lives > 0) setTimeout(showGetReady, 2000);
+  // else setTimeout(endGame, 2000);
 }
 function loseLife() {
   lives.remove();

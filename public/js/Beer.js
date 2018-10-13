@@ -17,7 +17,7 @@ class Beer {
     // position the beer next to the bartender
     $beerContainer.css("left", this.x + "px");
     //currentYbartender = parseInt($bartenderDiv.css("top"));
-    $beerContainer.css("top", this.Bartender._y + "px");
+    $beerContainer.css("top", this.Bartender._y + 60 + "px");
     // $beerDiv.append($glass);
     $beerContainer.append($beerDiv);
     $beerContainer.append($glass);

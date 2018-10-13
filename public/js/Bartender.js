@@ -3,7 +3,7 @@ class Bartender {
   constructor() {
     this.BARTENDER_HEIGHT = 80;
     // this.BARTENDER_WIDTH = 40;
-    this.BARTENDER_START_Y = 100;
+    this.BARTENDER_START_Y = 40;
     this.BARTENDER_START_X = 500;
     this.currentYbartender = 0;
     this.newYbartender = 0;

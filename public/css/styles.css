@@ -27,9 +27,10 @@ html {
 }
 /*BARTENDER */
 #bartender {
-  background-color: purple;
-  width: 40px;
-  height: 80px; /*must be set here, tried to put it in the js*/
+  background: url(../images/bartender.svg) no-repeat;
+  /* background-color: purple; */
+  width: 50px;
+  height: 150px; /*must be set here, tried to put it in the js*/
   position: absolute; /*must be absolute!*/
 }
 /*CUSTOMER */
