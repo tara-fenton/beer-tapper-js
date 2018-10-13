@@ -42,6 +42,7 @@ class Beer {
     // this.beerObj.drinking = false;
     this.beerObj.movingToCustomer = false; //will be false upon creation
     this.beerObj.movingToBartender = false; //need to check for both directions
+    this.beerObj.pouring = true; //need to check for both directions
     this.beerObj.collected = false; //used to check for win level
   }
   get _x() {

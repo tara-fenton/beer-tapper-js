@@ -12,3 +12,6 @@ https://trello.com/b/TorHq886/beer-tapper
 
 Feature codepens:
 https://codepen.io/tarafenton/pen/VEzdJZ?editors=1011
+
+Video of Bonus:
+https://www.youtube.com/watch?v=saBNHAV2epY&t=45s

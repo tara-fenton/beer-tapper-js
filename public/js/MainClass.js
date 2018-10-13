@@ -362,15 +362,18 @@ $("body").on("keydown", function(evt) {
   }
 });
 function fillBeer() {
-  beers[beerCount]._beer.beer.animate(
+  let b = beers[beerCount];
+  b._beer.beer.animate(
     { height: "+=25px", top: "-=25px" },
     700,
-    animateBeerLeft
+    function() {
+      animateBeerLeft(b)
+    }
   );
 }
-function animateBeerLeft() {
-  beers[beerCount]._beer.beerContainer.animate({ left: "-=460" }, 10000);
-  beers[beerCount]._beer.movingToCustomer = true;
+function animateBeerLeft(b) {
+  b._beer.beerContainer.animate({ left: "-=460" }, 10000);
+  b._beer.movingToCustomer = true;
   pouringSent = true; // used in key up event
 }
 function jumpBartenderLeft() {
@@ -420,22 +423,17 @@ $("body").on("keyup", function(evt) {
   let keyPressed = event.which;
   switch (keyPressed) {
     case 32: //spacebar
-      // check if the beer is pouring BUT not being sent to customer
-      if (pouring && !pouringSent) {
-        pouring = false;
-        // stop pouring the beer into the glass
-        beers[beerCount]._beer.beerContainer.css("display", "none");
-        beers[beerCount]._beer.glass.stop();
-        beers.pop();
-      }
-      // check if the beer is pouring AND being sent to customer
-      if (pouring && pouringSent) {
-        // beers.push(beer);
-        // now its ok to add another beer
-        beerCount++;
-        // reset these values for next beer
-        pouring = false;
-        pouringSent = false;
+      if (pouring) {
+          pouring = false;
+
+          if (pouringSent) {
+            beerCount++;
+            pouringSent = false;
+          } else {
+            beers[beerCount]._beer.beerContainer.css("display", "none");
+            beers[beerCount]._beer.glass.stop();
+            beers.pop();
+          }
       }
 
     default:
