@@ -62,14 +62,13 @@ $("#startButton").on("click", function() {
   startRound();
 });
 
-$("#instructionsButton").on('click', function() {
+$("#instructionsButton").on("click", function() {
   startGame.instructions();
 
-  $("#closeButton").on('click', function() {
+  $("#closeButton").on("click", function() {
     startGame.removeInstructions();
-  })
-})
-
+  });
+});
 
 function startRound() {
   setBeerProps();
@@ -121,7 +120,11 @@ function beersAndCustomersCollisions() {
       checkForGlassCollected(beer);
       checkForGlassMissed();
     }
-    if (Object.keys(customers).length > 0 && checkReturningCustomers() && !won) {
+    if (
+      Object.keys(customers).length > 0 &&
+      checkReturningCustomers() &&
+      !won
+    ) {
       levelWon();
     }
   }
@@ -139,17 +142,18 @@ function getCustomerPostion(customer) {
   );
 }
 function checkForServe(beer, customer) {
-  if (customers[customer]._customer.movingForward &&
+  if (
+    customers[customer]._customer.movingForward &&
     beerPositionY === customerPositionY &&
     customerPositionX + 40 > beerPositionX
   ) {
     beers[beer]._beer.movingToCustomer = false;
     beers[beer]._beer.movingToBartender = true;
-    beers[beer]._beer.beer.stop();
-    beers[beer]._beer.glass.css("height", "30");
+    beers[beer]._beer.beerContainer.stop();
+    beers[beer]._beer.beer.css("display", "none");
     customers[customer]._customer.element.stop();
     customers[customer]._customer.movingForward = false;
-    beers[beer]._beer.beer.animate({ left: "+=460" }, 30000);
+    beers[beer]._beer.beerContainer.animate({ left: "+=460" }, 30000);
     addPoints(50);
     customerMovingBackToDoor(customers[customer]._customer);
   }
@@ -173,8 +177,8 @@ function checkForGlassCollected(beer) {
     beerPositionX + 15 > currentXbartender
   ) {
     //remove the glass of beer
-    beers[beer]._beer.beer.stop();
-    beers[beer]._beer.beer.remove();
+    beers[beer]._beer.beerContainer.stop();
+    beers[beer]._beer.beerContainer.remove();
     beers[beer]._beer.movingToBartender = false;
     // 100 Points for each empty mug you pick up
     beers[beer]._beer.collected = true;
@@ -222,7 +226,6 @@ function stopCustomers() {
 function stopBeers() {
   for (let beer in beers) {
     beers[beer]._beer.beerContainer.stop();
-    // beers[beer]._beer.beer.stop();
   }
 }
 function addPoints(add) {
@@ -236,10 +239,10 @@ function addLevel() {
 function showGetReady() {
   getReady.setup();
   setTimeout(removeGetReady, 2000);
+  clearRound();
 }
 function removeGetReady() {
   getReady.remove();
-  clearRound();
   startRound();
 }
 function clearRound() {
@@ -259,7 +262,6 @@ function removeCustomers() {
 }
 function removeBeers() {
   for (var beer in beers) {
-    // beers[beer]._beer.beer.remove();
     beers[beer]._beer.beerContainer.remove();
   }
   beers = [];
@@ -331,30 +333,11 @@ $("body").on("keydown", function(evt) {
   switch (keyPressed) {
     case 32: /////////// SPACEBAR //////////////////////////////
       if (!pouring) {
-        // create beer object and DOM element
-        makeBeer();
         pouring = true;
-        // pouring the beer into the glass
-        // beers[beerCount]._beer.beer.css("display", "block");
-        // beers[beerCount]._beer.glass.css("display", "block");
-
-        // beers[beerCount]._beer.glass.css("top", bartender._y  +"px");
-        beers[beerCount]._beer.glass.css("top", "0px");
-        beers[beerCount]._beer.beer.animate(
-          { height: "+=25px", top: "-=25px" },
-          700,
-          function() {
-            //// BEER IS FULL, ANIMATION COMPLETE
-            // move the beer across the bar
-            // beers[beerCount]._beer.beer.animate({ left: "-=460" }, 100);
-            beers[beerCount]._beer.beerContainer.animate({ left: "-=460" }, 10000);
-            beers[beerCount]._beer.movingToCustomer = true;
-            pouringSent = true; // used in key up event
-          }
-        );
+        makeBeer();
+        fillBeer();
       }
-      // jump back to tap by pouring (space bar)
-      $bartenderDiv.css("left", bartender._startX + "px");
+      jumpBartenderLeft();
       break;
 
     case 37: //left key LEFT //////////////////////////////
@@ -379,6 +362,21 @@ $("body").on("keydown", function(evt) {
       break;
   }
 });
+function fillBeer() {
+  beers[beerCount]._beer.beer.animate(
+    { height: "+=25px", top: "-=25px" },
+    700,
+    animateBeerLeft
+  );
+}
+function animateBeerLeft() {
+  beers[beerCount]._beer.beerContainer.animate({ left: "-=460" }, 10000);
+  beers[beerCount]._beer.movingToCustomer = true;
+  pouringSent = true; // used in key up event
+}
+function jumpBartenderLeft() {
+  $bartenderDiv.css("left", bartender._startX + "px");
+}
 function moveBartenderLeft() {
   bartender._newX = bartender._x - 5;
   // restrict from moving past the left of bar
@@ -428,7 +426,6 @@ $("body").on("keyup", function(evt) {
         pouring = false;
         // stop pouring the beer into the glass
         beers[beerCount]._beer.beerContainer.css("display", "none");
-        // beers[beerCount]._beer.beer.css("height", "30px");
         beers[beerCount]._beer.glass.stop();
         beers.pop();
       }
