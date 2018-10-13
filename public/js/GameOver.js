@@ -8,7 +8,7 @@ class GameOver {
     this.$restartButton = $(
       "<button id='restartButton'>[ insert quarter ]</button>"
     );
-    this.highScores = [
+    this.highScores = JSON.parse(localStorage.getItem('highScores')) || [
       { name: "tara", score: 300 },
       { name: "tara", score: 400 },
       { name: "tara", score: 100 }
@@ -16,6 +16,7 @@ class GameOver {
   }
 
   setup() {
+    // localStorage.setItem('highScores', JSON.stringify(this.highScores));
     this.$end.append(this.$highScoresTitle);
     for (var i = 0; i < this.highScores.length; i++) {
       this.$highScores.append(
@@ -60,6 +61,7 @@ class GameOver {
     this.highScores.unshift({ name: name, score: score });
     this.sortScores();
     this.highScores.pop();
+    localStorage.setItem('highScores', JSON.stringify(this.highScores));
   }
 
 }
