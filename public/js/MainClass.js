@@ -12,14 +12,14 @@ import StartGame from "./StartGame.js";
 
 const $containerDiv = $("body").append("<div id='container'></div>");
 
+const $customersDiv = $("<div class='customers'></div>");
+$("#container").append($customersDiv);
+
 const bar = new Bar();
 bar.setup();
 
 const $bartenderDiv = $("<div id='bartender'></div>");
 $("#container").append($bartenderDiv);
-
-const $customersDiv = $("<div class='customers'></div>");
-$("#container").append($customersDiv);
 
 const lives = new Lives();
 lives.setup();
@@ -50,6 +50,7 @@ let customerPositionX = 0;
 let customerPositionY = 0;
 let currentYbartender = 0;
 let currentXbartender = 0;
+let playing = false;
 let won = false;
 
 const startGame = new StartGame();
@@ -59,6 +60,7 @@ const gameOver = new GameOver();
 
 $("#startButton").on("click", function() {
   $("#beerTapper").remove();
+  playing = true;
   startRound();
 });
 
@@ -268,10 +270,10 @@ function removeBeers() {
 }
 
 function killTheBartender() {
-  // pauseGame();
-  // loseLife();
-  // if (lives._lives > 0) setTimeout(showGetReady, 2000);
-  // else setTimeout(endGame, 2000);
+  pauseGame();
+  loseLife();
+  if (lives._lives > 0) setTimeout(showGetReady, 2000);
+  else setTimeout(endGame, 2000);
 }
 function loseLife() {
   lives.remove();
@@ -332,7 +334,7 @@ $("body").on("keydown", function(evt) {
   let keyPressed = event.which;
   switch (keyPressed) {
     case 32: /////////// SPACEBAR //////////////////////////////
-      if (!pouring) {
+      if (!pouring && !won && playing) {
         pouring = true;
         makeBeer();
         fillBeer();
@@ -438,6 +440,7 @@ $("body").on("keyup", function(evt) {
         pouring = false;
         pouringSent = false;
       }
+
     default:
       break;
   }

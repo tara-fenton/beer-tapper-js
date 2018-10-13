@@ -4,7 +4,7 @@ class Bar {
     this.BARS_AMOUNT = 4;
     this.BAR_PADDING = 80;
     this.BAR_START_X = 100;
-    this.BAR_START_Y = 100;
+    this.BAR_START_Y = 140;
     this.BAR_WIDTH = 400;
     this.BAR_HEIGHT = 40;
   }
@@ -27,16 +27,5 @@ class Bar {
   get _width() {
     return this.BAR_WIDTH;
   }
-
-  //   const getPadding(){
-  //     return BAR_PADDING;
-  // }
-  //   const getAmount(){
-  //     return BARS_AMOUNT;
-  // }
-  //   const getStartX(){
-  //     return BAR_START_X;
-  // }
-  //   const getEnd() { return BAR_START_X + BAR_WIDTH; }
 }
 export default Bar;
