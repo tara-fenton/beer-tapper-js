@@ -98,7 +98,7 @@ function makeCustomers() {
 }
 function customerMovingToBartender(currentCustomer, current) {
   currentCustomer.element.animate(
-    { left: "+=420" },
+    { left: "+=360" },
     10000 * (current + 1), //SLOW cutomers for game // TODO: something random
     // 1000 * (current + 1), //fast cutomers for testing
     function() {
@@ -146,7 +146,7 @@ function getCustomerPostion(customer) {
 function checkForServe(beer, customer) {
   if (
     customers[customer]._customer.movingForward &&
-    beerPositionY === customerPositionY &&
+    beerPositionY === customerPositionY + 38 &&
     customerPositionX + 40 > beerPositionX
   ) {
     beers[beer]._beer.movingToCustomer = false;
@@ -161,11 +161,10 @@ function checkForServe(beer, customer) {
   }
 }
 function customerMovingBackToDoor(currentCustomer) {
-  currentCustomer.element.css("backgroundColor", "green");
   currentCustomer.element.animate({ left: "-=420" }, 10000);
 }
 function checkForOverPour(beer) {
-  if (beerPositionX < 100 && beers[beer]._beer.movingToCustomer) {
+  if (beerPositionX < bar._startX && beers[beer]._beer.movingToCustomer) {
     killTheBartender();
   }
 }
@@ -175,7 +174,7 @@ function getBartenderPostion() {
 }
 function checkForGlassCollected(beer) {
   if (
-    beerPositionY === currentYbartender &&
+    beerPositionY === currentYbartender + 60 &&
     beerPositionX + 15 > currentXbartender
   ) {
     //remove the glass of beer
@@ -270,10 +269,10 @@ function removeBeers() {
 }
 
 function killTheBartender() {
-  // pauseGame();
-  // loseLife();
-  // if (lives._lives > 0) setTimeout(showGetReady, 2000);
-  // else setTimeout(endGame, 2000);
+  pauseGame();
+  loseLife();
+  if (lives._lives > 0) setTimeout(showGetReady, 2000);
+  else setTimeout(endGame, 2000);
 }
 function loseLife() {
   lives.remove();

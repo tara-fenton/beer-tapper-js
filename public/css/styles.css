@@ -28,14 +28,14 @@ html {
 /*BARTENDER */
 #bartender {
   background: url(../images/bartender.svg) no-repeat;
-  /* background-color: purple; */
   width: 50px;
   height: 150px; /*must be set here, tried to put it in the js*/
   position: absolute; /*must be absolute!*/
 }
 /*CUSTOMER */
 .customer {
-  background-color: red;
+  background: url(../images/customer.svg) no-repeat;
+  /* background-color: red; */
   width: 40px;
   height: 80px;
   position: absolute;

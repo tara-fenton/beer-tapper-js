@@ -24,6 +24,9 @@ class Bar {
   get _padding() {
     return this.BAR_PADDING;
   }
+  get _startX() {
+    return this.BAR_START_X;
+  }
   get _width() {
     return this.BAR_WIDTH;
   }

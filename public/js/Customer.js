@@ -7,7 +7,7 @@ class Customer {
     this.CUSTOMER_AMOUNT = 4;
     this.CUSTOMER_HEIGHT = 80;
     this.CUSTOMER_WIDTH = 40;
-    this.CUSTOMER_START_Y = 100;
+    this.CUSTOMER_START_Y = 62;
     this.customerObj = {};
   }
 
@@ -16,7 +16,7 @@ class Customer {
     $(".customers").append($customerDiv);
     $customerDiv.attr("id", "data-customer-index" + this.i);
     $customerDiv.css("top", (this.CUSTOMER_HEIGHT / 2 + this.bar._padding) * this.row + this.CUSTOMER_START_Y +"px");
-    $customerDiv.css("left", "60px");
+    $customerDiv.css("left", "100px");
     // customer object
 
     this.customerObj.element = $customerDiv;
