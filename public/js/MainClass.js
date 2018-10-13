@@ -127,8 +127,8 @@ function beersAndCustomersCollisions() {
   }
 }
 function getBeerPostion(beer) {
-  beerPositionX = parseInt(beers[beer]._beer.beer.css("left"));
-  beerPositionY = parseInt(beers[beer]._beer.beer.css("top"));
+  beerPositionX = parseInt(beers[beer]._beer.beerContainer.css("left"));
+  beerPositionY = parseInt(beers[beer]._beer.beerContainer.css("top"));
 }
 function getCustomerPostion(customer) {
   customerPositionX = parseInt(
@@ -221,7 +221,8 @@ function stopCustomers() {
 }
 function stopBeers() {
   for (let beer in beers) {
-    beers[beer]._beer.beer.stop();
+    beers[beer]._beer.beerContainer.stop();
+    // beers[beer]._beer.beer.stop();
   }
 }
 function addPoints(add) {
@@ -258,16 +259,17 @@ function removeCustomers() {
 }
 function removeBeers() {
   for (var beer in beers) {
-    beers[beer]._beer.beer.remove();
+    // beers[beer]._beer.beer.remove();
+    beers[beer]._beer.beerContainer.remove();
   }
   beers = [];
 }
 
 function killTheBartender() {
-  pauseGame();
-  loseLife();
-  if (lives._lives > 0) setTimeout(showGetReady, 2000);
-  else setTimeout(endGame, 2000);
+  // pauseGame();
+  // loseLife();
+  // if (lives._lives > 0) setTimeout(showGetReady, 2000);
+  // else setTimeout(endGame, 2000);
 }
 function loseLife() {
   lives.remove();
@@ -333,16 +335,19 @@ $("body").on("keydown", function(evt) {
         makeBeer();
         pouring = true;
         // pouring the beer into the glass
-        beers[beerCount]._beer.beer.css("display", "block");
-        beers[beerCount]._beer.beer.css("top", bartender._y +"px");
-        beers[beerCount]._beer.glass.animate(
-          { height: "-=30" },
+        // beers[beerCount]._beer.beer.css("display", "block");
+        // beers[beerCount]._beer.glass.css("display", "block");
+
+        // beers[beerCount]._beer.glass.css("top", bartender._y  +"px");
+        beers[beerCount]._beer.glass.css("top", "0px");
+        beers[beerCount]._beer.beer.animate(
+          { height: "+=25px", top: "-=25px" },
           700,
           function() {
             //// BEER IS FULL, ANIMATION COMPLETE
             // move the beer across the bar
             // beers[beerCount]._beer.beer.animate({ left: "-=460" }, 100);
-            beers[beerCount]._beer.beer.animate({ left: "-=460" }, 10000);
+            beers[beerCount]._beer.beerContainer.animate({ left: "-=460" }, 10000);
             beers[beerCount]._beer.movingToCustomer = true;
             pouringSent = true; // used in key up event
           }
@@ -422,8 +427,8 @@ $("body").on("keyup", function(evt) {
       if (pouring && !pouringSent) {
         pouring = false;
         // stop pouring the beer into the glass
-        beers[beerCount]._beer.beer.css("display", "none");
-        beers[beerCount]._beer.beer.css("height", "30px");
+        beers[beerCount]._beer.beerContainer.css("display", "none");
+        // beers[beerCount]._beer.beer.css("height", "30px");
         beers[beerCount]._beer.glass.stop();
         beers.pop();
       }

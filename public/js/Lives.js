@@ -12,7 +12,7 @@ class Lives {
 
   createBeerLife(){
     for (var i = 0; i < this.lives; i++) {
-      var $beerDiv = $("<div class='beer'></div>");
+      var $beerDiv = $("<div class='beerLife'></div>");
       $beerDiv.attr("id", "data-lives-index" + i);
       // position the lives beers with next position
       var nextPosition = 30 * i;

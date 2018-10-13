@@ -9,21 +9,25 @@ class Beer {
 
   setup() {
     //add the glass for the beer
-    const $glass = $("<div class='glass'></div>");
+    const $beerContainer = $("<div class='beerContainer'></div>");
     const $beerDiv = $("<div class='beer'></div>");
+    const $glass = $("<div class='glass'></div>");
     //do i really need this id if I have an object?
-    $beerDiv.attr("id", "data-beer-index" + this.beerCount);
+    $beerContainer.attr("id", "data-beer-index" + this.beerCount);
     // position the beer next to the bartender
-    $beerDiv.css("left", this.x + "px");
+    $beerContainer.css("left", this.x + "px");
     //currentYbartender = parseInt($bartenderDiv.css("top"));
-    $beerDiv.css("top", this.Bartender._y + "px");
-    $beerDiv.append($glass);
-    $("#container").append($beerDiv);
+    $beerContainer.css("top", this.Bartender._y + "px");
+    // $beerDiv.append($glass);
+    $beerContainer.append($beerDiv);
+    $beerContainer.append($glass);
+    $("#container").append($beerContainer);
 
     //beer object
     this.beerObj.id = "data-beer-index" + this.beerCount;
     this.beerObj.beer = $beerDiv;
     this.beerObj.glass = $glass;
+    this.beerObj.beerContainer = $beerContainer;
     this.beerObj.drinking = false;
     this.beerObj.movingToCustomer = false; //will be false upon creation
     this.beerObj.movingToBartender = false; //need to check for both directions
