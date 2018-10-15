@@ -3,7 +3,6 @@ class BonusRound {
   constructor() {
     this.bonusDiv = $("<div id='bonus'></div>");
     this.bonusText = $("<h1 id='bonusRound'>BONUS ROUND</h1>");
-
   }
 
   setup() {
