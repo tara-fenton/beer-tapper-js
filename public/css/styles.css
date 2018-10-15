@@ -11,7 +11,8 @@ html {
 #beerTapper,
 #instructions,
 #end,
-#enterHighScore {
+#enterHighScore,
+#bonus {
   background-color: #9bc1c3;
   width: 600px;
   height: 600px;
@@ -85,10 +86,6 @@ html {
   color: white;
   position: absolute;
 }
-/* #level {
-  top: 10px;
-  left:10px;
-} */
 #points {
   top: 15px;
 }
@@ -108,7 +105,8 @@ html {
 #beerTapper,
 #instructions,
 #end,
-#enterHighScore {
+#enterHighScore,
+#bonus {
   position: absolute;
   top: 0;
 }

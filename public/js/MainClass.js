@@ -1,6 +1,7 @@
 import Bar from "./Bar.js";
 import Bartender from "./Bartender.js";
 import Beer from "./Beer.js";
+import BonusRound from "./BonusRound.js";
 import Customer from "./Customer.js";
 import GameOver from "./GameOver.js";
 import GetReady from "./GetReady.js";
@@ -55,6 +56,7 @@ const startGame = new StartGame();
 const getReady = new GetReady();
 const highScoreForm = new HighScoreForm();
 const gameOver = new GameOver();
+const bonusRound = new BonusRound();
 
 $("#startButton").on("click", function() {
   $("#beerTapper").remove();
@@ -269,8 +271,12 @@ function removeBeers() {
 function killTheBartender() {
   pauseGame();
   loseLife();
-  if (lives._lives > 0) setTimeout(showGetReady, 2000);
-  else setTimeout(endGame, 2000);
+  showBonusRound();
+  // if (lives._lives > 0) setTimeout(showGetReady, 2000);
+  // else setTimeout(endGame, 2000);
+}
+function showBonusRound(){
+  bonusRound.setup();
 }
 function loseLife() {
   lives.remove();
