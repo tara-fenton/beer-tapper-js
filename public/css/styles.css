@@ -181,7 +181,7 @@ input:focus {
 }
 /* start game and instructions */
 #startButton {
-  margin: 74px 164px 0 164px;
+  margin: 74px 0 0 164px;
 }
 #instructionsText {
   padding: 0 30px 20px 30px;
@@ -195,10 +195,10 @@ input:focus {
   width: 200px;
 }
 #closeButton {
-  margin: 157px 0 0 450px;
+  margin: 157px 0 0 446px;
 }
 #instructionsButton {
-  margin: 168px 0 0 352px;
+  margin: 168px 0 0 348px;
 }
 /* game over and restart */
 #gameOver {
