@@ -328,8 +328,9 @@ $("body").on("keydown", function(evt) {
 
   getBartenderPostion();
 
-  let keyPressed = event.which;
+  let keyPressed = evt.key;
   switch (keyPressed) {
+    case " ":
     case 32: /////////// SPACEBAR //////////////////////////////
       if (!pouring && !won && playing) {
         pouring = true;
@@ -339,20 +340,24 @@ $("body").on("keydown", function(evt) {
       jumpBartenderLeft();
       break;
 
+    case "ArrowLeft": //left key LEFT //////////////////////////////
     case 37: //left key LEFT //////////////////////////////
     case 65: //   a key LEFT //////////////////////////////
       moveBartenderLeft();
       break;
+    case "ArrowRight": // right key RIGHT //////////////////////////////
     case 39: // right key RIGHT //////////////////////////////
     case 83: //     s key RIGHT //////////////////////////////
       moveBartenderRight();
       break;
 
+    case "ArrowUp": //return key UP //////////////////////////////
     case 13: //return key UP //////////////////////////////
     case 20: //  caps key UP //////////////////////////////
     case 38: //     arrow UP //////////////////////////////
       moveBartenderUp();
       break;
+    case "ArrowDown": //return key down //////////////////////////////
     case 16: // shift DOWN //////////////////////////////
     case 40: // arrow DOWN //////////////////////////////
       moveBartenderDown();
