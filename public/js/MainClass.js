@@ -425,9 +425,10 @@ function moveBartenderDown() {
 }
 /////////////////////////////////////////// KEY UP /////////////////
 $("body").on("keyup", function(evt) {
-  let keyPressed = event.which;
+  let keyPressed = evt.key;
   switch (keyPressed) {
     case 32: //spacebar
+    case ' ': //spacebar
       if (pouring) {
           pouring = false;
 
