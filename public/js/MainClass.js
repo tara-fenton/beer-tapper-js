@@ -97,7 +97,7 @@ function makeCustomers() {
 function customerMovingToBartender(currentCustomer, current) {
   currentCustomer.element.animate(
     { left: "+=360" },
-    10000 * (current + 1), //SLOW cutomers for game // TODO: something random
+    5000 * (current + 1), //SLOW cutomers for game // TODO: something random
     // 1000 * (current + 1), //fast cutomers for testing
     function() {
       killTheBartender();
