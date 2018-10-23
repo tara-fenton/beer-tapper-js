@@ -39,7 +39,7 @@ class Beer {
     this.beerObj.beerContainer = containerDiv;
     this.beerObj.beer = beerDiv;
     this.beerObj.glass = glassDiv;
-    // this.beerObj.drinking = false;
+    this.beerObj.drinking = false;
     this.beerObj.movingToCustomer = false; //will be false upon creation
     this.beerObj.movingToBartender = false; //need to check for both directions
     this.beerObj.pouring = true; //need to check for both directions

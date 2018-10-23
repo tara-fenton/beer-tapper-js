@@ -150,16 +150,20 @@ function checkForServe(beer, customer) {
     beers[beer]._beer.movingToCustomer = false;
     beers[beer]._beer.movingToBartender = true;
     beers[beer]._beer.beerContainer.stop();
-    beers[beer]._beer.beer.css("display", "none");
+    // beers[beer]._beer.beer.css("display", "none");
     customers[customer]._customer.element.stop();
     customers[customer]._customer.movingForward = false;
-    beers[beer]._beer.beerContainer.animate({ left: "+=460" }, 30000);
+    // beers[beer]._beer.beerContainer.animate({ left: "+=460" }, 30000);
     addPoints(50);
     customerMovingBackToDoor(customers[customer]._customer);
+    beerMovingBackToDoor(beers[beer]._beer);
   }
 }
+function beerMovingBackToDoor(currentBeer) {
+  currentBeer.beerContainer.animate({ left: "-=420" }, 5000);
+}
 function customerMovingBackToDoor(currentCustomer) {
-  currentCustomer.element.animate({ left: "-=420" }, 10000);
+  currentCustomer.element.animate({ left: "-=420" }, 5000);
 }
 function checkForOverPour(beer) {
   if (beerPositionX < bar._startX && beers[beer]._beer.movingToCustomer) {
